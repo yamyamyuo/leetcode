@@ -1,0 +1,113 @@
+import java.util.*;
+
+public class MaxPointsOnALine {
+
+	private static int gcd(int a, int b) {
+		if(a < b) return gcd(b, a);
+		while(b != 0) {
+			int m = a % b;
+			a = b;
+			b = m;
+		}
+		return a;
+	}
+	// The first method is to use formulation like y = kx + b, however, you
+	// can't be more careful on the precision caused by double number
+	public static int maxPoints(Point[] points) {
+		HashMap<String, HashSet<Point>> count = new HashMap<String, HashSet<Point>>();
+		int n = points.length;
+		if(n == 0) return n;
+		for(int i = 0; i < n; i++) {
+			for(int j = i; j < n; j++) {
+				double dx = (double)points[i].x - (double)points[j].x;
+				double dy = (double)points[i].y - (double)points[j].y;
+				double k = 0;
+				if(dx == 0) {
+					if(dy == 0) continue;
+					else k = Double.POSITIVE_INFINITY;
+				}
+				else k = dy/dx;
+
+				double b = 0;
+				if(k == Double.POSITIVE_INFINITY) b = (double)points[i].x;
+				else b = (double)points[i].y - k*(double)points[i].x;
+				k = (int)(k*10000)/(double)10000;
+				b = (int)(b*10000)/(double)10000;
+
+				String line = k + " " + b;
+				if(count.containsKey(line) == false) {
+					HashSet<Point> set = new HashSet<Point>();
+					set.add(points[i]); set.add(points[j]);
+					count.put(line, set);
+				}
+				else {
+					count.get(line).add(points[i]);
+					count.get(line).add(points[j]);
+				}
+			}
+		}
+		if(n != 0 && count.size() == 0)
+			return n;
+		int ma = 0;
+		for(String line : count.keySet()) {
+			System.out.println(line);
+			ma = Math.max(ma, count.get(line).size());
+		}
+		return ma;
+	}
+	// The second method I utlize the formulation like y = a/b*x+c, the advantage is
+	// that all of a, b and c are integer and do not need to pay attention to the precision
+	// However, be careful to handle the infinity slope and zero slope, as well as trival one,
+	// you need to make a and b have no common divisor
+	public static int maxPoints2(Point[] points) {
+		HashMap<String, HashSet<Point>> count = new HashMap<String, HashSet<Point>>();
+		int n = points.length;
+		if(n == 0) return n;
+		for(int i = 0; i < n; i++) {
+			for(int j = i; j < n; j++) {
+				int dx = points[i].x - points[j].x;
+				int dy = points[i].y - points[j].y;
+				int a = 0, b = 0, c = 0;
+				if(dx == 0) {
+					if(dy == 0) continue;
+					else { a = 1; b = 0; c = points[i].x;}
+				}
+				else {
+					if(dy == 0) { a = 0; b = 1; c = points[i].y;}
+					else {
+						// Make sure a and b do not share common divisor
+						int m = gcd(dx, dy);
+						a = dy/m; b = dx/m;
+						c = points[i].y*b - points[i].x*a;
+					}
+				}
+
+				String line = a + " " + b + " " + c;
+				if(count.containsKey(line) == false) {
+					HashSet<Point> set = new HashSet<Point>();
+					set.add(points[i]); set.add(points[j]);
+					count.put(line, set);
+				}
+				else {
+					count.get(line).add(points[i]);
+					count.get(line).add(points[j]);
+				}
+			}
+		}
+		if(n != 0 && count.size() == 0)
+			return n;
+		int ma = 0;
+		for(String line : count.keySet()) {
+			//System.out.println(line);
+			ma = Math.max(ma, count.get(line).size());
+		}
+		return ma;
+	}
+
+	public static void main(String[] args) {
+		Point[] points = {new Point(1, 1), new Point(1, 1), new Point(0, 1), new Point(1, 0), new Point(0, 0), new Point(2, 2)};
+		Point[] points1 = {new Point(1, 1), new Point(1, 1)};
+		Point[] points2 = {new Point(3, 10), new Point(0, 2), new Point(0, 2), new Point(3, 10)};
+		System.out.println(maxPoints2(points));
+	}
+}
