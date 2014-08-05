@@ -1,41 +1,43 @@
-vector<vector<int>> threeSum(vector<int> &num)
+vector<vector<int> > fourSum(vector<int> &num, int target)
 {
 	int size = num.size();
 	sort(num.begin(), num.end());
 	vector<vector<int>> result;
 	vector<int> temp;
 	result.clear();
-	for (int i = 0; i < size - 2; i++)
+	for (int i = 0; i < size - 3; i++)
 	{
-		if (i > 0 && num[i] == num[i - 1]) continue;
-		int left = i + 1;
-		int right = size - 1;
-		while (left < right)
+		if (i > 0 && num[i - 1] == num[i]) continue;
+		for (int j = i + 1; j < size - 2; j++)
 		{
-			if (left > i + 1 && num[left] == num[left - 1])
+			if (j > i + 1 && num[j - 1] == num[j]) continue;
+			int left = j + 1, right = size - 1;
+			while (left < right)
 			{
-				left++;
-				continue;
-			}
-			
-	  	if (right < size - 1 && num[right] == num[right + 1])
-		  {
-				right--;
-				continue;
-			}
-
-			int sum = num[i] + num[left] + num[right];
-			
-			if (sum > 0) right--;
-			else if (sum < 0) left++;
-			else
-			{
-				temp.clear();
-				temp.push_back(num[i]);
-				temp.push_back(num[left]);
-				temp.push_back(num[right]);
-				result.push_back(temp);
-				left++;
+				if (left > j + 1 && num[left - 1] == num[left])
+				{
+					left++;
+					continue;
+				}
+				if (right < size - 1 && num[right] == num[right + 1])
+				{
+					right--;
+					continue;
+				}
+				int sum = num[i] + num[j] + num[left] + num[right];
+				if (sum > target) right--;
+				else if (sum < target) left++;
+				else
+				{
+  				temp.clear();
+					temp.push_back(num[i]);
+					temp.push_back(num[j]);
+					temp.push_back(num[left]);
+					temp.push_back(num[right]);
+					result.push_back(temp);
+					left++;
+					right--;
+				}
 			}
 		}
 	}
