@@ -1,0 +1,30 @@
+Enter file contents here
+class Solution {  
+public:  
+    
+    string getPermutation(int n, int k) {
+        vector<int> num;
+        vector<int> factor(1,1);
+        string s;
+        if (k == 0) {
+          return s;
+        }
+        
+        for(int i = 1; i <= n; i++){
+            num.push_back(i);
+            factor.push_back(factor[i - 1] * i);
+        }
+        
+        
+        while(k > 0 && num.size() > 0) {
+
+            int index = (k -1) / factor[n -1];
+            s.push_back(num[index] + 48);
+            num.erase(num.begin() + index);
+            k = k - index * factor[n - 1];
+            n --;
+        }
+        
+        return s;
+    }
+};  
