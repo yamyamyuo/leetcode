@@ -1,0 +1,33 @@
+struct comp
+{
+	bool operator()(const int n1, const int n2) const
+	{
+		return n1 > n2;
+	}
+};
+
+ListNode *mergeKLists(vector<ListNode *> &lists) 
+{
+	int size = lists.size();
+	if (size < 1) return NULL;
+	priority_queue<int, vector<int>, comp> minPQ;
+	ListNode *head = new ListNode(INT_MIN);
+	ListNode *result = head;
+
+	while (true)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (lists[i] != NULL)
+			{
+				minPQ.push(lists[i]->val);
+				lists[i] = lists[i]->next;
+			}
+		}
+		if (minPQ.empty()) break;
+		head->next = new ListNode(minPQ.top());
+		minPQ.pop();
+		head = head->next;
+	}
+	return result->next;
+}
