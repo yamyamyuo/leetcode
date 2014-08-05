@@ -1,0 +1,20 @@
+class Solution:
+    # @return an integer
+    def threeSumClosest(self, num, target):
+        num.sort()
+        mini=abs(num[0]+num[1]+num[2]-target)
+        ans=num[0]+num[1]+num[2]
+        for i in range(0,len(num)):
+            left=i+1
+            right=len(num)-1
+            while (right>left):
+                if (num[left]+num[right]+num[i]-target==0):
+                    return num[left]+num[right]+num[i]
+                elif(abs(num[left]+num[right]+num[i]-target)<mini):
+                    ans=num[left]+num[right]+num[i]
+                    mini=abs(num[left]+num[right]+num[i]-target)
+                elif(num[left]+num[right]+num[i]-target>0):
+                    right-=1
+                elif(num[left]+num[right]+num[i]-target<0):
+                    left+=1
+        return ans
