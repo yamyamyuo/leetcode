@@ -1,0 +1,54 @@
+/**
+ * Definition for a point.
+ * class Point {
+ *     int x;
+ *     int y;
+ *     Point() { x = 0; y = 0; }
+ *     Point(int a, int b) { x = a; y = b; }
+ * }
+ */
+public class Solution {
+    public int maxPoints(Point[] points) {
+        int horizon = 0,vertical = 0,same = 0,max_temp = 0,max = 0;
+        double k;
+        HashMap<Double,Integer> h = new HashMap<Double,Integer>(); 
+        
+        if(points.length == 0) return 0;
+        if(points.length < 3) return points.length;
+        
+        for(Point p1:points) {
+            horizon = 0;
+            vertical = 0;
+            same = 0;
+            max_temp = 0;
+            h.clear();
+            
+            for(Point p2:points) {
+                if(p1.x != p2.x && p1.y == p2.y) {
+                    horizon++;
+                }else
+                if(p1.y != p2.y && p1.x == p2.x) {
+                    vertical++;
+                }else
+                if(p1.x == p2.x && p1.y == p2.y) {
+                    same++;
+                }else {
+                    k = (double)(p1.y - p2.y)/(p1.x - p2.x);
+                    if(h.get(k) == null) {
+                        h.put(k,new Integer(1));
+                        if(max_temp == 0) {max_temp = 1;}
+                    }else {
+                        int count = h.get(k);
+                        count++;
+                        h.put(k, new Integer(count));
+                        if(count > max_temp) {max_temp = count;}
+                    }
+                }
+            }
+            if(horizon > max_temp && horizon >=vertical) {max_temp = horizon;}
+            if(vertical > max_temp && horizon < vertical) {max_temp = vertical;}
+            if(max_temp+same > max) {max = max_temp + same;}
+        }  
+        return max;
+    }
+}
