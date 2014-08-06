@@ -1,0 +1,14 @@
+Enter file contents here
+public class Solution {
+    public int singleNumber(int [] A) {
+    	Arrays.sort(A);
+    	int tmp;
+    	for(int i = 0; i < A.length - 1; ) {
+    		if(A[i]!=A[i+1])
+    			return A[i];
+    		i += 2;
+    	}
+		return A[A.length - 1];
+    	
+    }
+}
