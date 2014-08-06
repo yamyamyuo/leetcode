@@ -1,0 +1,27 @@
+class Solution {
+public:
+    ListNode *swapPairs(ListNode *head) {
+		bool odd = true;
+		if (head == NULL || head->next == NULL) return head;
+		ListNode *result = head->next;
+		
+		while (head->next != NULL)
+		{
+			if (odd)
+			{
+				ListNode *temp = head->next->next;
+				head->next->next = head;
+				head->next = temp;
+			}
+			else
+			{
+				ListNode *temp = head->next;
+				if (head->next->next != NULL) head->next = head->next->next;
+				head = temp;
+			}
+
+			odd = !odd;
+		}
+		return result;
+	}
+};
