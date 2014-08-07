@@ -1,0 +1,74 @@
+public class Solution {
+    public int atoi(String str) {
+        int i = 0;
+        int j = 0;
+        String num = "";
+        while(i<str.length()){
+            if(str.charAt(i)!=' '){
+                break;
+            }
+            i++;
+        }
+        if(i==str.length()){
+            return 0;
+        }
+        if(str.charAt(i)=='-'){
+            j = i+1;
+            while(j<str.length()&&(str.charAt(j)<='9'&&str.charAt(j)>='0')){
+                num = num + str.charAt(j);
+                j++;
+            }
+            if(num.length()==0){
+                return 0;
+            }
+            double res = 0.0;
+            j = num.length()-1;
+            while(j>=0){
+                res = res + (num.charAt(j)-'0')*Math.pow(10,num.length()-1-j);
+                if(res>Integer.MAX_VALUE){
+                    return Integer.MIN_VALUE;
+                }
+                j--;
+            }
+            return -1*(int)res;
+        }
+        if(str.charAt(i)=='+'){
+            j = i+1;
+            while(j<str.length()&&(str.charAt(j)<='9'&&str.charAt(j)>='0')){
+                num = num + str.charAt(j);
+                j++;
+            }
+            if(num.length()==0){
+                return 0;
+            }
+            double res = 0.0;
+            j = num.length()-1;
+            while(j>=0){
+                res = res + (num.charAt(j)-'0')*Math.pow(10,num.length()-1-j);
+                if(res>=Integer.MAX_VALUE){
+                    return Integer.MAX_VALUE;
+                }
+                j--;
+            }
+            return (int)res;
+        }
+        if(str.charAt(i)<='9'&&str.charAt(i)>='0'){
+            j = i;
+            while(j<str.length()&&(str.charAt(j)<='9'&&str.charAt(j)>='0')){
+                num = num + str.charAt(j);
+                j++;
+            }
+            double res = 0.0;
+            j = num.length()-1;
+            while(j>=0){
+                res = res + (num.charAt(j)-'0')*Math.pow(10,num.length()-1-j);
+                if(res>=Integer.MAX_VALUE){
+                    return Integer.MAX_VALUE;
+                }
+                j--;
+            }
+            return (int)res;
+        }
+        return 0;
+    }
+}
