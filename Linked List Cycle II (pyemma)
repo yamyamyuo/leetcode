@@ -1,0 +1,18 @@
+public class LinkedListCycleII {
+	public ListNode detectCycle(ListNode head) {
+		if(head == null || head.next == null) return null;
+		ListNode slow = head, fast = head;
+		// Be really really carefully, you must use do while statement in order
+		// to avoid mistake!
+		do {
+			fast = fast.next.next;
+			slow = slow.next;
+		}while(fast != null && fast.next != null && fast != slow);
+		if(fast == null || fast.next == null) return null;
+		ListNode temp = head;
+		while(slow != temp) {
+			slow = slow.next; temp = temp.next;
+		}
+		return temp;
+	}
+}
