@@ -1,0 +1,21 @@
+public class Solution {
+    public boolean isPalindrome(int x) {
+        if(x<0){
+            return false;
+        }
+        int tens = 0;
+        int i = 0;
+        while(Math.pow(10,i)<=x){
+            i++;
+        }
+        i--;
+        while(x>0){
+            if(x/(int)Math.pow(10,i)!=x%10){
+                return false;
+            }
+            x = (x-x/(int)Math.pow(10,i)*(int)Math.pow(10,i))/10;
+            i = i-2;
+        }
+        return true;
+    }
+}
