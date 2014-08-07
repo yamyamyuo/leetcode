@@ -1,0 +1,61 @@
+Enter file contents here
+public class Solution {
+                public static int maxPoints(Point[] points) {
+    	if (points.length <= 2)
+    		return points.length;
+        HashMap<Double,Integer> map = new HashMap<Double,Integer>();//D
+        double slope = 0.0;
+        int samepoint = 1,parallepoint,maxpoints = 0;
+        int finalmaxpoints = 0;
+        for (int i = 0; i < points.length - 1; i++) {//
+        	samepoint = 1;//
+        	parallepoint = 0;
+        	maxpoints = 0;
+        	map.clear();//
+        	for (int j = i + 1; j < points.length; j++) {//
+        		if ((points[i].x==points[j].x)&&((points[i].y==points[j].y))) {//
+        			
+        			samepoint++;
+        			continue;
+        		} 
+        		if (points[i].x==points[j].x) {//
+        			
+        			parallepoint++;
+        
+        		} else {
+        			if (points[i].y == points[j].y) {
+        				slope = 0;
+        			} else {
+        			slope = ((double)(points[j].y - points[i].y))/(points[j].x - points[i].x);//
+        			}
+        			
+        		    if(map.get(slope)==null) {  
+                        map.put(slope, new Integer(1));  
+                        if(1>maxpoints) {  
+                        	maxpoints = 1;  
+                        }  
+                    }else {  
+                       
+                        int number = map.get(slope);  
+                        number++;  
+                        map.put(slope, new Integer(number));  
+                        if(number>maxpoints) {  
+                        	maxpoints = number;  
+                        }  
+                    } 
+        		}
+
+        	}
+        	if (parallepoint > 1) {
+        		if (parallepoint > maxpoints) {
+        			maxpoints = parallepoint;
+        		}
+        	}
+        	maxpoints += samepoint;
+        	if (maxpoints>finalmaxpoints) {
+        		finalmaxpoints = maxpoints;
+        	}  	
+        }
+        return finalmaxpoints;
+    }
+}
