@@ -1,0 +1,58 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists.size()==1) return lists.get(0);
+        if (lists.isEmpty()) return null;       
+        int sz=lists.size();
+        int log=(int)(Math.log(sz)/Math.log(2));
+        log=log<Math.log(sz)/Math.log(2)?log+1:log;
+        for (int i = 1; i <= log; i++) {
+        	for (int j = 0;j < sz; j = (int) (j+Math.pow(2, i))){
+        		int offset= (int) (j + Math.pow(2, i-1));
+        		lists.set(j,merge2Lists(lists.get(j), offset>=sz?null:lists.get(offset)));
+        	}
+			
+		}
+        return lists.get(0);
+    }
+    public ListNode merge2Lists(ListNode l1, ListNode l2) {
+        if (l1==null) return l2;
+        if (l2==null) return l1;
+        ListNode l3=l1.val>l2.val?l2:l1;
+        ListNode l4=l3;
+        if (l3.equals(l2)){
+            l2=l1;
+            l1=l3;
+        }
+        while (l1.next!=null){
+            if(l2!=null){
+                l1=l1.next;
+                if (l1.val>l2.val){
+                    l3.next=l2;
+                    l3=l3.next;
+                    l2=l1;
+                    l1=l3;
+                }else{
+                    l3.next=l1;
+                    l3=l3.next;
+                }
+            }else{
+                l1=l1.next;
+                l3.next=l1;
+                break;
+            }
+        }
+        if(l2!=null) l3.next=l2;
+        return l4;
+    }
+}
