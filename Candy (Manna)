@@ -1,0 +1,32 @@
+Enter file contents here
+public class Solution {
+public int candy(int[] ratings) {
+        
+        int [] candy = new int[ratings.length];
+        int count = 0;
+        candy[0] = 1;
+        int left = ratings[0];
+        
+        for (int i = 1; i < ratings.length; i++) {
+        	if (ratings[i] > left) {
+        		candy[i] = candy[i - 1] + 1;
+        	} else {
+        		candy[i] = 1;
+        	}
+        	left = ratings[i];
+        }
+        
+        int right = ratings[ratings.length - 1];
+        
+        for (int j = ratings.length - 2; j >= 0; j--) {
+        	if (ratings[j] > right&& candy[j] <= candy[j+1]) {
+        		candy[j] = candy[j + 1] + 1;
+        	}
+        	right = ratings[j];
+        }
+        for (int i = 0; i < candy.length; i++) {
+        	count += candy[i];
+        }
+		return count;
+    }
+}
