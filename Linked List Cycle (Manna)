@@ -1,0 +1,24 @@
+Enter file contents here
+public boolean hasCycle(ListNode head) {
+    	ListNode slow = head,fast = head;
+    	
+    	//null LinkList cannot be a Cycle
+    	if (head == null) {
+    		return false;
+    	}
+    	//one node cannot be a circle
+    	if (head.next == null) {
+    		return false;
+    	}
+    	
+    	while (fast.next!=null) {
+    		slow = slow.next;
+    		fast = fast.next.next;
+    		if (fast == null)
+    			return false;
+    		
+    		if (slow == fast)
+    			return true;
+    	}
+    	return false;
+    }
