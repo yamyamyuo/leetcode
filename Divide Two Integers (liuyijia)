@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int divide(int dividend, int divisor) 
+	{
+		if (divisor == 0) return NULL;
+		if (dividend == 0) return 0;
+		int result = 0;
+		int sign = 1;
+		if ((divisor > 0 && dividend < 0) || (divisor < 0 && dividend > 0)) sign = -1;
+		long long dividends = dividend;
+		long long divisors = divisor;
+		dividends = abs(dividends);
+		divisors = abs(divisors);
+
+		while (dividends >= divisors)
+		{
+			long long temp = divisors, temp_result = sign;
+			while (temp <= dividends)
+			{
+				temp = temp << 1;
+				temp_result = temp_result << 1;
+			}
+			temp = temp >> 1;
+			temp_result = temp_result >> 1;
+			result = result + temp_result;
+			dividends = dividends - temp;
+		}
+		return result;
+	}
+};
