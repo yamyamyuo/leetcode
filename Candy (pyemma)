@@ -1,0 +1,29 @@
+public class Candy {
+	public static int candy(int[] ratings) {
+		int n = ratings.length;
+		int[] value = new int[n];
+		if(n == 0 || n == 1) return n;
+		int head = 0, tail = 1;
+		while(head < n) {
+			while(tail < n && ratings[tail] < ratings[tail-1]) tail++; // find the continuous decreasing sequence
+			int temp = tail-1; value[temp] = 1;
+			while(temp > head) {
+				value[temp-1] = value[temp] + 1;
+				temp--;
+			}
+			// the last elements should greater than both side
+			if(head != 0 && ratings[head] > ratings[head-1]) {
+				value[head] = Math.max(value[head], value[head-1]+1);
+			}
+			head = tail; tail++;
+		}
+		int res = 0;
+		for(int i = 0; i < n; i++) res += value[i];
+		return res;
+	}
+
+	public static void main(String[] args) {
+		int[] A = {2, 2};
+		System.out.println(candy(A));
+	}
+}
