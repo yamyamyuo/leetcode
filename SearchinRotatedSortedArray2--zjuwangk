@@ -1,0 +1,80 @@
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
+#include "gadget.h"
+using namespace std;
+
+//@2014-8-8
+//There may be duplicated in A
+//O(LogN)
+class Solution {
+private:
+	int target;
+	int findPivot(int A[], int start, int end)
+	{
+		if(start == end)
+			return start;
+		if(start+1 == end)
+		{
+			if(A[start]>A[end])
+				return start;
+			else
+				return end;
+		}
+		int middle = (start+end)/2;
+		if(A[middle] < A[0])
+			return findPivot(A,start,middle);
+		else
+			return findPivot(A,middle,end);
+	}
+	bool bi_search(int A[], int start, int end)
+	{
+		if(start == end)
+			if(A[start] == target)
+				return true;
+			else
+				return false;
+		else if(start < end)
+		{
+			int middle = (start+end)/2;
+			bool L = bi_search(A,start,middle);
+			if(L!=false)
+				return true;
+			bool R = bi_search(A,middle+1,end);
+			if(R!=false)
+				return true;
+			return false;
+		}
+		else 
+			return false;
+	}
+public:
+    bool search(int A[], int n, int target) {
+		this->target = target;
+		if(n < 1)
+			return false;
+		if(A[0] > A[n-1])//not rotated
+		{	
+			int pivot = findPivot(A,0,n-1);
+			if(target >= A[0])
+				return bi_search(A,0,pivot);
+			else
+				return bi_search(A,pivot+1,n-1);
+		}
+		else
+			return bi_search(A,0,n-1);
+    }
+};
+
+int main(void)
+{
+	vector<string> resVec = prepData("testData/SearchinRotatedSortedArray2.data", ',');
+	Solution sn;
+
+	int *a = new int[resVec.size()-1];
+	for(int i=0;i<resVec.size();i++)
+		a[i] = atoi(resVec[i].c_str());
+	bool res = sn.search(a, resVec.size()-1, atoi(resVec[resVec.size()-1].c_str()));
+	return 0;
+}
