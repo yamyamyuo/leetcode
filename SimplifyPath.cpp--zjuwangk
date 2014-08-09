@@ -1,0 +1,35 @@
+//2014-8-9
+class Solution {
+public:
+    string simplifyPath(string path) {
+		int splitterPos = path.find_first_of('/');//NOTE: add splitter to data-end
+		stack<string> qpath;
+		if(path[path.size()-1] != '/')
+			path = path+"/";
+		while(splitterPos != path.npos)
+		{
+			string newLayer = path.substr(0, splitterPos);
+			if(newLayer != "" && newLayer!=".")
+			{
+				if(newLayer == "..")
+				{
+					if(qpath.empty() == false)
+						qpath.pop();
+				}
+				else
+					qpath.push(newLayer);
+			}
+			path = path.substr(splitterPos+1);
+			splitterPos = path.find_first_of('/');
+		}
+		string res = "";
+		while(qpath.empty()==false)
+		{
+			res = ("/" + qpath.top()) + res;
+			qpath.pop();
+		}
+		if(res == "")
+		    return "/";
+		return res;
+    }
+};
