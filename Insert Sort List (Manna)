@@ -1,0 +1,49 @@
+Enter file contents here
+public class Solution {
+
+    public static ListNode searchPos(ListNode head, ListNode swap) {
+    	ListNode pre = head;
+    	ListNode pre_next = head.next;
+    	
+    	while (pre_next!=null&&swap.val > pre_next.val) {
+
+    		pre = pre.next;
+    		pre_next = pre_next.next;
+    	}
+    	return pre;
+    }
+    public static ListNode insertionSortList(ListNode head) {
+    	if (head == null||head.next == null)
+             return head;
+  
+        ListNode pre_swap; 
+        ListNode swap;
+        
+        ListNode pre;
+        
+        ListNode start = new ListNode(Integer.MIN_VALUE);
+        start.next = head;
+        pre_swap = head;
+    	swap = pre_swap.next;
+    	
+        while (pre_swap.next!=null) {
+            
+            
+        	pre = searchPos(start, swap);
+        	
+        	if (pre != pre_swap) {
+        	pre_swap.next = swap.next;
+        	swap.next = pre.next;
+        	pre.next = swap;
+            } else {
+            	pre_swap = swap;
+            }
+        	
+        	swap = pre_swap.next;
+        }
+  
+        return start.next;
+        
+    }
+
+}
