@@ -1,0 +1,31 @@
+// this technique is widely used in quick sort to handle the situation that 
+// there is little distinct numbers, another one is kunth's random shuffle 
+// algorithm to handle the worest case
+public class SortColors {
+	public static void sortColors(int[] A) {
+		int n = A.length;
+		if(n == 0 || n == 1) return;
+		int head = 0, pointer = 0, tail = n-1;
+		while(pointer <= tail) {
+			// the head will always point to the first key value if possible
+			if(A[pointer] < 1) {
+				int temp = A[pointer];
+				A[pointer] = A[head];
+				A[head] = temp;
+				head++; pointer++;
+			}
+			// the number after tail is great than the key, here pointer does not
+			// increase because the number tail pointed is an unckecked number
+			else if(A[pointer] > 1) {
+				int temp = A[tail];
+				A[tail] = A[pointer];
+				A[pointer] = temp;
+				tail--;
+			}
+			// find a key, just continue
+			else {
+				pointer++;
+			}
+		}
+	} 
+}
