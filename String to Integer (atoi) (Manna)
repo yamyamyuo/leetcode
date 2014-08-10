@@ -1,0 +1,41 @@
+Enter file contents here
+public class Solution {
+    public static int atoi(String str) {
+    	//1.null
+    	//2.prefix ' '
+    	//3.sign
+    	//4.ignore the non numerical tail
+    	//5.out of range
+    	if (str == null)
+    		return 0;
+    	
+    	int len = str.length();
+    	char [] array = str.toCharArray();
+    	long res = 0;
+    	int idx = 0;
+    	int sign = 1;
+
+    	while (idx<len && array[idx] == ' ') {
+    			idx++;
+    	}
+    	
+    	if (idx<len && array[idx] == '-') {
+    		sign = -1;
+    		idx++;
+    	} else if (idx<len && array[idx] == '+'){
+    		sign = 1;
+    		idx++;
+    	}
+    	
+    	while (idx<len && array[idx] >= '0' && array[idx] <='9') {
+    		res = res*10 + (array[idx] - 48);//outflow!!!
+    		idx++;
+    	}
+    	
+    	res *= sign;
+    	res = res > Integer.MAX_VALUE? Integer.MAX_VALUE : res < Integer.MIN_VALUE ? Integer.MIN_VALUE :res;
+    	
+    	return (int) res;
+   
+    }
+}
