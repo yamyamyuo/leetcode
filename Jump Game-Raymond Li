@@ -1,0 +1,13 @@
+public class Solution {
+    public boolean canJump(int[] A) {
+        int end = A.length - 1;
+        int i = A.length-2;
+        while(i>=0){
+            if(i+A[i]>=end){
+                end = i;
+            }
+            i--;
+        }
+        return end==0;
+    }
+}
