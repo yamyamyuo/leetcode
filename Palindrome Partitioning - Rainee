@@ -1,0 +1,30 @@
+public class Solution {
+    public ArrayList<ArrayList<String>> partition(String s) {
+        ArrayList<ArrayList<String>> outlist = new ArrayList<ArrayList<String>>();
+        ArrayList<String> inlist = new ArrayList<String>();
+        DFS(outlist, inlist, s);
+        return outlist;
+    }
+    
+    public void DFS(ArrayList<ArrayList<String>> outlist, ArrayList<String> inlist, String s) {
+        if(s.length() == 0) {outlist.add(new ArrayList<String>(inlist));}
+        
+        for(int i = 0; i < s.length(); i++) {
+            String temp = s.substring(0,i+1);
+            if(isPalindrome(temp)) {
+                inlist.add(temp);
+                DFS(outlist,inlist,s.substring(i+1));
+                inlist.remove(inlist.size()-1);
+            }
+        }
+    }
+    
+    public boolean isPalindrome(String s) {
+        int i = 0;
+        int j = s.length() - 1;
+        while(i < j) {
+            if(s.charAt(i++) != s.charAt(j--)) {return false;}
+        }
+        return true;
+    } 
+}
