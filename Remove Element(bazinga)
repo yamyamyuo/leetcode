@@ -1,0 +1,14 @@
+public class Solution {
+    public static int removeElement(int[] A, int elem) {
+        int x=A.length;
+        for (int i=0;i<x;i++){
+            while (A[i]==elem) {
+            	if(x==0) return 0;
+                A[i]=A[x-1];
+                --x;
+                if(i>=x) break;
+            }
+        }
+        return x;
+    }
+}
