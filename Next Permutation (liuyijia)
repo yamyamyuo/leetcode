@@ -1,0 +1,18 @@
+class Solution {
+public:
+    void nextPermutation(vector<int> &num)
+	{
+		int size = num.size();
+		if (size <= 1) return;
+		int index = size - 2;
+		while (index >= 0 && num[index] >= num[index + 1]) index--;
+		int change = index + 1;
+		for (int i = index + 1; i < size; i++)
+			if (num[i] > num[index] && num[i] < num[change]) change = i;
+		if (num[index] >= num[change]) return sort(num.begin(), num.end());
+		int temp = num[index];
+		num[index] = num[change];
+		num[change] = temp;
+		sort(num.begin() + index + 1, num.end());
+	}
+};
