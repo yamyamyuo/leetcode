@@ -1,0 +1,28 @@
+public class PopulatingNextRightPointersinEachNode {
+	public static void connect(TreeLinkNode root) {
+		if(root == null) return;
+		TreeLinkNode temp1 = root, temp2 = root.left;
+		root.next = null;
+		while(temp2 != null) {
+			TreeLinkNode parent = temp1, child = temp2;
+			while(parent != null) {
+				if(child == parent.left) {
+					child.next = parent.right;
+					child = child.next;
+				}
+				else {
+					parent = parent.next;
+					if(parent != null) {
+						child.next = parent.left;
+						child = child.next;
+					}
+					else {
+						child.next = null;
+					}
+				}
+			}
+			temp1 = temp2;
+			temp2 = temp1.left;
+		}
+	}
+}
