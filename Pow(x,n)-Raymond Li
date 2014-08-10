@@ -1,0 +1,24 @@
+public class Solution {
+    public double pow(double x, int n) {
+        if(x==0.0){
+            return 0.0;
+        }
+        if(n==Integer.MIN_VALUE){
+            return 1/(pow(x,Integer.MAX_VALUE)*x);
+        }
+        if(n<0){
+            return 1/pow(x,-n);
+        }
+        if(n==0){
+            return 1;
+        }
+        if(n==1){
+            return x;
+        }
+        double k = pow(x,n/2);
+        if(n%2==0){
+            return k*k;
+        }
+        return k*k*x;
+    }
+}
