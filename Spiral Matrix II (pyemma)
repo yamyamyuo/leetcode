@@ -1,0 +1,74 @@
+public class SpiralMatrixII {
+	public static int[][] generateMatrix(int n) {
+		int[][] mat = new int[n][n];
+		if(n == 0) return mat;
+		int dir = 0, cnt = 1, ma = n*n;
+		int i = 0, j = 0;
+		while(cnt <= ma) {
+			if(dir == 0) {
+				mat[i][j] = cnt;
+				j++;
+				if(j >= n || mat[i][j] != 0) {
+					dir = (dir + 1) % 4;
+					j--; i++;
+				}
+			}
+			else if(dir == 1) {
+				mat[i][j] = cnt;
+				i++;
+				if(i >= n || mat[i][j] != 0) {
+					dir = (dir + 1) % 4;
+					j--; i--;
+				}
+			}
+			else if(dir == 2) {
+				mat[i][j] = cnt;
+				j--;
+				if(j < 0 || mat[i][j] != 0) {
+					dir = (dir + 1) % 4;
+					j++; i--;
+				}
+			}
+			else {
+				mat[i][j] = cnt;
+				i--;
+				if(i < 0 || mat[i][j] != 0) {
+					dir = (dir + 1) % 4;
+					j++; i++;
+				}
+			}
+			cnt++;
+		}
+		return mat;
+	}
+
+	public static int[][] generateMatrix_better(int n) {
+		int[][] mat = new int[n][n];
+		int left = 0, right = n-1, up = 0, down = n-1;
+		if(n == 0) return mat;
+		int cnt = 1, ma = n*n;
+		while(cnt <= ma) {
+			for(int i = left; i <= right; i++) {
+				mat[up][i] = cnt; cnt++;
+			}
+			up++;
+			for(int i = up; i <= down; i++) {
+				mat[i][right] = cnt; cnt++;
+			}
+			right--;
+			for(int i = right; i >= left; i--) {
+				mat[down][i] = cnt; cnt++;
+			}
+			down--;
+			for(int i = down; i >= up; i--) {
+				mat[i][left] = cnt; cnt++;
+			}
+			left++;
+		}
+		return mat;
+	}
+
+	public static void main(String[] args) {
+		generateMatrix(3);
+	}
+}
