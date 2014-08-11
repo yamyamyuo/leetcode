@@ -1,0 +1,30 @@
+// When we get a valid graycode of n = k, when we want to get 
+// n = k+1, we need to append 0s at each exist graycode,
+// and a copy of it with 1s appended at head, the former graycode
+// would still be graycode, since the neighbours have been appended 
+// the same bit, except for the point where origin end and the copy start,
+// a naive solution is to reverse the copy of the graycode so that the
+// former end equals copy's head, then with 0 and 1 at head, the new 
+// sequence would maintain the properity of graycode
+import java.util.*;
+
+public class GrayCode {
+	public static List<Integer> grayCode(int n) {
+		ArrayList<Integer> res = new ArrayList<Integer>();
+		res.add(0); // base case
+		if(n == 0) return res;
+		res.add(1); // base case
+		if(n == 1) return res;
+		int base = 2;
+		while(n > 1) {
+			int i = res.size() - 1; // append reverse
+			while(i >= 0) {
+				res.add(res.get(i) + base);
+				i--;
+			}
+			base *= 2;
+			n--;
+		}
+		return res;
+	}
+}
