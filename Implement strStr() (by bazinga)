@@ -1,0 +1,36 @@
+public class Solution {
+    public static String strStr(String haystack, String needle) {
+        if (haystack.length()==0 && needle.length()!=0) return null;
+        if (needle.length()==0) return haystack;
+    	int next[]=new int[needle.length()];
+    	next[0]=-1;
+        for (int i=1;i<needle.length();i++){
+        	if (needle.charAt(i)==needle.charAt(next[i-1]+1)){
+        		next[i]=next[i-1]+1;
+        	}else if(needle.charAt(i)==needle.charAt(0)){
+        		next[i]=0;
+        	}else if(needle.charAt(i)!=needle.charAt(0)){
+        		next[i]=-1;
+        	}else{
+        		next[i]=-2;
+        	}
+        }
+        int index=0;
+        int nextindex=0;
+        int start=-1;
+        int end=0;
+        while(index<haystack.length() && nextindex<needle.length()){
+        	if(haystack.charAt(index)==needle.charAt(nextindex)){
+        		index++;nextindex++;
+        	}else if(nextindex==0){
+        		index++;
+        	}else{
+        		nextindex=next[nextindex-1]+1;
+        	}
+            if(nextindex==needle.length()){
+                return haystack.substring(index-needle.length());
+            }
+        }
+        return null;
+    }
+}
