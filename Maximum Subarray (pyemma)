@@ -1,0 +1,12 @@
+public class MaximumSubarray {
+	public static int maxSubArray(int[] A) {
+		int n = A.length;
+		if(n == 0) return 0;
+		int cmax = A[0], gmax = A[0];
+		for(int i = 1; i < n; i++) {
+			cmax = (cmax + A[i]) < A[i] ? A[i] : (cmax + A[i]);
+			gmax = cmax > gmax ? cmax : gmax;
+		}
+		return gmax;
+	}
+}
