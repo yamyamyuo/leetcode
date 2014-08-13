@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string> &dict) {
+        string temp;
+		int* flag=new int[s.length()];
+		if(dict.size()==0){
+			return false;
+		}
+		for(int i=1;i<=s.length();i++){
+			temp=s.substr(0,i);
+			if(dict.find(temp)==dict.end()){
+				for(int j=1;j<i;j++){
+					temp=s.substr(j,i-j);
+					if(dict.find(temp)!=dict.end()&&flag[j-1]==true){
+						flag[i-1]=true;
+						break;
+					}
+					else{
+						flag[i-1]=false;
+					}
+				}
+			}
+			else{
+				flag[i-1]=true;
+			}
+		}
+		return flag[s.length()-1];
+    }
+};
