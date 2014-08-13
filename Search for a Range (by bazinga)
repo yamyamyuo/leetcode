@@ -1,0 +1,31 @@
+public class Solution {
+    public static int[] searchRange(int[] A, int target) {
+        int index=binarysearch(A,0,A.length-1,target);
+        int start,end;
+        if(index==-1){
+            int c[]={-1,-1};
+            return c;
+        }else{
+        	start=index;
+        	end=index;
+        }
+        for(int i=index+1;i<A.length && A[i]==target;i++){
+        	end=i;
+        }
+        for(int i=index-1;i>=0 && A[i]==target;i--){
+        	start=i;
+        }
+        int b[]=new int[2];
+        b[0]=start;
+        b[1]=end;
+        return b;
+    }
+    private static int binarysearch(int[] A,int start,int end,int target){
+    	if(end<start) return -1;
+    	if (A[start]>target || A[end]<target) return -1;
+    	int mid=(start+end)/2;
+    	if(A[mid]==target) return mid;
+    	else if (A[mid]<target) return binarysearch(A, mid+1, end, target);
+    	else return binarysearch(A, start, mid-1, target);			
+    }
+}
