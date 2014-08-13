@@ -1,0 +1,29 @@
+public class Solution {
+    public static int searchInsert(int[] A, int target) {
+        int index=binarysearch(A, 0, A.length-1, target);
+        if (index<0){
+        	index=-index;
+        	if(index>=A.length-1) return A.length;
+        	while(index<A.length && A[index]<target){
+        		index++;
+        	}
+        	return index;
+        }else {
+			if(index==0 && A[index]>target) return 0;
+        	while(index>=0 && A[index]>=target){
+        		index--;
+        	}
+        	index++;
+        	return index;
+		}       
+    }
+    private static int binarysearch(int[] A,int start,int end,int target){
+    	if(end<start) return -end;// we judging A[mid]<target first, so mid+1 may exceed range
+    	if (A[start]>target) return start;
+    	if (A[end]<target) return -end;
+    	int mid=(start+end)/2;
+    	if(A[mid]==target) return mid;
+    	else if (A[mid]<target) return binarysearch(A, mid+1, end, target);
+    	else return binarysearch(A, start, mid-1, target);			
+    }
+}
