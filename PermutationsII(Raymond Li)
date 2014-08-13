@@ -1,0 +1,39 @@
+public class Solution {
+    public List<List<Integer>> permuteUnique(int[] num) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        boolean[] chosen = new boolean[num.length];
+        List<Integer> list = new ArrayList<Integer>();
+        Arrays.sort(num);
+        dfs(num,chosen,0,res,list);
+        return res;
+    }
+    public void dfs(int[] num, boolean[] chosen, int len, List<List<Integer>> res, List<Integer> list){
+        if(len==num.length){
+            res.add(new ArrayList<Integer>());
+            int i = 0;
+            while(i<list.size()){
+                res.get(res.size()-1).add(num[list.get(i)]);
+                i++;
+            }
+            chosen[list.size()-1] = false;
+            list.remove(list.size()-1);
+            len--;
+            return;
+        }
+        int i = 0;
+        while(i<num.length){
+            if((!chosen[i])&&(i==0||num[i]!=num[i-1]||chosen[i-1])){
+                chosen[i] = true;
+                list.add(i);
+                dfs(num,chosen, len+1, res, list);
+            }
+            i++;
+        }
+        if(list.size()>0){
+            chosen[list.size()-1] = false;
+            list.remove(list.size()-1);
+            len--;
+        }
+        return;
+    }
+}
