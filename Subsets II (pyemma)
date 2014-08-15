@@ -1,0 +1,57 @@
+import java.util.*;
+public class SubsetsII {
+	ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+	ArrayList<Integer> array = new ArrayList<Integer>();
+	HashSet<String> set = new HashSet<String>();
+	public List<List<Integer>> subsetsWithDup(int[] num) {
+		Arrays.sort(num);
+		dfs(num, 0);
+		return res;
+	}
+	private void dfs(int[] num, int ind) {
+		if(ind == num.length) {
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < array.size(); i++) 
+				sb.append(String.valueOf(array.get(i)));
+			if(set.contains(sb.toString()) == false) {
+				res.add(new ArrayList<Integer>(array));
+				set.add(sb.toString());
+			}
+		}
+		else {
+			for(int i = ind; i < num.length; i++) {
+				dfs(num, i+1);
+				array.add(num[i]);
+				dfs(num, i+1);
+				array.remove(array.size() - 1);
+			}
+		}
+	}
+
+	public static List<List<Integer>> subsetsWithDupBetter(int[] num) {
+		ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+		ArrayList<Integer> array = new ArrayList<Integer>();
+		Arrays.sort(num);
+		res.add(array);
+		int pr = num[0], cnt = 1;
+		for(int i = 0; i < num.length; i++) {
+			int n = res.size();
+			int j = 0;
+			if(pr != num[i]) {
+				pr = num[i];
+				j = 0;
+			}
+			else j = n - cnt;
+			cnt = n - j;
+			for(; j < n; j++) {
+				ArrayList<Integer> arr = new ArrayList<Integer>(res.get(j));
+				arr.add(num[i]);
+				res.add(arr);
+			}
+		}
+		return res;
+	}
+
+	public static void main(String[] args) {
+	}
+}
