@@ -1,0 +1,39 @@
+public class BinaryTreeMaximumPathSum {
+	public static int ma = Integer.MIN_VALUE;
+
+	public static int maxPathSum(TreeNode root) {
+		if(root == null) return 0;
+		maxPath(root);
+		return ma;
+	}
+
+	public static int maxPath(TreeNode root) {
+		if(root.left == null && root.right == null) {
+			ma = Math.max(ma, root.val);
+			return root.val;
+		}
+		else if(root.left != null && root.right == null) {
+			int left = maxPath(root.left);
+			int better = Math.max(root.val, root.val+left);
+			ma = Math.max(ma, better);
+			return better;
+		}
+		else if(root.left == null && root.right != null) {
+			int right = maxPath(root.right);
+			int better = Math.max(root.val, root.val+right);
+			ma = Math.max(ma, better);
+			return better;
+		}
+		else {
+			int left = maxPath(root.left);
+			int right = maxPath(root.right);
+			if(left >= 0 && right >= 0) {
+				ma = Math.max(ma, root.val+left+right);
+			}
+			int better = Math.max(root.val, root.val+left);
+			better = Math.max(better, root.val+right);
+			ma = Math.max(ma, better);
+			return better;
+		}
+	}
+}
