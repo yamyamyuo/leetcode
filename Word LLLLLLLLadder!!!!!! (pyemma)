@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class WordLadder {
+	public static int ladderLength(String start, String end, Set<String> dict) {
+		HashMap<String, Integer> count = new HashMap<String, Integer>();
+		// pay attention here, queue is an interface, could not be instanced
+		Queue<String> qu = new LinkedList<String>();
+		qu.offer(start);
+		count.put(start, 1);
+		while(qu.size() != 0) {
+			String str = qu.remove();
+			StringBuilder sb = new StringBuilder(str);
+			int dis = count.get(str);
+			for(int i = 0; i < str.length(); i++) {
+				for(char j = 'a'; j <= 'z'; j++) {
+					sb = new StringBuilder(str);
+					sb.setCharAt(i, j);
+					String ns = sb.toString();
+					if(ns.equals(end)) return dis+1;
+					if(dict.contains(ns) == true) {
+						if(count.containsKey(ns) == false) {
+							count.put(ns, dis+1);
+							qu.offer(ns);
+						}
+					}
+				}
+			}
+		}
+		return 0;
+	}
+
+	public static void main(String[] args) {
+		HashSet<String> dict = new HashSet<String>();
+		dict.add("hot"); dict.add("dot"); dict.add("dot"); dict.add("lot"); dict.add("log");
+		System.out.println(ladderLength("hit", "cog", dict));
+	}
+}
