@@ -1,0 +1,6 @@
+public class Solution {
+	public static int climbStairs(int n) {
+		double sqfive=Math.sqrt(5);
+		return (int)(1.0/sqfive*(Math.pow(((1+sqfive)/2.0),n+1)-Math.pow(((1-sqfive)/2.0),n+1)));
+	}
+}
