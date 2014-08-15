@@ -1,0 +1,89 @@
+// Use a heap with size O(K) to find the current minimum element
+// The time complexity is O(NlogK) and space complexity is O(N)
+
+import java.util.*;
+
+public class MergekSortedLists {
+	// util function for heap implemented by arraylist data structure
+	private static void heapfy(ArrayList<ListNode> heap) {
+		int ind = heap.size() - 1;
+		while(ind != 0) {
+			ListNode child = heap.get(ind);
+			ListNode par = heap.get((ind-1)/2);
+			if(par.val > child.val) {
+				heap.set(ind, par);
+				heap.set((ind-1)/2, child);
+			}
+			ind = (ind-1)/2;
+		}
+	}
+
+	private static void heapfy_down(ArrayList<ListNode> heap, int ind) {
+		// left child
+		int j = 2*ind + 1;
+		// has no left child
+		if(j > heap.size() - 1) return;
+		// has only left child
+		else if(j == heap.size() - 1) {
+			j = heap.get(j).val < heap.get(ind).val ? j : ind;
+		}
+		// has both left and right child
+		else {
+			j = heap.get(j).val < heap.get(j+1).val ? j : j+1;
+			j = heap.get(j).val < heap.get(ind).val ? j : ind;
+		}
+		// child is smaller than parent, exchange and recurse the process
+		// at parent's new position
+		if(j != ind) {
+			ListNode par = heap.get(ind);
+			ListNode child = heap.get(j);
+			heap.set(ind, child);
+			heap.set(j, par);
+			heapfy_down(heap, j);
+		}
+	}
+
+	public static ListNode mergeKLists(List<ListNode> lists) {
+		ArrayList<ListNode> heap = new ArrayList<ListNode>();
+		for(ListNode node : lists) {
+			if(node != null) heap.add(node);
+			heapfy(heap);
+		}
+
+		ListNode sent = new ListNode(-1);
+		ListNode temp = sent;
+		while(heap.size() != 0) {
+			// pay attention here, we must put the last to the top and 
+			// heapfy_down, if we choose directly move the top and heapfy_down
+			// from the new top (original second one), it is likely that there
+			// might be multi-place violate the heap condition
+			ListNode top = heap.get(0);
+			ListNode last = heap.get(heap.size() - 1);
+			heap.set(0, last); heap.remove(heap.size() - 1);
+			if(heap.size() != 0) 
+				heapfy_down(heap, 0);
+			if(top.next != null) {
+				heap.add(top.next);
+				heapfy(heap);
+			}
+			top.next = null;
+			temp.next = top;
+			temp = temp.next;
+		}
+		return sent.next;
+	}
+
+	public static void main(String[] args) {
+		ArrayList<ListNode> lists = new ArrayList<ListNode>();
+		for(int i = 0; i < 5; i++) {
+			lists.add(new ListNode(i%2));
+			ListNode no = new ListNode(10 - i);
+			lists.get(i).next = no;
+		}
+		ListNode nl = mergeKLists(lists);
+		while(nl != null) {
+			System.out.println(nl.val + " ");
+			nl = nl.next;
+		}
+	}
+}
