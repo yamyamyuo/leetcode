@@ -1,0 +1,57 @@
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <algorithm>
+#include "gadget.h"
+using namespace std;
+
+//@2014-8-15
+class Solution {
+	//NOTE must be static
+	static bool myCmp(const Interval& i1, const Interval& i2)
+	{
+		return i1.start < i2.start;//NOTE: must use '<' not '<=' ...werid...
+	}
+public:
+    vector<Interval> merge(vector<Interval> &intervals){
+		if(intervals.size() <= 0)
+			return intervals;
+		sort(intervals.begin(),intervals.end(),&Solution::myCmp);
+		//sort(intervals.begin(),intervals.end(),myCmp); //this is also fine
+		int lastEnd = intervals[0].end;
+		int shrink = 0;
+		for(int i=1;i < shrink + intervals.size();i++)	
+		{
+			cout<<i<<endl;
+			bool flag = false;
+			if(lastEnd >= intervals[i-shrink].start)
+				flag = true;
+			if(lastEnd < intervals[i-shrink].end)
+			{
+				lastEnd = intervals[i-shrink].end;
+			}
+			if(flag)
+			{
+				intervals[i-shrink-1].end = lastEnd;
+				intervals.erase(i-shrink+intervals.begin());
+				shrink++;
+			}
+		}
+		return intervals;
+    }
+};
+
+int main(void)
+{
+	vector<string> resVec = prepData("testData/MergeIntervals.data", ',');
+	Solution sn;
+	vector<Interval> v;
+	for(int i=0;i<resVec.size();i+=2)
+	{
+		v.push_back(Interval(atoi(resVec[i].c_str()), atoi(resVec[i+1].c_str())));
+	}
+	sn.merge(v);
+
+	return 0;
+}
