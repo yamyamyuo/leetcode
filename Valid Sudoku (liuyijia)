@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char> > &board)
+	{
+		int list[9] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		//check each row
+		for (int i = 0; i < 9; i++)
+		{
+			for (int k = 0; k < 9; k++) list[k] = 0;
+			for (int j = 0; j < 9; j++)
+			{
+				if (board[i][j] == '.') continue;
+				int temp = board[i][j] - '1';
+				list[temp]++;
+				if (list[temp] > 1)	return false;
+			}
+		}
+
+		//check each column
+		for (int i = 0; i < 9; i++)
+		{
+			for (int k = 0; k < 9; k++) list[k] = 0;
+			for (int j = 0; j < 9; j++)
+			{
+				if (board[j][i] == '.') continue;
+				int temp = board[j][i] - '1';
+				list[temp]++;
+				if (list[temp] > 1) return false;
+			}
+		}
+		//check each square
+		for (int row = 0; row < 9; row = row + 3)
+		{
+			for (int col = 0; col < 9; col = col + 3)
+			{
+				for (int k = 0; k < 9; k++) list[k] = 0;
+				for (int i = 0; i < 3; i++)
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						if (board[row + i][col + j] == '.') continue;
+						int temp = board[row + i][col + j] - '1';
+						list[temp]++;
+						if (list[temp] > 1) return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+};
