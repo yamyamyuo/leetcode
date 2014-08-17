@@ -1,0 +1,30 @@
+public class Solution {
+public int maxProfit(int[] prices) {
+    	int len = prices.length;
+    	if (len<=1)
+    		return 0;
+        int []leftprofit = new int[len];
+        int []rightprofit = new int[len];
+        
+        int min = prices[0];
+        leftprofit[0] = 0;
+        for (int i = 1; i < len; i++) {
+        	min = min < prices[i] ? min : prices[i];
+        	leftprofit[i] = leftprofit[i-1] > prices[i] - min? leftprofit[i-1] : prices[i] - min;
+        }
+        
+        int max = prices[len -1];
+        rightprofit[len - 1] = 0;
+        for (int i = len - 2; i >= 0; i--) {
+        	max = max > prices[i] ? max : prices[i];
+        	rightprofit[i] = rightprofit[i+1] > max - prices[i]? rightprofit[i+1] : max - prices[i];
+        }
+        
+        int res = 0;
+        for (int i = 0; i < len; i++) {
+        	res = res > leftprofit[i] + rightprofit[i] ? res : leftprofit[i] + rightprofit[i];
+        }
+        return res;
+        
+    }
+}
