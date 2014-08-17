@@ -1,0 +1,49 @@
+//2014-8-17
+class Solution {
+public:
+    double pow(double x, int n) {
+		if(x==0)
+			return 0;
+		if(n==0)
+			return 1;
+		bool flag = false;
+		if(n<0)
+		{
+			flag = true;
+			n=-n;
+		}
+		int prod = 1;
+		while(prod <= n/2)
+		{
+			prod *= 2;
+		}
+		
+		stack<int> s;
+		while(n>0)
+		{
+			if(n>=prod)
+			{
+				s.push(prod);
+				n-=prod;
+			}
+			prod /= 2;
+		}
+		double res=1;
+		double prodval=x;
+		prod = 1;
+		while(s.empty()==false)
+		{
+			if(prod > 1)
+				prodval *= prodval;
+			if(s.top() == prod)
+			{
+				res *= prodval;
+				s.pop();
+			}
+			prod *= 2;
+		}
+		if(flag)
+			res = 1/res;
+		return res;
+    }
+};
