@@ -1,0 +1,44 @@
+public class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(candidates.length>0&&target==candidates[0]){
+            res.add(new ArrayList<Integer>());
+            res.get(0).add(target);
+            return res;
+        }
+        if(candidates.length==0||target<candidates[0]){
+            return res;
+        }
+        int[] arr = new int[candidates.length-1];
+        int i = 0;
+        while(i<arr.length){
+            arr[i]=candidates[i+1];
+            i++;
+        }
+        List<List<Integer>> res1 = combinationSum2(arr,target-candidates[0]);
+        List<List<Integer>> res2 = combinationSum2(arr,target);
+        i = 0;
+        while(i<res1.size()){
+            res1.get(i).add(0,candidates[0]);
+            res.add(res1.get(i));
+            i++;
+        }
+        i=0;
+        while(i<res2.size()){
+          res.add(res2.get(i));
+          i++;
+        }
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        Set<List<Integer>> set = new HashSet<List<Integer>>();
+        i = 0;
+        while(i<res.size()){
+            if(!set.contains(res.get(i))){
+                list.add(res.get(i));
+                set.add(res.get(i));
+            }
+            i++;
+        }
+        return list;
+    }
+}
