@@ -1,0 +1,68 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
+        ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
+        
+        sort(num, 0, num.length - 1);
+        
+        for(int i = 0; i < num.length-2; i++) {
+            int m = i+1, n = num.length-1; 
+           
+            while(m < n) {
+                int sum = num[i] + num[m] + num[n];
+                if(sum == 0) {
+                    ArrayList<Integer> inlist = new ArrayList<Integer>();
+                    inlist.add(num[i]);
+                    inlist.add(num[m]);
+                    inlist.add(num[n]);
+                    boolean flag = true;
+                    for(int k = 0; k < list.size();k++) {
+                        if(list.get(k).equals(inlist)) {
+                            flag = false;
+                        }
+                    }
+                    if(flag == true) list.add(inlist);
+                    
+                    while(++m < n && num[m] == num[m-1]) {}
+                    
+                    while(m < --n && num[n] == num[n+1]) {}
+                    
+                } else if(sum < 0) {
+                        m++;
+                }else{
+                        n--;
+                }
+            }
+        }
+        
+        return list;
+    }
+    
+    public void sort(int[] num, int low, int high) {
+        if(high <= low) return;
+        int j = partition(num,low,high);
+        sort(num,low,j-1);
+        sort(num,j+1,high);
+    }
+    
+    public int partition(int[] num, int low, int high) {
+        int i = low, j = high + 1;
+        while(true) {
+            while(num[++i] < num[low]) {
+                if(i == high) break;
+            }
+            while(num[low] < num[--j]) {
+                if(j == low) break;
+            }
+            
+            if(j <= i) break;
+            exch(num,i,j);
+        }
+        exch(num,low,j);
+        return j;
+    }
+    
+    public void exch(int[] num, int x, int y) {
+        int temp = num[y];
+        num[y] = num[x];
+        num[x] = temp;
+    }
