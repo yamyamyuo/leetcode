@@ -1,0 +1,37 @@
+public class SearchForARange {
+	public static int findLeft(int[] A, int tar) {
+		int l = -1, r = A.length-1;
+		while(r - l > 1) {
+			int mid = l + (r-l)/2;
+			if(A[mid] < tar) l = mid;
+			else r = mid;
+		}
+		if(A[r] == tar) return r;
+		else return -1;
+	}
+
+	public static int findRight(int[] A, int tar) {
+		int l = 0, r = A.length;
+		while(r - l > 1) {
+			int mid = l + (r-l)/2;
+			if(A[mid] <= tar) l = mid;
+			else r = mid;
+		}
+		if(A[l] == tar) return l;
+		else return -1;
+	}
+
+	public static int[] searchRange(int[] A, int target) {
+		int l = findLeft(A, target);
+		int r = findRight(A, target);
+		int[] res = new int[2];
+		res[0] = l; res[1] = r;
+		return res;
+	}
+
+	public static void main(String[] args) {
+		int[] A = {8, 8, 8};
+		int[] res = searchRange(A, 8);
+		System.out.println(res[0] + " " + res[1]);
+	}
+}
