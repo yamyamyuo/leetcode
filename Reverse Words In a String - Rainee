@@ -1,0 +1,30 @@
+public class Solution {
+    public String reverseWords(String s) {
+        int i = 0, len = s.length();
+        String reverse = "";
+        
+        while(i < len && s.charAt(i) == ' ') i++;
+        
+        boolean tag = true;
+        StringBuffer temp = new StringBuffer();
+        for(int k = i; k < len; k++) {
+
+            if(s.charAt(k) != ' ') {
+                tag = true;
+                temp.append(s.charAt(k));
+            }else{
+                if(tag == true) {
+                    reverse = temp + " " + reverse;
+                    temp.setLength(0);
+                    tag = false;
+                }
+            }
+        }
+        if(temp.length() != 0) reverse = temp + " " + reverse;
+        
+        if(reverse.length() > 0) {
+             return reverse.substring(0,reverse.length()-1);
+        }
+        return reverse;
+    }
+}
