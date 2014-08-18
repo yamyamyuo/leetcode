@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int trap(int A[], int n) 
+	{
+		int water = 0;
+		int max_index = 0;
+		for (int i = 0; i < n; i++) if (A[max_index] < A[i]) max_index = i;
+		
+		int left_index = 0;
+		for (int i = 1; i < max_index; i++)
+		{
+			if (A[left_index] > A[i]) water += A[left_index] - A[i];
+			else left_index = i;
+		}
+
+		int right_index = n - 1;
+		for (int i = n - 1; i > max_index; i--)
+		{
+			if (A[right_index] > A[i]) water += A[right_index] - A[i];
+			else right_index = i;
+		}
+		return water;
+	}
+};
