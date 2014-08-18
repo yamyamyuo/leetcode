@@ -1,0 +1,52 @@
+public class Solution {
+    public List<String[]> solveNQueens(int n) {
+        List<String[]> res = new ArrayList<String[]>();
+        int[] arr = new int[n];
+        dfs(n,arr,0,res);
+        return res;
+    }
+    public void dfs(int n, int[] arr, int len, List<String[]> res){
+        if(len==n){
+            String[] strs = new String[n];
+            int i = 0;
+            int j = 0;
+            while(i<n){
+                j = 0;
+                String str = "";
+                while(j<arr[i]){
+                    str = str + '.';
+                    j++;
+                }
+                str = str + 'Q';
+                j++;
+                while(j<n){
+                    str = str + '.';
+                    j++;
+                }
+                strs[i] = str;
+                i++;
+            }
+            res.add(strs);
+            len--;
+            return;
+        }
+        int i = 0;
+        int j = 0;
+        while(i<n){
+            j=0;
+            while(j<len){
+                if(i==arr[j]||len-j==i-arr[j]||len-j==arr[j]-i){
+                    break;
+                }
+                j++;
+            }
+            if(j==len){
+                arr[len] = i;
+                dfs(n,arr,len+1,res);
+            }
+            i++;
+        }
+        len--;
+        return;
+    }
+}
