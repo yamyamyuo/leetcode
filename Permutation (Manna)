@@ -1,0 +1,33 @@
+public class Solution {
+public static List<List<Integer>> permute(int[] num) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if (num == null || num.length == 0){
+        	List<Integer> tmp = new ArrayList<Integer>();
+        	result.add(tmp);
+        	return result;
+        }
+        permute(0,num,result);
+        return result;
+    }
+    
+    public static void permute(int i, int []num, List<List<Integer>> result) {
+    	if (i == num.length-1) {
+    		List<Integer> tmp = new ArrayList<Integer>();
+    		for (int j = 0; j < num.length; j++) {
+    			tmp.add(num[j]);
+    		}
+    		result.add(tmp);
+    		return ;
+    	}
+    	for(int j = i; j < num.length; j++) {
+    		int tmp = num[j];
+    		num[j] = num[i];
+    		num[i] = tmp;
+    		permute(i+1, num, result);
+    		int tmp2 = num[j];
+    		num[j] = num[i];
+    		num[i] = tmp2;
+    	}
+    	
+    }
+}
