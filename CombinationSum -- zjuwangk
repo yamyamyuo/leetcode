@@ -1,0 +1,36 @@
+//2014-8-19
+class Solution {
+private:
+	vector<int> path;
+	vector<vector<int>> resVec;
+	int target;
+	void DFS(vector<int>& cand, int start)
+	{
+		for(int i=start;i<cand.size();i++)
+		{
+			if(cand[i] > target)
+				break;
+			path.push_back(cand[i]);
+			target -= cand[i];
+			if(0 == target)
+				resVec.push_back(path);
+			else
+				DFS(cand, i);
+			target += cand[i];
+			path.pop_back();
+		}
+	}
+public:
+    vector<vector<int> > combinationSum(vector<int> &candidates, int target) {
+		//remove dupliucated from candidates;
+		sort(candidates.begin(), candidates.end());
+		this->target = target;
+		for(int i=0;i+1<candidates.size();i++)
+		{
+			while(i+1<candidates.size() && candidates[i+1] == candidates[i])
+				candidates.erase(candidates.begin()+i+1);
+		}
+		DFS(candidates, 0);
+		return this->resVec;
+    }
+};
