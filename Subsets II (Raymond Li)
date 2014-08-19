@@ -1,0 +1,65 @@
+public class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] num) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(num.length==0){
+            return res;
+        }
+        Arrays.sort(num);
+        Map<Integer,Integer> map = new HashMap<Integer, Integer>();
+        int i = 0;
+        while(i<num.length){
+            if(!map.containsKey(num[i])){
+                map.put(num[i],1);
+            }
+            else{
+                map.put(num[i],map.get(num[i])+1);
+            }
+            i++;
+        }
+        int[] arr1 = new int[map.size()];
+        arr1[0] = num[0];
+        int j = 1;
+        i = 1;
+        while(i<num.length){
+            if(num[i]!=arr1[j-1]){
+                arr1[j] = num[i];
+                j++;
+            }
+            i++;
+        }
+        int[] arr2 = new int[arr1.length];
+        i = 0;
+        while(i<arr2.length){
+            arr2[i] = map.get(arr1[i]);
+            i++;
+        }
+        int[] counts = new int[arr2.length];
+        dfs(arr1,arr2,counts,0,res);
+        return res;
+    }
+    public void dfs(int[] arr1, int[] arr2, int[] counts, int len, List<List<Integer>> res){
+        if(len==arr1.length){
+            res.add(new ArrayList<Integer>());
+            int i = 0;
+            int j = 0;
+            while(i<counts.length){
+                j = 0;
+                while(j<counts[i]){
+                    res.get(res.size()-1).add(arr1[i]);
+                    j++;
+                }
+                i++;
+            }
+            len--;
+            return;
+        }
+        int i = 0;
+        while(i<=arr2[len]){
+            counts[len] = i;
+            dfs(arr1,arr2,counts,len+1,res);
+            i++;
+        }
+        len--;
+        return;
+    }
+}
