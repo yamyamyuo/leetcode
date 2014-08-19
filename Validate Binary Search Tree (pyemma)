@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class ValidateBinarySearchTree {
+	ArrayList<Integer> array = new ArrayList<Integer>();
+	public boolean isValidBST(TreeNode root) {
+		if(root == null) return true;
+		inorder(root);
+		for(int i = 1; i < array.size(); i++) 
+			if(array.get(i) <= array.get(i-1))
+				return false;
+		return true;
+	}
+
+	private void inorder(TreeNode root) {
+		if(root == null) return;
+		inorder(root.left);
+		array.add(root.val);
+		inorder(root.right);
+	}
+
+	public boolean isValidBST_better(TreeNode root) {
+		HashSet<TreeNode> set = new HashSet<TreeNode>();
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		int pre = Integer.MIN_VALUE;
+		if(root == null) return true;
+		stack.push(root);
+		while(stack.size() != 0) {
+			TreeNode tn = stack.pop();
+			if(set.contains(tn) == true) {
+				if(tn.val <= pre) return false;
+				else pre = tn.val;
+			}
+			else {
+				if(tn.right != null) stack.push(tn.right);
+				stack.push(tn);
+				set.add(tn);
+				if(tn.left != null) stack.push(tn.left);
+			}			
+		}
+		return true;
+	}
+}
