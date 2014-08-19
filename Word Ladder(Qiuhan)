@@ -1,0 +1,41 @@
+class Solution {
+public:
+        int ladderLength(string start, string end, unordered_set<string> &dict) {
+		if(start==end){
+			return 2;
+		}
+		else if(dict.size()==0){
+			return 0;
+		}
+        queue<string>q;
+		q.push(start);
+		dict.erase(start);
+		int len=1;
+		while(!q.empty()){
+			int count=q.size();
+			for(int i=0;i<count;i++){
+				string temp=q.front();
+				q.pop();
+				for(char c='a';c<='z';c++){
+					for(int j=0;j<temp.length();j++){
+					    if(temp[j]==c){
+					        continue;
+					    }
+					    string temp1=temp;
+					    temp1[j]=c;
+					    if(temp1==end){
+						    return len+1;
+					    }
+					    if(dict.find(temp1)!=dict.end()){
+						    q.push(temp1);
+						    dict.erase(temp1);
+					    }
+					}
+				}
+			}
+			len++;
+		}
+		return 0;
+
+    }
+};
