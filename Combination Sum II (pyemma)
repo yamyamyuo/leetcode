@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class CombinationSumII {
+	public static List<List<Integer>> combinationSum2(int[] num, int target) {
+		ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+		ArrayList<List<Integer>> sets = new ArrayList<List<Integer>>();
+		ArrayList<Integer> array = new ArrayList<Integer>(); array.add(0);
+		sets.add(array);
+		Arrays.sort(num);
+		int j = 0, cnt = 1, pre = num[0];
+		for(int i = 0; i < num.length; i++) {
+			if(num[i] == pre) j = sets.size() - cnt;
+			else {j = 0; pre = num[i];}
+			cnt = 0;
+			int size = sets.size();
+			for(; j < size; j++) {
+				array = new ArrayList<Integer>(sets.get(j));
+				int sum = array.get(0);
+				if(sum > target) continue;
+				else {
+					cnt++;
+					array.add(num[i]);
+					sum += num[i];
+					if(sum == target) {
+						ArrayList<Integer> re = new ArrayList<Integer>(array);
+						re.remove(0);
+						//System.out.println(array.toString());
+						res.add(new ArrayList<Integer>(re));
+					}
+					array.set(0, sum);
+				}
+				sets.add(array);
+			}
+		}
+		return res;
+	}
+
+	public static void main(String[] args) {
+		int[] num = {14,6,25,9,30,20,33,34,28,30,16,12,31,9,9,12,34,16,25,32,8,7,30,12,33,20,21,29,24,17,27,34,11,17,30,6,32,21,27,17,16,8,24,12,12,28,11,33,10,32,22,13,34,18,12};
+		//int[] num = {1, 2, 2, 2, 2, 2};
+		combinationSum2(num, 5);
+	}
+}
