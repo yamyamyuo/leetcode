@@ -1,0 +1,85 @@
+class Solution {
+private:
+	void gen_path(vector<vector<string>>&result,unordered_map<string,vector<string>>&map,string start,string temp,vector<string>&path){
+		path.push_back(temp);
+		if(temp==start){
+			result.push_back(path);
+			reverse(result.back().begin(), result.back().end());
+		}
+		else{
+			for(int i=0;i<map[temp].size();i++){
+				gen_path(result,map,start,map[temp][i],path);
+			}	
+		}
+		path.pop_back();
+	}
+public:
+    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) {
+		vector<vector<string>>result;
+		unordered_set<string>visited;
+		if(start==end){
+			vector<string>res;
+			res.push_back(start);
+			res.push_back(end);
+			result.push_back(res);
+			res.clear();
+			return result;
+		}
+		else if(dict.size()==0){
+			return result;
+		}
+		unordered_map<string,vector<string>>map;
+        unordered_set<string>q,p;
+		q.insert(start);
+		dict.erase(start);
+		bool found=false;
+		while(!q.empty()&&!found){
+			int count=q.size();
+			for (const auto& word : q)
+				visited.insert(word);
+			for (const auto& temp : q) {
+				for(char c='a';c<='z';c++){
+					for(int j=0;j<temp.length();j++){
+					    if(temp[j]==c){
+					        continue;
+					    }
+					    string temp1=temp;
+					    temp1[j]=c;
+					    if(temp1==end&&visited.find(temp1)==visited.end()){
+						    found=true;
+							if(map.find(temp1)!=map.end()){
+								map[temp1].push_back(temp);
+							}
+							else{
+								vector<string>res;
+								res.push_back(temp);
+								map[temp1]=res;
+							}
+					    }
+						else{
+							if(dict.find(temp1)!=dict.end()&&visited.find(temp1)==visited.end()){
+								if(map.find(temp1)!=map.end()){
+									map[temp1].push_back(temp);
+								}
+								else{
+									vector<string>res;
+									res.push_back(temp);
+									map[temp1]=res;
+								}
+								p.insert(temp1);
+							}
+					    }
+					}
+				}
+			}
+			q.clear();
+			swap(q,p);
+		}
+		if(found){
+			vector<string>path;
+			gen_path(result,map,start,end,path);
+		}
+		return result;
+
+    }
+};
