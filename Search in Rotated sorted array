@@ -1,0 +1,26 @@
+public class Solution {
+    public int search(int[] A, int target) {
+        return search(A,target,0,A.length-1);
+    }
+    
+    public int search(int[] A, int target, int low, int high) {
+        int mid = 0;
+        int index = -1;
+        if(low > high) return -1;
+        
+        if(A[low] <= A[high]) {
+            while(low <= high) {
+                mid = low + (high - low)/2;
+                if(A[mid] == target) return mid;
+                if(A[mid] > target) high = mid - 1;
+                if(A[mid] < target) low = mid + 1;
+            }
+        }else {
+            mid = low + (high - low)/2;
+            if(A[mid] == target) return mid;
+            index = search(A,target,low,mid-1);
+            index = index == -1 ? search(A,target,mid+1,high) : index;
+        }
+        return index;
+    }
+}
