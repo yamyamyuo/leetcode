@@ -1,0 +1,29 @@
+public class Solution {
+
+    public int[] searchRange(int[] A, int target) {
+        int left = find(A,target,0,A.length-1,true);
+        int right = find(A,target,0,A.length-1,false);
+        
+        int[] B = new int[2];
+        B[0] = left;
+        B[1] = right;
+        
+        return B;
+
+    }
+    public int find(int[] A, int target, int low, int high, boolean left) {
+        int mid = low + (high - low)/2;
+        int pos = -1;
+        if(low > high) return -1;
+        
+        if(A[mid] == target) {
+            pos = left == true ? find(A,target,low,mid-1,left) : find(A,target,mid+1,high,left);  
+            return pos == -1 ? mid : pos;
+        }else if(A[mid] >target) {
+            return find(A,target,low,mid-1,left);
+        }else{
+            return find(A,target,mid+1,high,left);
+        }
+        
+    }
+}
