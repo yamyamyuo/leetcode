@@ -1,0 +1,26 @@
+public class Solution {
+    public int divide(int dividend, int divisor) {
+        if(dividend>0&&divisor>0){
+            return divide(-dividend,-divisor);
+        }
+        if(dividend<=0&&divisor>0){
+            return -divide(dividend,-divisor);
+        }
+        if(dividend>0&&divisor<=0){
+            return -divide(-dividend,divisor);
+        }
+        if(divisor<dividend){
+            return 0;
+        }
+        double sum = 0;
+        double counts = 0.5;
+        double d = divisor+0.0;
+        while(d>=dividend){
+            dividend = dividend-(int)d;
+            counts = counts + counts;
+            sum = sum + counts;
+            d = d+d;
+        }
+        return (int)sum + divide(dividend,divisor);
+    }
+}
