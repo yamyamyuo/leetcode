@@ -1,0 +1,101 @@
+//2014-8-20
+//DFS＋pruning
+class Solution {
+	string s, p;
+	vector<pair<int,int>> norms;
+	unordered_map<string, unordered_set<int>> dead;
+	string wild;
+	int startFind;
+
+	bool wildMatch(string a)
+	{
+		int count = 0;
+		for(int i=0;i<wild.size();i++)
+			if(wild[i] == '?')
+				count++;
+		if(wild.find_first_of('*') != string::npos)
+			return a.size() >= count;
+		else
+			return a.size() == count;
+	}
+	bool find(string subs, int normId)
+	{
+		if(dead.find(subs)->second.find(normId) != dead.find(subs)->second.end())
+			return false;
+		bool res = false;
+		int lastStartFind = startFind;
+		for(int i=startFind; i-1+subs.length() < s.length(); i++)
+		{
+			if(this->s.substr(i,subs.length()) == subs)
+			{
+				if(!wildMatch(s.substr(startFind,i-startFind)))
+					continue;
+				if(normId + 1 == norms.size())
+				{
+					string a = s.substr(i+subs.length(), s.length()-i-subs.length()+1);
+					int x = norms[normId].second;
+					string saveWild = wild;
+					if( x == p.length()-1)
+						wild = "";
+					else
+						wild = p.substr(x+1, p.length()-x-1);
+					res = res || wildMatch(a);
+					wild = saveWild;
+				}
+				else
+				{
+					startFind = i+subs.length();
+					++normId;
+					res = res || DFS(normId);
+					--normId;
+				}
+			}
+			if(res)
+				break;
+		}
+		startFind = lastStartFind;
+		if(res == false)
+			dead.find(subs)->second.insert(normId);
+		return res;
+	}
+
+	bool DFS(int i)
+	{
+		if(i == 0)
+			this->wild = this->p.substr(0, norms[i].first);
+		else
+			this->wild = this->p.substr(norms[i-1].second+1, norms[i].first - norms[i-1].second-1);
+		return find(this->p.substr(norms[i].first, norms[i].second - norms[i].first + 1), i);
+	}
+public:
+    bool isMatch(const char *s, const char *p) {
+        this->s = string(s);
+		this->p = string(p);
+		
+		int i=0;
+		while(i<this->p.length())
+		{
+			while(i<this->p.length() && (p[i] == '?' || p[i] == '*'))
+				i++;
+
+			if(i>=this->p.length())
+				break;
+			int tmp = i;
+			while(i<this->p.length() && (p[i] != '?' && p[i] != '*'))
+				i++;
+			norms.push_back(make_pair(tmp,i-1));
+			string newNorm = this->p.substr(tmp, i-1-tmp+1);
+			if(dead.find(newNorm) == dead.end())
+				dead.insert(make_pair(newNorm, unordered_set<int>()));
+		}
+		this->startFind = 0;
+
+		this->wild = "";
+		if(norms.size() == 0)
+		{
+			this->wild = this->p;
+			return this->wildMatch(s);
+		}
+		return DFS(0);
+    }
+};
