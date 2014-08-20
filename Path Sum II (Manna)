@@ -1,0 +1,25 @@
+public class Solution {
+	public static void dfs(TreeNode root, int sum, int tmp, List<List<Integer>> path, List<Integer> res) {
+		if (root == null) {
+			return ;
+		}
+		
+		tmp += root.val;
+		res.add(root.val);
+		
+		if ((root.left == null)&&(root.right == null)) {
+			if (tmp == sum) {
+				path.add(new ArrayList<Integer>(res));
+			}
+		}
+		dfs(root.left, sum, tmp, path, res);
+		dfs(root.right, sum, tmp, path, res);	
+		if (res.size()!=0) res.remove(res.size()-1);
+	}
+    public static List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> path = new ArrayList<List<Integer>>();
+        List<Integer> res = new ArrayList<Integer>();
+        dfs(root, sum, 0, path, res);
+        return path;
+    }
+}
