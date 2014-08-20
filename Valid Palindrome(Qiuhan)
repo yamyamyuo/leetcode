@@ -1,0 +1,34 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+		if(s.length()<=1){
+			return true;
+		}
+        int beg=0;
+		int end=s.length()-1;
+		while(beg<end){
+			char b=s[beg];
+			char e=s[end];
+			while(!(b>64&&b<91||b>96&&b<123||b>47&&b<58)&&beg<end){
+				beg++;
+				b=s[beg];
+			}
+			while(!(e>64&&e<91||e>96&&e<123||e>47&&e<58)&&end>beg){
+				end--;
+				e=s[end];
+			}
+			if(b!=e&&(int(b)-int(e))!=32&&(int(b)-int(e))!=-32){
+				break;
+			}
+			if(beg==end||end-beg==1){
+				return true;
+			}
+			beg++;
+			end--;
+		}
+		if(beg==end){
+			return true;
+		}
+		return false;
+    }
+};
