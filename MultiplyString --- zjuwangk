@@ -1,0 +1,74 @@
+//2014-8-20
+class Solution {
+public:	
+	string add(string a, string b)
+	{
+		if(a == "")
+			return b;
+		if(b == "")
+			return a;
+		int carry = 0;
+		int La = a.length();
+		int Lb = b.length();
+		int L = min(La, Lb);
+		string c="";
+		for(int i=1;i<=L;i++)
+		{
+			int tmp = a[La-i] - '0' + b[Lb-i] - '0' + carry;
+			char ch = ('0' + tmp % 10);
+			c = ch + c;
+			carry = tmp/10;
+		}
+		string longS = "";
+		if(La != Lb)
+		{
+			if(L < La)
+				longS = a;
+			else 
+				longS = b;
+			for(int i=longS.size()-L-1;i>=0;i--)
+			{
+				int tmp = longS[i] - '0' + carry;
+				char ch = ('0' + tmp % 10);
+				c = ch + c;
+				carry = tmp/10;
+			}
+		}
+		if(carry)
+			c = '1' + c;
+		return c;
+	}
+	string mult(const string& s, int x)
+	{
+		int carry = 0;
+		string res = "";
+		for(int i=s.length()-1; i>=0; i--)
+		{
+			int tmp = (s[i] - '0') * x + carry;
+			carry = tmp / 10;
+			char ch = tmp % 10 + '0';
+			res = ch + res;
+		}
+		if(carry > 0)
+		{
+			char ch = carry + '0';
+			res = ch + res;
+		}
+		return res;
+	}
+    string multiply(string num1, string num2) {
+		if(num1.length() <= 0 || num2.length() <= 0 || num1 == "0" || num2 == "0")
+			return "0";
+
+		string res = "";
+		string suffix = "";
+        while(num2 != "")
+		{
+			string tmp = mult(num1, num2[num2.length()-1] - '0');
+			res = add(res, (tmp + suffix));
+			suffix += "0";
+			num2 = num2.substr(0,num2.length()-1);
+		}
+		return res;
+    }
+};
