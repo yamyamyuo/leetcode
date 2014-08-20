@@ -1,0 +1,34 @@
+public class Solution {
+    public void nextPermutation(int[] num) {
+        int len = num.length;
+        int i = len - 1;
+        boolean flag = true;
+        while(i > 0) {
+            if(num[i] <= num[i-1]) {
+                i--;
+            }else {
+                int k = choosemin(num,i,len);
+                int temp = num[k];
+                num[k] = num[i-1];
+                num[i-1] = temp;
+                Arrays.sort(num,i,len);
+                flag = false;
+                return;
+            }
+        }
+
+            Arrays.sort(num);
+
+    }
+    
+    public int choosemin(int[] num, int tag, int last) {
+        int min = num[tag], trans = tag;
+        for(int m = tag; m < last; m++) {
+            if(num[tag - 1] < num[m] && num[m] < min) {
+                min = num[m];
+                trans = m;
+            }
+        }
+        return trans;
+    }
+}
