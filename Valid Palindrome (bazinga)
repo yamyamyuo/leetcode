@@ -1,0 +1,20 @@
+public class Solution {
+    public static boolean isPalindrome(String s) {
+        int left=0;
+        int right=s.length()-1>=0?s.length()-1:0;
+        while (left<right){
+        	if(s.charAt(left)<'0' || (s.charAt(left)<'A' && s.charAt(left)>'9') || s.charAt(left)>'z' || (s.charAt(left)>'Z' && s.charAt(left)<'a')){
+        		left++;
+        	}else if(s.charAt(right)<'0' || (s.charAt(right)<'A' && s.charAt(right)>'9') || s.charAt(right)>'z' || (s.charAt(right)>'Z' && s.charAt(right)<'a')){
+        		right--;
+        	}else{
+        		if(s.charAt(left)==s.charAt(right) || Math.abs(s.charAt(left)-s.charAt(right))==('a'-'A')){
+        			left++;right--;
+        		}else {
+					return false;
+				}
+        	}
+        }
+        return true;
+    }
+}
