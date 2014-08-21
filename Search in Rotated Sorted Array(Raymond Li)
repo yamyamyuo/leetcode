@@ -1,0 +1,27 @@
+public class Solution {
+    public int binarySearch(int[] A, int target, int begin, int end){
+        if(begin>=end){
+            if(A[begin]==target){
+                return begin;
+            }
+            return -1;
+        }
+        int mid = (begin+end)/2;
+        if(A[mid]==target){
+            return mid;
+        }
+        if(A[mid]>=A[begin]){
+            if(A[mid]>target&&target>=A[begin]){
+                return binarySearch(A,target,begin,mid-1);
+            }
+            return binarySearch(A,target,mid+1,end);
+        }
+        if(A[mid]<target&&A[end]>=target){
+            return binarySearch(A,target,mid+1,end);
+        }
+        return binarySearch(A,target,begin,mid-1);
+    }
+    public int search(int[] A, int target) {
+        return binarySearch(A,target,0,A.length-1);
+    }
+}
