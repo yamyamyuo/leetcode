@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public static void reorderList(ListNode head) {
+        if(head==null || head.next==null) return;
+        ListNode tail=head;
+        ListNode curhead=head;
+        while(tail!=null && tail.next!=null){
+            tail=tail.next.next!=null?tail.next.next:tail.next;
+            curhead=curhead.next;
+        }
+        ListNode newhead=reverse(curhead.next,tail);
+        curhead.next=null;
+        ListNode link=head;
+        head=head.next;
+        while(head!=newhead && newhead!=null && head!=null){
+            ListNode tmp=newhead.next;
+            newhead.next=null;
+            link.next=newhead;
+            link=link.next;
+            newhead=tmp;
+            tmp=head.next;
+            head.next=null;
+            link.next=head;
+            link=link.next;
+            head=tmp;
+        }
+        if(newhead!=null){
+            link.next=newhead;
+            link=link.next;
+        }else if(head!=null){
+            link.next=head;
+        }
+    }
+	private static ListNode reverse(ListNode head,ListNode tail){
+		ListNode head1=head;
+		if(head==tail) return head;
+		if(head==null) return tail;
+		if(tail==null) return head;
+		ListNode pre=head;
+		ListNode cur=head.next;
+		ListNode post=head.next.next;
+		while(cur!=tail){
+			cur.next=pre;
+			pre=cur;
+			cur=post;
+			post=post.next;
+		}
+		cur.next=pre;
+		head1.next=post;
+		return cur;
+	}
+}
