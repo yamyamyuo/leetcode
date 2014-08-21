@@ -1,0 +1,16 @@
+public class Solution {
+    public ListNode swapPairs(ListNode head) {
+        ListNode h = new ListNode(0);
+        h.next = head;
+        ListNode p = h;
+        ListNode p1 = h;
+        while(p.next!=null&&p.next.next!=null){
+            p1 = p.next.next;
+            p.next.next = p1.next;
+            p1.next = p.next;
+            p.next = p1;
+            p = p.next.next;
+        }
+        return h.next;
+    }
+}
