@@ -1,0 +1,17 @@
+public class InsertionSortList {
+	public static ListNode insertionSortList(ListNode head) {
+		ListNode sent = new ListNode(0);
+		sent.next = head;
+		if(head == null) return sent.next;
+		ListNode nh = head.next; head.next = null;
+		while(nh != null) {
+			ListNode temp = nh;
+			nh = nh.next; temp.next = null;
+			ListNode p1 = sent;
+			while(p1.next != null && p1.next.val < temp.val) p1 = p1.next;
+			temp.next = p1.next;
+			p1.next = temp;
+		}
+		return sent.next;
+	}
+}
