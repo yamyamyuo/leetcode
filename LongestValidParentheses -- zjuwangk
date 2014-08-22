@@ -1,0 +1,53 @@
+//2014-8-22
+class Solution {
+public:
+	int longest(string s)
+	{
+		if(s.length()<=0)
+			return 0;
+
+		int depth=0;
+		int count = 0;
+		int longest = 0;
+		int i;
+		for(i=0;i<s.length() && s[i]==')';i++){}
+
+		for(;i<s.length();i++)
+		{
+			if(s[i] == '(')
+			{
+				count++;
+				if(depth < 0)
+					depth = 1;
+				else
+					depth++;
+			}
+			else
+			{
+				depth--;
+				if(depth >= 0)
+				{
+					count++;
+					if(depth == 0 && count > longest)
+						longest = count;
+				}
+				else
+					count = 0;
+			}
+		}
+		return longest;
+	}
+    int longestValidParentheses(string s) {
+		int a = this->longest(s);
+		string s1="";
+		for(int i=s.size()-1;i>=0;i--)
+		{
+			if(s[i] == '(')
+				s1 += ')';
+			else
+				s1 += '(';
+		}
+		int b = this->longest(s1);
+		return max(a,b);
+    }
+};
