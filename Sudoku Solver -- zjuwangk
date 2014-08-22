@@ -1,0 +1,148 @@
+//2014-8-21
+class Solution {
+	vector<unordered_set<char>> lines;
+	vector<unordered_set<char>> cols;
+	vector<unordered_set<char>> grids;
+	vector<vector<unordered_set<char>>> boardRemain;
+	vector<pair<int,int>> slots;
+	stack<vector<pair<int,int>>> histTampered;
+
+	unordered_set<char> remain(int i, int j, vector<vector<char> > &board)
+	{
+		unordered_set<char> s;
+		for(int k=0;k<9;k++)
+			s.insert(k+'1');
+
+		unordered_set<char>::iterator it;
+		for(it = lines[i].begin(); it!=lines[i].end(); it++)
+			s.erase(*it);;
+		for(it = cols[j].begin(); it!=cols[j].end(); it++)
+			s.erase(*it);
+		int gridId = (i/3)*3 + j/3;
+		for(it = grids[gridId].begin(); it!=grids[gridId].end(); it++)
+			s.erase(*it);
+
+		return s;
+	}
+	void initBoardRemain(vector<vector<char> > &board)
+	{
+		unordered_set<char> s;
+		for(int i=0;i<9;i++)
+		{
+			for(int j=0;j<9;j++)
+				if(board[i][j] != '.') s.insert(board[i][j]);
+			lines.push_back(s);
+			s.clear();
+			
+			for(int j=0;j<9;j++)
+				if(board[j][i] != '.') s.insert(board[j][i]);
+			cols.push_back(s);
+			s.clear();
+			
+			for(int j=0;j<9;j++)
+			{
+				int val = board[  3*(i/3) + j/3 ][  3*(i%3) + j%3 ];
+				if(val != '.') s.insert(val);
+			}
+			grids.push_back(s);
+			s.clear();
+		}
+		
+		for(int i=0;i<9;i++)
+		{
+			vector<unordered_set<char>> v;
+			for(int j=0;j<9;j++) v.push_back(unordered_set<char>());
+			boardRemain.push_back(v);
+		}
+		
+		for(int i=0;i<9;i++)
+			for(int j=0;j<9;j++)
+				if(board[i][j] == '.')
+				{
+					this->slots.push_back(make_pair(i,j));
+					boardRemain[i][j] = unordered_set<char>(remain(i,j,board));
+				}
+	}
+
+	void update(int ii, int jj, char val, vector<vector<char> > &board)
+	{
+		vector<pair<int,int>> tampered;
+		board[ii][jj] = val;
+		boardRemain[ii][jj].erase(val);
+
+		for(int j=0;j<9;j++)
+		{
+			if(boardRemain[ii][j].find(val) != boardRemain[ii][j].end())
+			{
+				boardRemain[ii][j].erase(val);
+				tampered.push_back(make_pair(ii,j));
+			}
+		}
+
+		for(int i=0;i<9;i++)
+		{
+			if(boardRemain[i][jj].find(val) != boardRemain[i][jj].end())
+			{
+				boardRemain[i][jj].erase(val);
+				tampered.push_back(make_pair(i,jj));
+			}
+		}
+
+		for(int i=0;i<3;i++)
+		{
+			for(int j=0;j<3;j++)
+			{
+				int i1 = (ii/3)*3 + i;
+				int j1 = (jj/3)*3 + j;
+				if(boardRemain[i1][j1].find(val) != boardRemain[i1][j1].end())
+				{
+					boardRemain[i1][j1].erase(val);
+					tampered.push_back(make_pair(i1,j1));
+				}
+			}
+		}
+		histTampered.push(tampered);
+	}
+	void restore(int ii, int jj, char val, vector<vector<char> > &board)
+	{
+		vector<pair<int,int>> tampered = histTampered.top();
+		board[ii][jj] = '.';
+		boardRemain[ii][jj].insert(val);
+		for(int i=0;i<tampered.size();i++)
+		{
+			int tampered_i = tampered[i].first;
+			int tampered_j = tampered[i].second;
+			boardRemain[tampered_i][tampered_j].insert(val);
+		}
+		histTampered.pop();
+	}
+	bool DFS(int slotId, vector<vector<char> > &board)
+	{
+		int line = slots[slotId].first;
+		int col = slots[slotId].second;
+
+		unordered_set<char> choices = boardRemain[line][col];
+
+		if(choices.size() == 0)
+			return false;
+		for(unordered_set<char>::iterator it=choices.begin();it!=choices.end();it++)
+		{
+			update(line,col,*it,board);
+			
+			if(slotId == slots.size()-1)
+				return true;
+			bool res = DFS(slotId+1, board);
+			if(res)
+				return true;
+			else
+				restore(line,col,*it,board);
+		}
+		return false;
+	}
+public:
+    void solveSudoku(vector<vector<char> > &board) {
+		initBoardRemain(board);
+
+		DFS(0, board);
+    }
+};
