@@ -1,0 +1,14 @@
+public class BestTimetoBuyandSellStockII {
+	public static int maxProfit(int[] prices) {
+		int sum = 0;
+		int p1 = 0, p2 = 0;
+		int n = prices.length;
+		if(n == 0) return sum;
+		while(p1 < n) {
+			while(p2 < n-1 && prices[p2] < prices[p2+1]) p2++;
+			sum += prices[p2] - prices[p1];
+			p1 = p2+1; p2 = p1;
+		}
+		return sum;
+	}
+}
