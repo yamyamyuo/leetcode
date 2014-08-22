@@ -1,0 +1,37 @@
+public class Solution {
+    public static boolean isNumber(String s) {
+        if(s=="") return false;
+        boolean isfloat=false;
+        boolean isexponetial=false;
+        boolean hasspace=false;
+        boolean signed=false;
+        int index=-1;
+        while(++index<s.length() && s.charAt(index)==' '){}
+        if(index>=s.length()) return false;
+        if(s.charAt(index)=='+' || s.charAt(index)=='-') {index++;signed=true;}
+        if(index<s.length() && s.charAt(index)=='.') {index++;isfloat=true;}
+        if(index>=s.length()) return false;
+        if(s.charAt(index)>='0' && s.charAt(index)<='9'){
+        }else return false;
+        while(++index<s.length()){
+        	if(s.charAt(index)>='0' && s.charAt(index)<='9' && !hasspace) continue;
+        	else if(s.charAt(index)=='.' && !hasspace){
+        		if(isfloat || isexponetial) return false;
+        		isfloat=true;
+        	}else if(s.charAt(index)=='e' && !hasspace){
+        		if(isexponetial) return false;
+        		isexponetial=true;
+        		if(index+1>=s.length()) return false;
+        		if(s.charAt(index+1)>='0' && s.charAt(index+1)<='9') index++;
+        		else if(s.charAt(index+1)=='+' || s.charAt(index+1)=='-'){
+        		    if(index+2>=s.length()) return false;
+        		    if(s.charAt(index+2)>='0' && s.charAt(index+2)<='9') index++;
+        		    else return false;
+        		}else return false;
+			}else if(s.charAt(index)==' '){
+			    hasspace=true;
+			}else return false;
+        }
+        return true;
+    }
+}
