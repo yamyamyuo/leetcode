@@ -1,0 +1,56 @@
+public class RecoverBinarySearchTree {
+	private TreeNode node1 = null, node2 = null, pre = null;
+
+	public void recoverTree(TreeNode root) {
+		morrisFind(root);
+		int temp = node1.val;
+		node1.val = node2.val;
+		node2.val = temp;
+	}
+
+	private void find(TreeNode root) {
+		if(root == null) return;
+		if(root.left != null) find(root.left);
+		if(pre != null && root.val < pre.val) {
+			if(node1 == null) { node1 = pre; node2 = root;} // important here, node2 should be updated in time
+			else node2 = root;
+		}
+		else pre = root;
+		if(root.right != null) find(root.right);
+	}
+
+	private void morrisFind(TreeNode root) {
+		TreeNode cur, tmp;
+		cur = root;
+		while(cur != null) {
+			if(cur.left == null) {
+				if(pre != null && cur.val < pre.val) {
+					if(node1 == null) { node1 = pre; node2 = cur;}
+					else node2 = cur;
+				}
+				else pre = cur;
+				cur = cur.right;
+			}
+			else {
+				// find the inorder predecessor of current 
+				tmp = cur.left;
+				while(tmp.right != null && tmp.right != cur) tmp = tmp.right;
+				// Make current as right child of its inorder predecessor
+				if(tmp.right == null) {
+					tmp.right = cur;
+					cur = cur.left;
+				}
+				// Revert the change
+				else {
+					tmp.right = null;
+					if(pre != null && cur.val < pre.val) {
+						if(node1 == null) { node1 = pre; node2 = cur;}
+						else node2 = cur;
+					}
+					else pre = cur;
+					cur = cur.right;
+				}
+			}
+		}
+	}
+}
