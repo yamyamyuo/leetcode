@@ -1,0 +1,50 @@
+public class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<String>();
+        boolean[] putLeft = new boolean[2*n];
+        dfs(n, 0,0,putLeft,res);
+        return res;
+    }
+    public void dfs(int n, int left, int right, boolean[] putLeft, List<String> res){
+        if(left==n&&right==n){
+            String str = "";
+            int i = 0;
+            while(i<2*n){
+                if(putLeft[i]){
+                    str = str + '(';
+                }
+                else{
+                    str = str + ')';
+                }
+                i++;
+            }
+            res.add(str);
+            right--;
+            return;
+        }
+        if(left==n){
+            putLeft[left+right] = false;
+            dfs(n,left,right+1,putLeft,res);
+        }
+        else{
+            if(left==right){
+                putLeft[left+right] = true;
+                dfs(n,left+1,right,putLeft,res);
+            }
+            else if(left>right){
+                putLeft[left+right] = true;
+                dfs(n,left+1,right,putLeft,res);
+                putLeft[left+right] = false;
+                dfs(n,left,right+1,putLeft,res);
+            }
+        }
+        if(left+right>0){
+            if(putLeft[left+right-1]){
+                left--;
+            }
+            else{
+                right--;
+            }
+        }
+    }
+}
