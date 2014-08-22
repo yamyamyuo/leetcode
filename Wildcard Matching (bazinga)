@@ -1,0 +1,46 @@
+public class Solution {
+        public static boolean isMatch(String s, String p) {
+    	int index1=0;
+    	int index2=0;
+    	int pindex=-1;
+    	int sindex=-1;
+    	boolean star=false;
+        while(index1<s.length()){
+        	if(index2==p.length()){
+        		if(star){
+        			index1=sindex;
+        			index2=pindex+1;
+        			sindex++;
+        		}else {
+					return false;
+				}
+        	}
+        	if(p.charAt(index2)=='?' || s.charAt(index1)==p.charAt(index2)){
+        		index1++;index2++;
+        	}else if(p.charAt(index2)=='*'){
+        		star=true;
+        		while(index2+1<p.length() && p.charAt(index2+1)=='*') index2++;
+        		if(index2==p.length()-1) return true;
+        		sindex=index1;
+        		pindex=index2;
+        		index2++;
+        	}else{
+        		if(star){
+        			index1=sindex;
+        			index2=pindex+1;
+        			sindex++;
+        		}else {
+					return false;
+				}
+        	}
+        }
+        while(index2<p.length() && p.charAt(index2)=='*'){
+        	index2++;
+        }
+        if(index2==p.length()){
+        	return true;
+        }else {
+			return false;
+		}
+    }
+}
