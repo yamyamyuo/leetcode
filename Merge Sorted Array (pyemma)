@@ -1,0 +1,28 @@
+public class MergeSortedArray {
+	public void merge(int[] A, int m, int[] B, int n) {
+		int end = n+m-1;
+		int p1 = m-1, p2 = n-1;
+		while(p1 >= 0 && p2 >= 0) {
+			if(A[p1] < B[p2]) {
+				A[end] = B[p2];
+				end--; p2--;
+			}
+			else {
+				A[end] = A[p1];
+				end--; p1--;
+			}
+		}
+		if(p1 >= 0) {
+			while(p1 >= 0) {
+				A[end] = A[p1];
+				end--; p1--;
+			}
+		}
+		else {
+			while(p2 >= 0) {
+				A[end] = B[p2];
+				end--; p2--;
+			}
+		}
+	}
+}
