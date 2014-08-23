@@ -1,0 +1,26 @@
+public class BestTimetoBuyandSellStockIII {
+	public static int maxProfit(int[] prices) {
+		int n = prices.length;
+		if(n == 0) return 0;
+		int[] left = new int[n]; 
+		int[] right = new int[n];
+		int lo = prices[0], ma = 0;
+		for(int i = 0; i < n; i++) {
+			ma = Math.max(ma, prices[i] - lo);
+			lo = Math.min(lo, prices[i]);
+			left[i] = ma;
+		}
+		int hi = prices[n-1]; ma = 0;
+		for(int i = n-1; i >= 0; i--) {
+			ma = Math.max(ma, hi - prices[i]);
+			hi = Math.max(hi, prices[i]);
+			right[i] = ma;
+		}
+		ma = right[0];
+		for(int i = 0; i < n-1; i++) {
+			ma = Math.max(ma, left[i] + right[i+1]);
+		}
+		ma = Math.max(ma, left[n-1]);
+		return ma;
+	}
+}
