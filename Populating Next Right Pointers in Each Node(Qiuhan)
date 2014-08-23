@@ -1,0 +1,20 @@
+class Solution {
+private:
+	void connectrec(TreeLinkNode *root,TreeLinkNode*nextnode){
+		if(root==NULL){
+			return;
+		}
+		root->next=nextnode;
+		connectrec(root->left,root->right);
+		if(nextnode!=NULL){
+			connectrec(root->right,nextnode->left);
+		}
+		else{
+			connectrec(root->right,nullptr);
+		}
+	}
+public:
+    void connect(TreeLinkNode *root) {
+        connectrec(root,NULL);
+    }
+};
