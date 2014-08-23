@@ -1,0 +1,23 @@
+//2014-8-23
+class Solution {
+public:
+    int removeElement(int A[], int n, int elem) {
+        queue<int> q;
+		stack<int> s;
+		for(int i=0;i<n;i++)
+		{
+			if(A[i] == elem)
+				q.push(i);
+			else
+				s.push(i);
+		}
+		int res = s.size();
+		while(q.empty() == false && s.empty() == false)
+		{
+			A[q.front()] = A[s.top()];
+			q.pop();
+			s.pop();
+		}
+		return res;
+    }
+};
