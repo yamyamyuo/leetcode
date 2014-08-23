@@ -1,0 +1,32 @@
+//2014-8-23
+class Solution {
+public:
+    void nextPermutation(vector<int> &num) {
+		int i;
+        for(i=num.size()-1; i>0; )
+		{
+			if(num[i-1] >= num[i])
+				i--; 
+			else
+				break;
+		}
+		if(i>0)
+		{	
+			int j=i;
+			while(j+1 < num.size() && num[j+1] > num[i-1])
+				j++;
+			int tmp = num[i-1];
+			num[i-1] = num[j];
+			num[j] = tmp;
+		}
+		for(int j=i;j<num.size();j++)
+		{
+			int k = num.size()-1-(j-i);
+			if(k <= j)
+				break;
+			int tmp = num[k];
+			num[k] = num[j];
+			num[j] = tmp;
+		}
+    }
+};
