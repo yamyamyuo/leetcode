@@ -1,0 +1,28 @@
+public class atoi {
+	public static int ato(String str) {
+		int p1 = 0, p2 = str.length() - 1;
+		while(p1 < str.length() && str.charAt(p1) == ' ') p1++;
+		while(p2 >= 0 && str.charAt(p2) == ' ') p2--;
+		if(p1 > p2) return 0; // all blank
+		str = str.substring(p1, p2+1); // process blank
+		boolean sig = true;
+		if(str.charAt(0) == '-') { sig = false; str = str.substring(1);}
+		else if(str.charAt(0) == '+') { str = str.substring(1);} // process signal
+		p1 = 0;
+		while(p1 < str.length() && str.charAt(p1) == '0') p1++;
+		str = str.substring(p1); // process leading zeros
+		p1 = 0;
+		long temp = 0;
+		while(p1 < str.length() && str.charAt(p1) >= '0' && str.charAt(p1) <= '9') {
+			temp = temp * 10;
+			temp += str.charAt(p1) - '0';
+			if(temp - 1 >= Integer.MAX_VALUE) {
+				if(sig == true) return Integer.MAX_VALUE;
+				else return Integer.MIN_VALUE;
+			}
+			p1++;
+		}
+		if(sig == true) return (int)temp;
+		else return -(int)temp;
+	}
+}
