@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<string> anagrams(vector<string> &strs) 
+	{
+		vector<string> result;
+		map<string, int> dic;
+		map<string, int>::iterator iter;
+		int size = strs.size();
+		for (int i = 0; i < size; i++)
+		{
+			string temp = strs[i];
+			sort(temp.begin(), temp.end());
+			iter = dic.find(temp);
+			if (iter == dic.end()) dic[temp] = i;
+			else
+			{
+				result.push_back(strs[i]);
+				if (dic[temp] != -1)
+				{
+					result.push_back(strs[dic[temp]]);
+					dic[temp] = -1;
+				}
+			}
+		}
+		return result;
+	}
+};
