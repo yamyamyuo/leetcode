@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class SpiralMatrix {
+	public static List<Integer> spiralOrder(int[][] matrix) {
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		int m = matrix.length;
+		if(m == 0) return arr;
+		int n = matrix[0].length;
+		int cnt = 0;
+		int top = 0, bottom = m-1, left = 0, right = n-1;
+		int ind1 = 0, ind2 = 0;
+		while(cnt < n*m) {
+			ind1 = top; ind2 = left;
+			while(ind2 <= right) { arr.add(matrix[ind1][ind2]); cnt++; ind2++;}
+			if(cnt >= n*m) break;
+			top++;
+			ind1 = top; ind2 = right;
+			while(ind1 <= bottom) { arr.add(matrix[ind1][ind2]); cnt++; ind1++;}
+			if(cnt >= n*m) break;
+			right--;
+			ind1 = bottom; ind2 = right;
+			while(ind2 >= left) { arr.add(matrix[ind1][ind2]); cnt++; ind2--;}
+			if(cnt >= n*m) break;
+			bottom--;
+			ind1 = bottom; ind2 = left;
+			while(ind1 >= top) { arr.add(matrix[ind1][ind2]); cnt++; ind1--;}
+			left++;
+ 		}
+ 		return arr;
+	}
+}
