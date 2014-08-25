@@ -1,0 +1,30 @@
+//2014-8-23
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+		long long dd = abs((double)dividend);
+		long long ds = abs((double)divisor);
+		long long res = 0;
+		while(dd >= ds)
+		{
+			long long added=1;
+			long long tmp = ds;
+			int i;
+			for(i=0; tmp<<i < dd; added<<=1, i++){
+				int yy=0;
+			}
+			if(i>0)
+			{
+				tmp <<= (i-1);
+			}
+			else
+				added<<=1;
+			dd -= tmp;
+			res += (added>>1);
+		}
+		if( (dividend ^ divisor)>>31 )
+			return -res;
+		else
+			return res;
+    }
+};
