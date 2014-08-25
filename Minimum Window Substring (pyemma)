@@ -1,0 +1,56 @@
+import java.util.*;
+public class MinimumWindowSubstring {
+	public static String minWindow(String S, String T) {
+		if(S.length() == 0 || T.length() == 0) return "";
+		int m = S.length();
+		int n = T.length();
+		HashMap<Character, Integer> tar = new HashMap<Character, Integer>();
+		HashMap<Character, Integer> win = new HashMap<Character, Integer>();
+		int isOkay = 0;
+		int p1 = 0, p2 = 0;
+		int minLen = Integer.MAX_VALUE, left = 0, right = 0;
+		for(int i = 0; i < n; i++) {
+			char ch = T.charAt(i);
+			if(tar.containsKey(ch) == false)
+				tar.put(ch, 1);
+			else
+				tar.put(ch, tar.get(ch)+1);
+		}
+		while(p2 < m) {
+			char ch = S.charAt(p2);
+			if(tar.containsKey(ch) == true) {
+				if(win.containsKey(ch) == false)
+					win.put(ch, 1);
+				else
+					win.put(ch, win.get(ch)+1);
+
+				if(win.get(ch).intValue() == tar.get(ch).intValue())
+					isOkay++;
+
+				ch = S.charAt(p1);
+				while(tar.containsKey(ch) == false || (win.containsKey(ch) == true && win.get(ch) > tar.get(ch))) {
+					p1++;
+					if(win.containsKey(ch) == true)
+						win.put(ch, win.get(ch)-1);
+					ch = S.charAt(p1);
+				}
+
+				if(isOkay == tar.size()) {
+					if(minLen > p2 - p1 + 1) {
+						minLen = p2 - p1 + 1;
+						left = p1; right = p2;
+					}
+				}
+			}
+			p2++;
+		}
+		if(isOkay < tar.size()) return "";
+		return S.substring(left, right+1);
+	}
+
+	public static void main(String[] args) {
+		String S = "ab";
+		String T = "b";
+		System.out.println(minWindow(S, T));
+	}
+}
