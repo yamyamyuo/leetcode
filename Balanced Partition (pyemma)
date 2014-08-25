@@ -1,0 +1,36 @@
+// Balanced Partition problem, the target is to partition the array into two
+// sets so that the difference of the two sets' sum is as small as possible
+// use dp to find the possible sets sum as close to S/2 as possbile, where S 
+// is the sum of all elements. DP[i][j] means whether we can build sum j using
+// elements from 0 to i, DP[i][j] = DP[i-1][j] | DP[i-1][j-A[i]]
+
+public class BalancedPartition {
+	public static int balancedPartition(int[] A) {
+		int sum = 0;
+		int n = A.length;
+		for(int i = 0; i < n; i++) 
+			sum += A[i];
+		boolean[][] dp = new boolean[n+1][sum+1];
+		for(int i = 0; i <= n; i++) {
+			for(int j = 0; j <= sum; j++) {
+				if(i == 0 && j == 0) dp[i][j] = true;
+				else if(i == 0 && j != 0) dp[i][j] = false;
+				else {
+					if(j - A[i-1] < 0) dp[i][j] = dp[i-1][j];
+					else dp[i][j] = dp[i-1][j] | dp[i-1][j - A[i-1]];
+				} 
+			}
+		}
+		int mi = Integer.MAX_VALUE;
+		for(int i = 0; i <= sum; i++) {
+			if(dp[n][i] == true)
+				mi = Math.min(mi, 2*(sum - i));
+		}
+		return mi;
+	}
+
+	public static void main(String[] args) {
+		int[] A = {9, 9, 6, 6, 6};
+		System.out.println(balancedPartition(A));
+	}
+}
