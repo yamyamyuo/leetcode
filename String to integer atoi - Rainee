@@ -1,0 +1,31 @@
+public class Solution {
+    public int atoi(String str) {
+        int len = str.length();
+        int i = 0;
+        long result = 0;
+        boolean flag = true;
+        
+        while(i < len && str.charAt(i) == ' ') i++;
+        if(len != 0 && i < len && (str.charAt(i) == '-' || str.charAt(i) == '+' )) {
+            if(str.charAt(i) == '-') {
+                flag = false;
+            }
+            i++;
+        }
+        
+        while(i < len && str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+            result = result*10 + (str.charAt(i) - '0');
+            i++;
+        } 
+        
+        if(flag == true) {
+            if(result <= 2147483647) return (int)result;
+            return 2147483647;
+        }else {
+            result = result*-1;
+            if(result >= -2147483648) return (int)result;
+            return -2147483648;
+        }
+        
+    }
+}
