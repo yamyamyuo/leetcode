@@ -1,0 +1,35 @@
+public class Solution {
+    public static List<List<Integer>> permute(int[] num) {
+        List<List<Integer>> list=new ArrayList<List<Integer>>();
+        for (int i = 0; i < num.length; i++) {
+			List<Integer> tmp=new ArrayList<Integer>();
+			tmp.add(num[i]);
+			list.add(tmp);
+		}
+        for (int i = 1; i < num.length; i++) {
+        	getpermutations(list,num,i);
+		}
+        return list;
+    }
+    private static void getpermutations(List<List<Integer>> list,int num[],int n){
+    	for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < num.length; j++) {
+				List<Integer> tmp=new ArrayList<Integer>();
+				tmp.addAll(list.get(i));
+				if(tmp.size()==n && !tmp.contains(num[j])){
+					tmp.add(num[j]);
+					list.add(tmp);
+				}
+			}
+		}
+    	Set<List<Integer>> set=new HashSet<List<Integer>>();
+    	ArrayList<List<Integer>> newList = new ArrayList<List<Integer>>();
+		for (Iterator<List<Integer>> iter = list.iterator(); iter.hasNext();) {
+			List<Integer> element = iter.next();
+			if (set.add(element) && element.size()==n+1)
+				newList.add(element);
+		}
+		list.clear();
+		list.addAll(newList);
+    }
+}
