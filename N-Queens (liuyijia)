@@ -1,0 +1,48 @@
+class Solution {
+public:
+    void solveNQueensHelper(vector<int> num, int index, int n, vector<vector<string> > &result)
+	{
+		bool flag = true;
+		if (index == n)
+		{
+			for (int i = 0; i < n; i++)
+			{
+				for (int j = i + 1; j < n; j++)
+				{
+					if (j - i == abs(num[j] - num[i]))
+					{
+						flag = false;
+						break;
+					}
+				}
+				if (flag == false) break;
+			}
+			if (flag)
+			{
+				vector<string> temp;
+				for (int i = 0; i < n; i++)
+				{
+					string row(n, '.');
+					row[num[i]] = 'Q';
+					temp.push_back(row);
+				}
+				result.push_back(temp);
+			}
+		}
+		for (int i = index; i < n; i++)
+		{
+			swap(num[index], num[i]);
+			solveNQueensHelper(num, index + 1, n, result);
+			swap(num[index], num[i]);
+		}
+	}
+
+	vector<vector<string> > solveNQueens(int n) 
+	{
+		vector<int> num;
+		vector<vector<string> > result;
+		for (int i = 0; i < n; i++) num.push_back(i);
+		solveNQueensHelper(num, 0, n, result);
+		return result;
+	}
+};
