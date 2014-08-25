@@ -1,0 +1,47 @@
+public class Solution {
+    public ListNode merge2List(ListNode L1, ListNode L2){
+        if(L1==null){
+            return L2;
+        }
+        if(L2==null){
+            return L1;
+        }
+        ListNode h = new ListNode(0);
+        ListNode curr = h;
+        ListNode curr1 = L1;
+        ListNode curr2 = L2;
+        while(curr1!=null&&curr2!=null){
+            if(curr1.val<curr2.val){
+                curr.next = curr1;
+                curr1 = curr1.next;
+                curr = curr.next;
+            }
+            else{
+                curr.next = curr2;
+                curr2 = curr2.next;
+                curr = curr.next;
+            }
+        }
+        if(curr1==null){
+            curr.next = curr2;
+            return h.next;
+        }
+        curr.next = curr1;
+        return h.next;
+    }
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if(lists.size()==0){
+            return null;
+        }
+        if(lists.size()<2){
+            return lists.get(0);
+        }
+        ListNode res = merge2List(lists.get(0),lists.get(1));
+        int i = 2;
+        while(i<lists.size()){
+            res = merge2List(res,lists.get(i));
+            i++;
+        }
+        return res;
+    }
+}
