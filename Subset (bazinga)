@@ -1,0 +1,41 @@
+public class Solution {
+    public static List<List<Integer>> subsets(int[] S) {
+    	Arrays.sort(S);
+    	List<List<Integer>> list=new ArrayList<List<Integer>>();
+		List<Integer> tmp=new ArrayList<Integer>();
+		list.add(tmp);
+    	for(int i=0;i<S.length;i++){
+    		tmp=new ArrayList<Integer>();
+    		tmp.add(S[i]);
+    	    list.add(tmp);
+    	}
+    	for(int i=1;i<S.length;i++){
+    		iterate((ArrayList<List<Integer>>) list, S,i+1);
+    	}
+    	return list;
+    }
+    private static void iterate(ArrayList<List<Integer>> list,int []S,int n){
+    	int listsz=list.size();
+    	for (int i = 0; i < listsz; i++) {
+			for (int j = 0; j < S.length; j++) {
+				List<Integer> tmp=new ArrayList<Integer>();
+				tmp.addAll(list.get(i));
+				if(tmp.size()==n-1 && !tmp.contains(S[j])){
+					tmp.add(S[j]);
+					Collections.sort(tmp);
+					list.add(tmp);
+				}
+			}
+		}
+    	
+    	Set<List<Integer>> set=new HashSet<List<Integer>>();
+    	ArrayList<List<Integer>> newList = new ArrayList<List<Integer>>();
+		for (Iterator<List<Integer>> iter = list.iterator(); iter.hasNext();) {
+			List<Integer> element = iter.next();
+			if (set.add(element))
+				newList.add(element);
+		}
+		list.clear();
+		list.addAll(newList);
+    }
+}
