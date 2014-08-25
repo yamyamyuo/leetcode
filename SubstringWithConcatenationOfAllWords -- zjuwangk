@@ -1,0 +1,78 @@
+//2014-8-25
+class Solution {
+	vector<int> res;
+	typedef unordered_map<string, int> mm;
+	unordered_set<int> chosen;
+	mm mstrings;
+public:
+    vector<int> findSubstring(string S, vector<string> &L) {
+		if(S.size() < L.size() * L[0].size())
+			return res;
+		int len = L[0].size();
+
+		mm::iterator it;
+        for(int i=0;i<L.size();i++)
+		{
+			it = mstrings.find(L[i]);
+			if(it==mstrings.end())
+				mstrings.insert(make_pair(L[i],1));
+			else
+				it->second++;
+		}
+		for(int initId=0;initId<len && initId < S.size();initId++)
+		{
+			mm diff;
+			for(it=mstrings.begin();it!=mstrings.end();it++)
+				diff.insert(make_pair(it->first,0 - it->second));
+
+			for(int j=0;j<L.size();j++)
+			{
+				it = diff.find(S.substr(initId + len*j,len));
+				if( it != diff.end() )
+					it->second++;
+			}
+			int nDiff=0;
+			for(it=diff.begin();it!=diff.end();it++)
+				if(it->second != 0)
+					nDiff++;
+
+			for(int j=initId;j<S.size();j+=len)
+			{
+				if(nDiff == 0)
+				{
+					if(chosen.find(j)==chosen.end())
+					{
+						res.push_back(j);
+						chosen.insert(j);
+					}
+				}
+
+				int nextId = j + L.size() * len;
+				if(nextId < S.size())
+				{
+					it = diff.find(S.substr(j,len));
+					if(it != diff.end())
+					{
+						it->second--;
+						if(it->second == 0)
+							nDiff--;
+						else if(it->second == -1)
+							nDiff++;
+					}
+					it = diff.find(S.substr(nextId, len));
+					if(it != diff.end())
+					{
+						it->second++;
+						if(it->second == 0)
+							nDiff--;
+						else if(it->second == 1)
+							nDiff++;
+					}
+				}
+				else
+					break;
+			}
+		}
+		return res;
+    }
+};
