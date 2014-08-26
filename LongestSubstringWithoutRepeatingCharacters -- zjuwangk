@@ -1,0 +1,52 @@
+//2014-8-26
+class Solution {
+	typedef unordered_map<char,int> mmap;
+	int nRepeat;
+	mmap freq;
+public:
+    int lengthOfLongestSubstring(string s) {
+		if(s.length() <= 0)
+			return 0;
+		int maxLength = 1;
+
+		this->nRepeat = 0;
+		for(int i=0;i<s.size();i++)
+		{
+			mmap::iterator it = freq.find(s[i]);
+			if(it == freq.end())
+				freq.insert(make_pair(s[i],0));
+		}
+
+		int begin=0, end=0;
+		freq.find(s[0])->second++;
+		while(end+1 < s.size())
+		{
+			end++;
+			if(nRepeat == 0)
+			{
+				if(end - begin >= maxLength)
+				{
+					maxLength = end - begin;
+					if(end == s.size()-1 && freq.find(s[end])->second == 0)
+						maxLength++;
+				}
+			}
+			mmap::iterator it = freq.find(s[end]);
+			it->second++;
+
+			if(it->second > 1)
+			{
+				nRepeat++;
+				while(begin < end && nRepeat > 0)
+				{
+					mmap::iterator itt = freq.find(s[begin]);
+					itt->second --;
+					if(itt->second == 1)
+						nRepeat--;
+					begin++;
+				}
+			}
+		}
+		return maxLength;
+    }
+};
