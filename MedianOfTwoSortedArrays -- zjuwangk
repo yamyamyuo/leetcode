@@ -1,0 +1,45 @@
+//2014-8-26
+class Solution {
+private:
+	queue<int> candidates;
+	void addNum(int num)
+	{
+		if(candidates.size() >= 2)
+			candidates.pop();
+		candidates.push(num);
+	}
+public:
+    double findMedianSortedArrays(int A[], int m, int B[], int n) {
+		int x = (m+n)/2;
+		int lastAdd=0;
+		int i=0, j=0;
+
+		while(i+j<=x && i<m && j<n)
+		{
+			while(i<m && i+j<=x && A[i] <= B[j])
+			{
+				addNum(A[i]);
+				i++;
+			}
+			while(j<n && i+j<=x && A[i] >= B[j])
+			{
+				addNum(B[j]);
+				j++;
+			}
+		}
+		while(i+j <= x && i<m)
+		{
+			addNum(A[i]);
+			i++;
+		}
+		while(i+j <= x && j<n)
+		{
+			addNum(B[j]);
+			j++;
+		}
+		if((m+n)%2)
+			return (double)this->candidates.back();
+		else
+			return ((double)this->candidates.front() + (double)this->candidates.back())/2;
+    }
+};
