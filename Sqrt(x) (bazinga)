@@ -1,0 +1,21 @@
+public class Solution {
+    public static int sqrt(int x) {
+    	int max=x;
+    	int min=1;
+    	int mid=(min+max)/2;
+    	int lastmid=mid;
+    	//System.err.println(lastmid);
+    	while(min<=max){
+    		if(x/mid==mid) return mid;
+    		else if(x/mid>mid){
+				min=mid+1;
+				lastmid=mid;
+				mid=(min+max)/2;
+    		}else {
+				max=mid-1;
+				mid=(min+max)/2;
+			}
+    	}
+    	return lastmid;
+    }
+}
