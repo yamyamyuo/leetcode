@@ -1,0 +1,28 @@
+class Solution {
+private:
+	void helper(TreeNode*root,vector<int>&cur,int sum,vector<vector<int>>&path){
+		if(root==NULL){
+			return;
+		}
+		cur.push_back(root->val);
+		if(root->left==NULL&&root->right==NULL&&root->val==sum){
+			path.push_back(cur);
+			cur.pop_back();
+			return;
+		}
+		helper(root->left,cur,sum-root->val,path);
+		helper(root->right,cur,sum-root->val,path);
+		cur.pop_back();
+	}
+public:
+    vector<vector<int> > pathSum(TreeNode *root, int sum) {
+		vector<vector<int>>path;
+        if(root==NULL){
+            return path;
+        }
+		vector<int>cur;
+		helper(root,cur,sum,path);
+		return path;
+        
+    }
+};
