@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minDepth(TreeNode *root) {
+        if(root==NULL){
+			return 0;
+		}
+
+		queue<int>depth;
+		queue<TreeNode*>nodes;
+
+		nodes.push(root);
+		depth.push(1);
+		int res=INT_MAX;
+		while(!nodes.empty()){
+			TreeNode*node=nodes.front();
+			int dep=depth.front();
+			nodes.pop();
+			depth.pop();
+			if(node->left==NULL&&node->right==NULL){
+				res=min(res,dep);
+			}
+			if(node->left && res>dep){
+				nodes.push(node->left);
+				depth.push(dep+1);
+			}
+			if(node->right && res>dep){
+				nodes.push(node->right);
+				depth.push(dep+1);
+			}
+		}
+
+		return res;
+    }
+};
