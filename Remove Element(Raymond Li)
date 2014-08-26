@@ -1,0 +1,23 @@
+public class Solution {
+    public int removeElement(int[] A, int elem) {
+        int end = A.length-1;
+        int begin = 0;
+        int temp = 0;
+        while(end>=begin){
+            while(end>=0&&A[end]==elem){
+                end--;
+            }
+            while(begin<A.length&&A[begin]!=elem){
+                begin++;
+            }
+            if(begin<end){
+                temp = A[begin];
+                A[begin] = A[end];
+                A[end] = temp;
+                begin++;
+                end--;
+            }
+        }
+        return begin;
+    }
+}
