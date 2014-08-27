@@ -1,0 +1,15 @@
+public class Solution {
+    public int sqrt(int x) {
+        if(x == 0) return 0;
+        double pre = -1, current = 1;
+
+        if(x > 0) {
+            while(Math.abs(current - pre) > 0.00001) {
+                pre = current;
+                current = (pre + x/pre)/2;
+            }
+        }
+        
+        return (int)current;
+    }
+}
