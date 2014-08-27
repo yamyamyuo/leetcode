@@ -1,0 +1,46 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public static List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+        List<Interval> list=new ArrayList<Interval>();
+        int head=-1;
+        int tail=-1;
+        for (int i = 0; i < intervals.size(); i++) {
+			Interval tmp=intervals.get(i);
+			if(head==-1){
+				if(tmp.start>=newInterval.start) head=newInterval.start;
+				else if(tmp.end<newInterval.start) list.add(tmp);
+				else head=tmp.start;
+			}
+			if(head!=-1 && tail==-1){
+				if(tmp.end<newInterval.end) continue;
+				else if(tmp.start>newInterval.end) {
+					tail=newInterval.end;
+					Interval insert=new Interval(head, tail);
+					list.add(insert);
+					list.add(tmp);
+				} else {
+					tail=tmp.end;
+					Interval insert=new Interval(head, tail);
+					list.add(insert);
+				}
+			}
+			else if(head!=-1 && tail!=-1){
+				list.add(tmp);
+			}
+		}
+		if(head==-1 && tail==-1) list.add(newInterval);
+		if(head!=-1 && tail==-1){
+		    Interval insert=new Interval(head, newInterval.end);
+		    list.add(insert);
+		}
+        return list;
+    }
+}
