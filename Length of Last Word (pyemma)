@@ -1,0 +1,10 @@
+public class LengthofLastWord {
+	public static int lengthOfLastWord(String s) {
+		int n = s.length();
+		if(n == 0) return 0;
+		int p = n-1, cnt = 0;
+		while(p >= 0 && s.charAt(p) == ' ') p--;
+		while(p >= 0 && s.charAt(p) != ' ') { cnt++; p--; }
+		return cnt;
+	}
+}
