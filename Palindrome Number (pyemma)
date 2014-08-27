@@ -1,0 +1,17 @@
+public class PalindromeNumber {
+	public static boolean isPalindrome(int x) {
+		if(x < 0) return false;
+		int base = 1;
+		while(x/base >= 10) base *= 10;
+		int reminder = x;
+		while(base > 1) {
+			int a = reminder / base;
+			reminder = reminder % base;
+			int b = reminder % 10;
+			reminder = reminder / 10;
+			if(a != b) return false;
+			base = base / 100;
+		}
+		return true;
+	}
+}
