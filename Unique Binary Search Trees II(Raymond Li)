@@ -1,0 +1,62 @@
+public class Solution {
+    public TreeNode addNum(TreeNode head, int num){
+        if(head==null){
+            return null;
+        }
+        TreeNode res = new TreeNode(head.val+num);
+        TreeNode left = addNum(head.left, num);
+        TreeNode right = addNum(head.right, num);
+        res.left = left;
+        res.right = right;
+        return res;
+    }
+    public List<TreeNode> generateTrees(int n) {
+        List<TreeNode> list = new ArrayList<TreeNode>();
+        if(n==0){
+            list.add(null);
+            return list;
+        }
+        List<List<TreeNode>> arr = new ArrayList<List<TreeNode>>();
+        arr.add(new ArrayList<TreeNode>());
+        arr.get(0).add(new TreeNode(1));
+        int i = 2;
+        int j = 0;
+        int k = 0;
+        int l = 0;
+        while(i<=n){
+            arr.add(new ArrayList<TreeNode>());
+            k = 0;
+            while(k<arr.get(i-2).size()){
+                TreeNode t = new TreeNode(1);
+                t.right = addNum(arr.get(i-2).get(k),1);
+                arr.get(i-1).add(t);
+                k++;
+            }
+            j = 2;
+            while(j<i){
+                k = 0;
+                while(k<arr.get(j-2).size()){
+                    l = 0;
+                    while(l<arr.get(i-j-1).size()){
+                        TreeNode t = new TreeNode(j);
+                        t.left = addNum(arr.get(j-2).get(k),0);
+                        t.right = addNum(arr.get(i-j-1).get(l),j);
+                        arr.get(i-1).add(t);
+                        l++;
+                    }
+                    k++;
+                }
+                j++;
+            }
+            k = 0;
+            while(k<arr.get(i-2).size()){
+                TreeNode t = new TreeNode(i);
+                t.left = addNum(arr.get(i-2).get(k),0);
+                arr.get(i-1).add(t);
+                k++;
+            }
+            i++;
+        }
+        return arr.get(n-1);
+    }
+}
