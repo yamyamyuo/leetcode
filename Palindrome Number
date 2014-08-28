@@ -1,0 +1,29 @@
+
+//2014-8-27
+class Solution {
+public:
+    bool isPalindrome(int x) {
+		if(x < 0)
+			return false;
+		if(x < 10)
+			return true;
+		if(x < 100)
+			return x%10 == x/10;
+
+		long long xx = x;
+		long long j = 1;
+		while(j*j*100 <= xx)
+			j*=10;
+		long long start=j, end=j;
+		if(xx >= j*j*10)//even number of digits
+			start = 10*j;
+		while(start <= x && end >= 1)
+		{
+			if( (xx/end)%10 != (xx/start)%10 )
+				return false;
+			start *= 10;
+			end /= 10;
+		}
+		return true;
+    }
+};
