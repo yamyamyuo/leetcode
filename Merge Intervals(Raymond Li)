@@ -1,0 +1,65 @@
+public class Solution {
+    public void sort(List<Interval> intervals, int begin, int end){
+        if(begin>=end){
+            return;
+        }
+        int mid = (begin+end)/2;
+        sort(intervals,begin,mid);
+        sort(intervals,mid+1,end);
+        List<Interval> list = new ArrayList<Interval>();
+        int i = begin;
+        int j = mid+1;
+        while(i<=mid&&j<=end){
+            if(intervals.get(i).start<=intervals.get(j).start){
+                Interval itv = new Interval(intervals.get(i).start, intervals.get(i).end);
+                list.add(itv);
+                i++;
+            }
+            else{
+                Interval itv = new Interval(intervals.get(j).start, intervals.get(j).end);
+                list.add(itv);
+                j++;
+            }
+        }
+        if(i>mid){
+            while(j<=end){
+                Interval itv = new Interval(intervals.get(j).start, intervals.get(j).end);
+                list.add(itv);
+                j++; 
+            }
+        }
+        else{
+            while(i<=mid){
+                Interval itv = new Interval(intervals.get(i).start, intervals.get(i).end);
+                list.add(itv);
+                i++; 
+            }
+        }
+        i = 0;
+        while(i<list.size()){
+            intervals.set(i+begin, list.get(i));
+            i++;
+        }
+    }
+    public List<Interval> merge(List<Interval> intervals) {
+        List<Interval> res = new ArrayList<Interval>();
+        if(intervals.size()==0){
+            return res;
+        }
+        sort(intervals, 0, intervals.size()-1);
+        res.add(intervals.get(0));
+        int i = 1;
+        while(i<intervals.size()){
+            if(intervals.get(i).start<=res.get(res.size()-1).end){
+                Interval last = res.remove(res.size()-1);
+                last.end = Math.max(last.end,intervals.get(i).end);
+                res.add(last);
+            }
+            else{
+                res.add(intervals.get(i));
+            }
+            i++;
+        }
+        return res;
+    }
+}
