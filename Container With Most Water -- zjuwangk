@@ -1,0 +1,80 @@
+//2014-8-29
+class Solution {
+	    int largestRectangleArea(vector<int> height) {
+		int maxArea=0;
+		if(height.size() == 0)
+			return 0;
+		stack<pair<int,int>> cur_height;
+		cur_height.push(make_pair(height[0],0));
+		if(height.size() == 1)
+			return height[0];
+		for(int i=1;i<height.size();i++)
+		{
+			//cout<<i<<'\t'<<maxArea<<endl;
+			if(height[i] <= 0)
+			{
+				while(cur_height.empty() == false)
+				{
+					maxArea = max(maxArea, (i - cur_height.top().second) * cur_height.top().first);
+					cur_height.pop();
+				}
+			}
+			else
+			{
+				if(height[i] > height[i-1])
+					cur_height.push(make_pair(height[i], i));
+				else if(height[i] < height[i-1] )
+				{
+					pair<int,int> tmp;
+					do
+					{
+						tmp = cur_height.top();
+						maxArea = max(maxArea, (i - tmp.second) * tmp.first);
+						cur_height.pop();
+					}while(!cur_height.empty() && cur_height.top().first > height[i]);
+					cur_height.push(make_pair(height[i], tmp.second));
+				}
+			
+				if(i+1 == height.size())
+				{
+					while(cur_height.empty() == false)
+					{
+						maxArea = max(maxArea, (i - cur_height.top().second + 1) * cur_height.top().first);
+						cur_height.pop();
+					}
+				}
+			}
+		}
+		return maxArea;
+    }
+public:
+    int maxArea(vector<int> &height) {
+		vector<int> L;
+		vector<int> R;
+		int len = height.size();
+
+		L.push_back(height[0]);
+		for(int i=1;i<len;i++)
+		{
+			if(height[i] >= L[i-1])
+				L.push_back(height[i]);
+			else
+				L.push_back(L[i-1]);
+		}
+
+		for(int i=0;i<len;i++)
+			R.push_back(height[len-1]);
+		for(int i=len-2;i>=0;i--)
+		{
+			if(height[i]>=R[i+1])
+				R[i] = height[i];
+			else
+				R[i] = R[i+1];
+		}
+
+		for(int i=1;i<height.size();i++)
+			height[i] = min(L[i-1],R[i]);
+		int maxArea = this->largestRectangleArea(vector<int>(height.begin()+1, height.end()));
+		return maxArea;
+    }
+};
