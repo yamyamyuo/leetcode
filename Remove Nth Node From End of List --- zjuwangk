@@ -1,0 +1,32 @@
+//2014-8-29
+//Space O(n), n is the argetment "n", not the length of List
+//one pass
+class Solution {
+public:
+    ListNode *removeNthFromEnd(ListNode *head, int n) {
+        queue<ListNode*> qn;
+		ListNode *p = head;
+
+		while(p!=NULL)
+		{
+			qn.push(p);
+			if(qn.size() > n+1)
+				qn.pop();
+			p = p->next;
+		}
+		if(qn.size() == n+1)
+		{
+			ListNode *tmp = qn.front();
+			qn.pop();
+			qn.pop();
+			if(!qn.empty())
+				tmp->next = qn.front();
+			else
+				tmp->next = NULL;
+		}
+		else
+			head = qn.front()->next;
+
+		return head;
+    }
+};
