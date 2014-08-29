@@ -1,0 +1,35 @@
+public class Solution {
+    public int trap(int[] A) {
+        if(A.length==0){
+            return 0;
+        }
+        int[] leftMax = new int[A.length];
+        int[] rightMax = new int[A.length];
+        int[] water = new int[A.length];
+        leftMax[0] = A[0];
+        rightMax[A.length-1] = A[A.length-1];
+        int i = 1;
+        while(i<A.length){
+            leftMax[i] = Math.max(A[i],leftMax[i-1]);
+            rightMax[A.length-1-i] = Math.max(A[A.length-1-i],rightMax[A.length-i]);
+            i++;
+        }
+        i = 0;
+        while(i<A.length){
+            if(Math.min(leftMax[i],rightMax[i])<=A[i]){
+                water[i] = 0;
+            }
+            else{
+                water[i] = Math.min(leftMax[i],rightMax[i]) - A[i];
+            }
+            i++;
+        }
+        int res = 0;
+        i = 0;
+        while(i<A.length){
+            res = res + water[i];
+            i++;
+        }
+        return res;
+    }
+}
