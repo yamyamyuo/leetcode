@@ -1,0 +1,38 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public static TreeNode buildTree(int[] inorder, int[] postorder) {
+    	Stack<Integer> stack=new Stack<Integer>();
+    	for (int i = 0; i < postorder.length; i++) {
+			stack.add(postorder[i]);
+		}
+    	TreeNode root=build(stack,inorder);
+    	return root;
+    }
+    private static TreeNode build(Stack<Integer> queue,int[] inorder){
+    	if(queue.isEmpty()) return null;
+        TreeNode root=new TreeNode(queue.pop());
+        if(findnum(inorder, root.val)!=inorder.length-1 && findnum(inorder, root.val)!=-1) {
+        	int []inorder2=Arrays.copyOfRange(inorder,findnum(inorder, root.val)+1,inorder.length);
+        	root.right=build(queue, inorder2);
+        }
+        if(findnum(inorder, root.val)>0) {
+        	int []inorder1=Arrays.copyOfRange(inorder, 0, findnum(inorder, root.val));
+        	root.left=build(queue,inorder1);
+        }
+        return root;
+    }
+    private static int findnum(int A[],int n){
+    	for (int i = 0; i < A.length; i++) {
+			if(A[i]==n) return i;
+		}
+    	return -1;
+    }
+}
