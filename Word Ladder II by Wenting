@@ -1,0 +1,60 @@
+class Solution {
+public:
+    void dfs(vector<vector<string>> &res, vector<string> &chain, map<string, vector<string>> &father, string start, string end){
+        if(start == end){
+            res.push_back(chain);
+            reverse(res[res.size() - 1].begin(), res[res.size() - 1].end());
+            return;
+        }
+        for(int i = 0; i < father[end].size(); i++){
+            chain.push_back(father[end][i]);
+            dfs(res, chain, father, start, father[end][i]);
+            chain.pop_back();
+        }
+    }
+    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) {
+        vector<string> chain;
+        vector<vector<string>> res;
+        unordered_set<string> visited;
+        map<string, vector<string>> father;
+        unordered_set<string> q, next;
+        bool found = false;
+        
+        dict.insert(start);
+        dict.insert(end);
+        visited.insert(start);
+        q.insert(start);
+        
+        while(!found && !q.empty()){
+            for(const auto&word : q){
+                for(int j = 0; j < start.length(); j++){
+                    string cur = word;
+                    for(char k = 'a'; k <= 'z'; k++){
+                        cur[j] = k;
+                        if(cur == end){
+                            found = true;
+                        }
+                        if(dict.count(cur) && !visited.count(cur)){
+                            father[cur].push_back(word);
+                            next.insert(cur);
+                        }
+                    }
+
+                }
+            }
+            for(const auto&word : next){
+                visited.insert(word);
+            }
+            q.clear();
+            swap(next, q);
+        }
+        if(found){
+            chain.push_back(end);
+            dfs(res, chain, father, start, end);
+        }
+        return res;
+        
+        
+        
+    }
+};
