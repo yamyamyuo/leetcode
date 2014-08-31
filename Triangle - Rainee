@@ -1,0 +1,18 @@
+public class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int length = triangle.size();
+        int[] a = new int[length];
+        
+        for(int i = 0; i < length; i++) {
+            a[i] = triangle.get(length-1).get(i);
+        }
+        
+        for(int i = length - 2; i >= 0; i--) {
+            for(int j = 0; j < triangle.get(i).size(); j++) {
+                a[j] = Math.min(a[j],a[j+1]) + triangle.get(i).get(j);
+            }
+        }
+        
+        return a[0];
+    }
+}
