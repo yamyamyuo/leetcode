@@ -1,0 +1,23 @@
+public class ConvertSortedListtoBinarySearchTree {
+	public TreeNode sortedListToBST(ListNode head, int n) {
+		if(n == 0) return null;
+		else {
+			int mid = (n+1) / 2;
+			int left = mid - 1;
+			int right = n - mid;
+			ListNode temp = head;
+			while(mid > 1) { mid--; temp = temp.next;}
+			TreeNode root = new TreeNode(temp.val);
+			root.left = sortedListToBST(head, left);
+			root.right = sortedListToBST(temp.next, right);
+			return root;
+		}
+	}
+
+	public TreeNode sortedListToBST(ListNode head) {
+		ListNode temp = head;
+		int cnt = 0;
+		while(temp != null) { cnt++; temp = temp.next;}
+		return sortedListToBST(head, cnt);
+	}
+}
