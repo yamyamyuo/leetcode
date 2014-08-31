@@ -1,0 +1,15 @@
+public class BalancedBinaryTree {
+	boolean stat = true;
+    public boolean isBalanced(TreeNode root) {
+        depth(root);
+        return stat;
+    }
+    
+    private int depth(TreeNode root) {
+        if(root == null) return 0;
+        int left = depth(root.left);
+        int right = depth(root.right);
+        if(Math.abs(left - right) > 1) stat = false;
+        return Math.max(left, right) + 1;
+    }
+}
