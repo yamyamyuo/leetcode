@@ -1,0 +1,36 @@
+public class Solution {
+   int max = Integer.MIN_VALUE;
+	
+	public int maxSum(TreeNode root) {
+		if (root == null)
+			return 0;
+		int val = root.val;
+		int lmax = 0;
+		int rmax = 0;
+		
+		if (root.left != null) {
+			lmax = maxSum(root.left);
+			if (lmax > 0) {
+				val += lmax;
+			}
+		}
+		
+		if (root.right != null) {
+			rmax = maxSum(root.right);
+			if (rmax > 0)
+				val += rmax;
+		}
+		
+		if (max < val)
+			max = val;
+		
+		return Math.max(root.val, Math.max(root.val+lmax, root.val+rmax));
+	}
+	
+	public int maxPathSum(TreeNode root) {
+		if (root == null)
+			return 0;
+		maxSum(root);
+		return max;
+	}
+}
