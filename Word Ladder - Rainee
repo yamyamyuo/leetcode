@@ -1,0 +1,31 @@
+public class Solution {
+    public int ladderLength(String start, String end, Set<String> dict) {
+        if(start.equals("")==true || end.equals("")==true || start.equals(end)==true)
+            return 0;
+        
+        Queue<String> q = new LinkedList<String>();
+        HashMap<String,Integer> map = new HashMap<String,Integer>();
+        q.add(start);
+        map.put(start,1);
+        
+        while(!q.isEmpty()) {
+            String temp = q.poll();
+            int num = map.get(temp);
+            
+            for(int i = 0; i < temp.length(); i++) {
+                for(char j='a'; j<='z';j++) {
+                    if(temp.charAt(i)==j) continue;
+                    StringBuffer buf = new StringBuffer(temp);
+                    buf.setCharAt(i,j);
+                    if(buf.toString().equals(end)) return num+1;
+                    
+                    if(dict.contains(buf.toString()) && !map.containsKey(buf.toString())) {
+                        q.add(buf.toString());
+                        map.put(buf.toString(),num+1);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+}
