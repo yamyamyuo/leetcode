@@ -1,0 +1,58 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+            	boolean inorder=true;
+        List<List<Integer>> list=new ArrayList<List<Integer>>();
+        if(root==null) return list;
+        List<Integer> level=new ArrayList<Integer>();
+        level.add(root.val);
+        list.add(level);
+        level=new ArrayList<Integer>();
+        Queue<TreeNode> queue=new LinkedList<TreeNode>();
+        if(root.left!=null) queue.add(root.left);
+        if(root.right!=null) queue.add(root.right);
+        queue.add(null);
+        inorder=false;
+        while(true){
+        	if (queue.peek()==null) {
+        		queue.poll();
+        		if (queue.isEmpty()) {
+					break;
+				}
+        		if(inorder) {list.add(level);inorder=false;}
+        		else {
+        			list.add(reverse(level));inorder=true;
+				}
+        		level=new ArrayList<Integer>();
+        		queue.add(null);
+			}else{
+				TreeNode tmp=queue.poll();
+				level.add(tmp.val);
+		        if(tmp.left!=null) queue.add(tmp.left);
+		        if(tmp.right!=null) queue.add(tmp.right);
+			}
+        }
+        if(!level.isEmpty()){
+        	if(inorder) {list.add(level);inorder=false;}
+    		else {
+    			list.add(reverse(level));inorder=true;
+			}
+        }
+        return list;
+    }
+    private List<Integer> reverse(List<Integer> list){
+    	List<Integer> ret=new ArrayList<Integer>();
+    	for (int i = list.size()-1; i >= 0; i--) {
+			ret.add(list.get(i));
+		}
+    	return ret;
+    }
+}
