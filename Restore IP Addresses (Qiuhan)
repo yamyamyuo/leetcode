@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<string> restoreIpAddresses(string s) {
+        vector<string>res;
+        vector<string>ip;
+        helper(s,ip,res);
+        return res;
+    }
+    void helper(string s,vector<string>&ip,vector<string>&res){
+        if(s.size()==0&&ip.size()==4){
+            string temp=ip[0]+"."+ip[1]+"."+ip[2]+"."+ip[3];
+            res.push_back(temp);
+            return;
+        }
+        if(s.size()>(4-ip.size())*3||s.size()<4-ip.size()){
+            return;
+        }
+        for(int i=0;i<2;i++){
+            string temp=s.substr(0,i+1);
+            int tmp=atoi(temp.c_str());
+            if(tmp<i*10){
+                break;
+            }
+            ip.push_back(temp);
+            helper(s.substr(i+1,s.size()-i-1),ip,res);
+            ip.pop_back();
+        }
+        string temp=s.substr(0,3);
+        int tmp=atoi(temp.c_str());
+        if(tmp<=255&&tmp>=100){
+            ip.push_back(temp);
+            helper(s.substr(3,s.size()-3),ip,res);
+            ip.pop_back();
+        }
+    }
+};
