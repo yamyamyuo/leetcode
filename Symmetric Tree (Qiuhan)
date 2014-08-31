@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isSymmetric(TreeNode *root) {
+		//迭代
+        if(root==NULL){
+			return true;
+		}
+		queue<TreeNode*>level;
+		level.push(root->left);
+		level.push(root->right);
+		while(!level.empty()){
+			int count=level.size();
+			TreeNode*left=level.front();
+			level.pop();
+			TreeNode*right=level.front();
+			level.pop();
+			if(!left&&!right)
+				continue;
+			if(!left||!right)
+				return false;
+			if(left->val!=right->val)
+				return false;
+			level.push(left->left);
+			level.push(right->right);
+			level.push(left->right);
+			level.push(right->left);
+		}
+		return true;
+    }
+	bool isSymmetric1(TreeNode *root) {
+		//递归
+        if(root==NULL){
+			return true;
+		}
+		isSymmetricRev(root->left,root->right);
+	}
+	bool isSymmetricRev(TreeNode*left,TreeNode*right){
+		if(left==NULL&&right==NULL)
+			return true;
+		if(!left||!right)
+			return false;
+
+		return (left->val==right->val)&&isSymmetricRev(left->left,right->right)&&isSymmetricRev(left->right,right->left);
+    }
+};
