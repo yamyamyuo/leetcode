@@ -1,0 +1,21 @@
+import java.util.*;
+
+public class GenerateParenthese {
+	ArrayList<String> res = new ArrayList<String>();
+    public List<String> generateParenthesis(int n) {
+        gen(n, 0, 0, "");
+        return res;
+    }
+    
+    private void gen(int n, int left, int right, String str) {
+        if(left == n && right == n) {
+            res.add(str);
+        }
+        else {
+            if(left >= right) {
+                if(left < n) gen(n, left+1, right, str+"(");
+                if(right < n) gen(n, left, right+1, str+")");
+            }
+        }
+    }
+}
