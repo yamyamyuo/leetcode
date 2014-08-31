@@ -1,0 +1,77 @@
+public class Solution {
+    public List<String> fullJustify(String[] words, int L) {
+        int i = 0, size = 0;
+        int length = words.length;
+        StringBuffer buffer = new StringBuffer();
+        List<String> list = new ArrayList<String>();
+        
+        if(L == 0) {
+            list.add("");
+            return list;
+        }
+        
+        while(i < length) {
+            size = 0;
+            int start = i;
+            int all = size+words[i].length();
+            while(i < length && all <= L) {
+                size = all+1;
+                i++;
+                if(i < length)  all = size+words[i].length();
+            }
+            int num = i-start,space = L;
+            if(i == length) {
+            	for(int k = start; k < length; k++) {
+            	    space = space - words[k].length();
+            		if(k == length - 1) {
+            			buffer.append(words[k]);
+            		}else {
+            			buffer.append(words[k]);
+            			buffer.append(" ");
+            		}
+            	}
+            	space = space - (num - 1);
+            	for(int k = 0; k < space; k++) {
+            	    buffer.append(" ");
+            	}
+            }else {
+                if(num == 1) {
+                    space = L - words[start].length();
+                    buffer.append(words[start]);
+                    for(int j= 0; j < space; j++) {
+                        buffer.append(" ");
+                    }
+                }else if(num == 2) {
+                    space = L - words[start].length() - words[start+1].length();
+                    buffer.append(words[start]);
+                    for(int j = 0; j < space; j++) {
+                        buffer.append(" ");
+                    }
+                    buffer.append(words[start+1]);
+                }else {
+                    for(int j = start; j < i; j++) {
+                        space = space - words[j].length();
+                    }
+                    String temp = "";
+                    int count = i-start-1;
+                    for(int j = i-1; j >= start; j--) {
+                        if(j == start) {
+                            temp = words[j] + temp;
+                        }else {
+                            temp = words[j] + temp;
+                            for(int k = 0; k < space/count; k++) {
+                                temp = " " + temp;
+                            }
+                            space -= space/count;
+                            count --;
+                        }
+                    }
+                    buffer.append(temp);
+                }
+            }
+            list.add(buffer.toString());
+            buffer.delete(0,buffer.length());
+        }
+        return list;
+    }
+}
