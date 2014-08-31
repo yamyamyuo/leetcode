@@ -1,0 +1,38 @@
+class Solution {
+public:
+    void dfs(vector<vector<bool> > &exist, int cur, string s, vector<string> &res, vector<string> &path){
+        if(cur < 0){
+            string sol;
+            for(int i = path.size() - 1; i >= 0; i--){
+                sol += (path[i] + (i == 0 ? "" : " "));
+            }
+            res.push_back(sol);
+            return;
+        }
+        for(int i = cur; i >= 0; i--){
+            if(exist[i][cur]){
+                path.push_back(s.substr(i, cur - i + 1));
+                dfs(exist, i - 1, s, res, path);
+                path.pop_back();
+            }
+        }
+    }
+    vector<string> wordBreak(string s, unordered_set<string> &dict) {
+        vector<bool> f(s.length() + 1, false);
+        f[0] = true;
+        
+        vector<vector<bool> > prev(s.length(), vector<bool>(s.length(), false));
+        for(int i = 0; i < s.length(); i++){
+            for(int j = 0; j <= i; j++){
+                if(f[j] && dict.find(s.substr(j, i -j + 1)) != dict.end()){
+                    f[i + 1] = true;
+                    prev[j][i] = true;
+                }
+            }
+        }
+        vector<string> res;
+        vector<string> path;
+        dfs(prev, s.length() - 1, s, res, path);
+        return res;
+    }
+};
