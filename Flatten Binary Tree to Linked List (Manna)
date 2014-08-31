@@ -1,0 +1,25 @@
+public class Solution {
+   Stack<Integer> stk = new Stack<Integer>();
+	public void preorder(TreeNode root) {
+		if (root == null)
+			return ;
+		stk.push(root.val);
+		
+		if (root.left != null) preorder(root.left);
+		if (root.right != null) preorder(root.right);
+	}
+	public void flatten(TreeNode root) {
+	    if (root == null)
+	        return ;
+		preorder(root);
+		TreeNode dummy = new TreeNode(0);
+		TreeNode p = dummy;
+		for (Iterator iter = stk.iterator(); iter.hasNext(); ){
+			p.right = new TreeNode((int)iter.next());
+			p = p.right;
+		}
+	    root.val = dummy.right.val;
+		root.left = null;
+		root.right = dummy.right.right;
+	}
+}
