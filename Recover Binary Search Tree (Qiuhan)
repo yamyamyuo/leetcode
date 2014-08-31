@@ -1,0 +1,42 @@
+class Solution {
+public:
+    void recoverTree(TreeNode *root) {
+        TreeNode*cur=root;
+		TreeNode*pre=NULL;
+		vector<TreeNode*>broken(2,nullptr);
+		while(cur){
+			if(cur->left==NULL){
+				if(pre!=NULL&&pre->val>cur->val){
+					if(broken[0]==NULL){
+						broken[0]=pre;
+					}
+					broken[1]=cur;
+				}
+				pre=cur;
+				cur=cur->right;
+			}
+			else{
+				TreeNode* temp=cur->left;
+				while(temp->right!=NULL&&temp->right!=cur){
+					temp=temp->right;
+				}
+				if(temp->right==NULL){
+					temp->right=cur;
+					cur=cur->left;
+				}
+				else{
+					if(pre!=NULL&&pre->val>cur->val){
+						if(broken[0]==NULL){
+							broken[0]=pre;
+						}
+						broken[1]=cur;
+					}
+					temp->right=NULL;
+					pre=cur;
+					cur=cur->right;
+				}
+			}
+		}
+		swap(broken[0]->val,broken[1]->val);
+    }
+};
