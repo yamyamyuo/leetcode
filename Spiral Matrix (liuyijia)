@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int> > &matrix) 
+	{
+		int row = matrix.size();
+		vector<int> result;
+		if (row < 1) return result;
+		int col = matrix[0].size();
+		int layer = row > col ? col / 2 : row / 2;
+		for (int i = 0; i < layer; i++)
+		{
+			for (int j = i; j < col - i; j++) result.push_back(matrix[i][j]);
+			for (int k = i + 1; k < row - i - 1; k++) result.push_back(matrix[k][col - i - 1]);
+			for (int l = col - i - 1; l > i - 1; l--) result.push_back(matrix[row - i - 1][l]);
+			for (int m = row - i - 2; m > i; m--) result.push_back(matrix[m][i]);
+		}
+		if (row % 2 == 1 && (col % 2 == 0 || row <= col)) for (int i = layer; i < col - layer; i++) result.push_back(matrix[layer][i]);
+		if ((row % 2 == 0 || row > col) && col % 2 == 1) for (int i = layer; i < row - layer; i++) result.push_back(matrix[i][layer]);
+		return result;
+	}
+};
