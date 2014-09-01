@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class ThreeSum {
+	public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        HashSet<String> set = new HashSet<String>();
+        
+        int n = num.length;
+        if(n < 3) return res; // invalid case
+        
+        Arrays.sort(num);
+        
+        for(int i = 1; i < n-1; i++) {
+            int left = i-1, right = i+1;
+            while(left >= 0 && right < n) {
+                int sum = num[left] + num[i] + num[right];
+                if(sum == 0) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(String.valueOf(num[left]));
+                    sb.append(String.valueOf(num[i]));
+                    sb.append(String.valueOf(num[right]));
+                    if(set.contains(sb.toString()) == false) { // check if we have duplicates
+                        ArrayList<Integer> arr = new ArrayList<Integer>();
+                        arr.add(num[left]);
+                        arr.add(num[i]);
+                        arr.add(num[right]);
+                        res.add(arr);
+                        set.add(sb.toString());
+                    }
+                    left--;
+                }
+                else if(sum > 0) {
+                    left--;
+                }
+                else {
+                    right++;
+                }
+            }
+        }
+        
+        return res;
+    }
+}
