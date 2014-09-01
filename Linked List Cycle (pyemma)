@@ -1,0 +1,13 @@
+public class LinkedListCycle {
+	public boolean hasCycle(ListNode head) {
+        if(head == null || head.next == null) return false;// corner case
+        ListNode p1 = head, p2 = head;
+        do {
+            if(p1 == null) return false;
+            p1 = p1.next;
+            if(p2 == null || p2.next == null) return false;
+            p2 = p2.next.next;
+        }while(p1 != p2);
+        return true;
+    }
+}
