@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class PermutationSequence {
+	ArrayList<String> bits = new ArrayList<String>();
+    public String getPermutation(int n, int k) {
+        for(int i = 1; i <= n; i++) bits.add(String.valueOf(i));
+        return dfs(n, k);
+    }
+    
+    private String dfs(int n, int k) {
+        if(n == 1) return bits.get(0);
+        else {
+            int cnt = 1;
+            for(int i = 1; i < n; i++) cnt *= i; // find the number of each digit
+            StringBuffer sb = new StringBuffer();
+            int t = k / cnt; // find which number to put
+            if(k % cnt == 0) { // this is the last one for one digit, so the t should minus 1
+            	sb.append(bits.get(t-1));
+            	bits.remove(t-1);
+               	for(int i = bits.size()-1; i >= 0; i--) sb.append(bits.get(i)); // the rest could be added in decreasing order
+                return sb.toString();
+            }
+            else { // have something still left
+            	sb.append(bits.get(t));
+            	bits.remove(t); 
+                sb.append(dfs(n-1, k % cnt)); // recurse the next case
+                return sb.toString();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+    	PermutationSequence ps = new PermutationSequence();
+    	System.out.println(ps.getPermutation(3, 5));
+    }
+}
