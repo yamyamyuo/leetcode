@@ -1,0 +1,28 @@
+class Solution {
+public:
+    ListNode *partition(ListNode *head, int x) {
+        if(head==NULL||head->next==NULL){
+            return head;
+        }
+        ListNode*lefth=new ListNode(0);
+        ListNode*righth=new ListNode(0);
+        ListNode*curl=lefth;
+        ListNode*curr=righth;
+        ListNode*cur=head;
+        while(cur!=NULL){
+            if(cur->val<x){
+                curl->next=cur;
+                curl=curl->next;
+            }
+            else{
+                curr->next=cur;
+                curr=curr->next;
+            }
+            cur=cur->next;
+        }
+        curr->next=NULL;
+        curl->next=righth->next;
+        return lefth->next;
+        
+    }
+};
