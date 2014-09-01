@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int>res(1<<n,0);
+        for(int i=0;i<n;i++){//第i位先有2^i个0然后是2^(i+1)个1然后2^(i+1)个0交替到最后一个
+            int temp=0;
+            for(int j=0;j<1<<n;j++){
+                if(j<(1<<i)){
+                    continue;
+                }
+                if(temp<1<<(i+1)){
+                    res[j]+=1<<i;
+                }
+                temp++;
+                if(temp==1<<(i+2)){
+                    temp=0;
+                }
+            }
+        }
+        return res;
+        
+    }
+};
