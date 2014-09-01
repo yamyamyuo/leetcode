@@ -1,0 +1,22 @@
+import java.util.*;
+
+public class NextPermutation {
+	public void nextPermutation(int[] num) {
+        int n = num.length;
+        if(n == 0 || n == 1) return; // corner case
+        
+        int p = n-1;
+        while(p > 0 && num[p] <= num[p-1]) p--;// find the first position where num[i] > num[i-1]
+        
+        if(p == 0) Arrays.sort(num); // all decreasing
+        else {
+            int q = n-1;
+            while(q > p && num[q] <= num[p-1]) q--; // find the first number greater than num[p-1] to swap
+            int temp = num[q];
+            num[q] = num[p-1];
+            num[p-1] = temp;
+            
+            Arrays.sort(num, p, n); // sort the rest part of the array to increasing order
+        }
+    }
+}
