@@ -1,0 +1,12 @@
+public class JumpGame {
+	public boolean canJump(int[] A) {
+        int n = A.length;
+        if(n == 0 || n == 1) return true; // corner case
+        int ma = A[0];
+        for(int i = 0; i <= ma; i++) {
+            if(ma >= A.length-1) return true;
+            ma = Math.max(ma, i+A[i]); // BFS
+        }
+        return false;
+    }
+}
