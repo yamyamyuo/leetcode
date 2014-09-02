@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class IntegertoRoman {
+	public String intToRoman(int num) {
+        ArrayList<String> strs = new ArrayList<String>();
+        int base = 1;
+        while(num != 0) {
+            int n = num % 10;
+            strs.add(helper(n, base));
+            base++;
+            num = num / 10;
+        }
+        StringBuffer sb = new StringBuffer();
+        for(int i = strs.size()-1; i >= 0; i--)
+            sb.append(strs.get(i));
+        return sb.toString();
+    }
+    
+    private String helper(int num, int base) {
+        String[] ones = {"I", "X", "C", "M"};
+        String[] fives = {"V", "L", "D", ""};
+        String one = ones[base-1];
+        String five = fives[base-1];
+        StringBuffer sb = new StringBuffer();
+        if(num >= 1 && num <= 3) {
+            for(int i = 0; i < num; i++)
+                sb.append(one);
+        }
+        else if(num >= 4 && num <= 8) {
+            for(int i = 0; i < Math.max(0, 5 - num); i++)
+                sb.append(one);
+            sb.append(five);
+            for(int i = 0; i < Math.max(0, num - 5); i++)
+                sb.append(one);
+        }
+        else if(num == 9) {
+            sb.append(one);
+            sb.append(ones[base]);
+        }
+        return sb.toString();
+    }
+}
