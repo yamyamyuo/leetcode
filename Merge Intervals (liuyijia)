@@ -1,0 +1,26 @@
+bool comp(const Interval &lhs, const Interval &rhs)
+{
+	return lhs.start < rhs.start;
+}
+
+class Solution {
+public:
+    vector<Interval> merge(vector<Interval> &intervals) 
+	{
+        sort(intervals.begin(), intervals.end(), comp);
+		int intervalSize = intervals.size();
+		vector<Interval> result;
+		for (int i = 0; i < intervalSize; i++)
+		{
+			if (result.size() == 0) result.push_back(intervals[i]);
+			else
+			{
+				int size = result.size();
+				if (intervals[i].start >= result[size - 1].start && intervals[i].start <= result[size - 1].end)
+					result[size - 1].end = max(result[size - 1].end, intervals[i].end);
+				else result.push_back(intervals[i]);
+			}
+		}
+		return result;
+    }
+};
