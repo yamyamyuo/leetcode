@@ -1,0 +1,30 @@
+public class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> list = new ArrayList<String>();
+        DFS(s,1,"",list);
+        return list;
+    }
+    
+    public void DFS(String s,int layer,String result,List<String> list) {
+        int len = s.length();
+        if(layer == 4 && isvalid(s)) {
+            result = result + s;
+            list.add(result);
+        }
+        
+        for(int j = 1; j <= 3; j++) {
+            if((len-j <= 12-3*layer) && (len-j>=4-layer) && isvalid(s.substring(0,j))) {
+                result = result + s.substring(0,j)+".";
+                DFS(s.substring(j),layer+1,result,list);
+                result = result.substring(0,result.length()-j-1);
+            }
+        }
+    }
+    
+    public boolean isvalid(String s) {
+        if(s.length() > 1 && s.charAt(0) == '0') return false;
+        int a = Integer.parseInt(s);
+        if(a>=0 && a<=255) return true;
+        return false;
+    }
+}
