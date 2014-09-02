@@ -1,0 +1,29 @@
+public class ReverseNodesinkGroup {
+	public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode sent = new ListNode(0); sent.next = head;
+        if(head == null || k == 1 || k == 0) return head; 
+        ListNode temp1 = sent, temp2 = sent;
+        while(temp1.next != null) {
+            int cnt = k;
+            while(cnt > 0 && temp2.next != null) { temp2 = temp2.next; cnt--;}
+            if(cnt != 0) break; // no more nodes
+            ListNode temp = temp2.next; // next iteration start position
+            temp2.next = null;
+            
+            temp2 = temp1.next; // reverse part's head;
+            temp1.next = null;
+            
+            while(temp2 != null) {
+                ListNode n = temp2;
+                temp2 = temp2.next;
+                n.next = temp1.next;
+                temp1.next = n;
+            }// reverse
+            
+            while(temp1.next != null) temp1 = temp1.next; // link back
+            temp1.next = temp;
+            temp2 = temp1;
+        }
+        return sent.next;
+    }
+}
