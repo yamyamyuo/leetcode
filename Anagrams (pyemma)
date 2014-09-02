@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Anagrams {
+	public ArrayList<String> anagrams(String[] strs) {
+        HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+        ArrayList<String> res = new ArrayList<String>();
+        if(strs.length == 0) return res;
+        
+        for(int i = 0; i < strs.length; i++) {
+            char[] chs = strs[i].toCharArray();
+            Arrays.sort(chs); // returns void!
+            String str = new String(chs);
+            if(map.containsKey(str) == false) {
+                ArrayList<String> arr = new ArrayList<String>();
+                arr.add(strs[i]);
+                map.put(str, arr);
+            }
+            else {
+                map.get(str).add(strs[i]);
+            }
+        }
+        
+        for(String str : map.keySet()) {
+            if(map.get(str).size() > 1) {
+                for(String s : map.get(str))
+                    res.add(s);
+            }
+        }
+        
+        return res;
+    }
+}
