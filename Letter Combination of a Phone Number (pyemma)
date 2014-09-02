@@ -1,0 +1,23 @@
+import java.util.*;
+
+public class LetterCombinationofaPhoneNumber {
+	String[][] board = {{" "}, {""}, {"a", "b", "c"}, {"d", "e", "f"}, {"g", "h", "i"}, {"j", "k", "l"}, {"m", "n", "o"}, {"p", "q", "r", "s"}, {"t", "u", "v"}, {"w", "x", "y", "z"}};
+    ArrayList<String> res = new ArrayList<String>();
+    public List<String> letterCombinations(String digits) {
+        dfs(digits, 0, "");
+        return res;
+    }
+    
+    private void dfs(String digits, int ind, String str) {
+        if(ind == digits.length()) {
+            res.add(str);
+        }
+        else {
+            int num = digits.charAt(ind) - '0';
+            int n = board[num].length;
+            for(int i = 0; i < n; i++) {
+                dfs(digits, ind+1, str+board[num][i]);
+            }
+        }
+    }
+}
