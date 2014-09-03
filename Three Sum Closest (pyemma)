@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class ThreeSumClosest {
+	public int threeSumClosest(int[] num, int target) {
+        int n = num.length;
+        if(n < 3) return 0; // invalid case
+        
+        int mi = Integer.MAX_VALUE, best = 0;
+        
+        Arrays.sort(num);
+        for(int i = 0; i < n; i++) {
+            if(i > 0 && num[i] == num[i-1]) continue;
+            int left = i+1, right = n-1;
+            while(left < right) {
+                int sum = num[i] + num[left] + num[right];
+                if(mi > Math.abs(sum - target)) {
+                    best = sum;
+                    mi = Math.abs(sum - target);
+                }
+                
+                if(sum == target) break;
+                else if(sum < target) {
+                    left++;
+                    while(left < right && num[left] == num[left-1]) left++;
+                }
+                else {
+                    right--;
+                    while(right > left && num[right] == num[right+1]) right--;
+                }
+            }
+        }
+        
+        return best;
+    }
+}
