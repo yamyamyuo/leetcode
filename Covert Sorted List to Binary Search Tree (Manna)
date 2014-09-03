@@ -1,0 +1,27 @@
+public class Solution {
+	public TreeNode createTree(ListNode head, int start, int end) {
+		if (start > end)
+			return null;
+		int mid = start+(end - start)/2;
+		TreeNode leftchild = createTree(head, start, mid - 1);
+		TreeNode parent = new TreeNode(head.val);
+		parent.left = leftchild;
+		if (head.next!=null) {
+		    head.val = head.next.val;
+	    	head.next = head.next.next;
+		}
+		parent.right = createTree(head, mid + 1, end);
+		return parent;
+		
+	}
+    public TreeNode sortedListToBST(ListNode head) {
+    	if (head == null) return null;
+    	int count = 1;
+    	ListNode p = head;
+    	while(p.next!=null) {
+    		p = p.next;
+    		count++;
+    	}
+        return createTree(head,0,count-1);
+    }
+}
