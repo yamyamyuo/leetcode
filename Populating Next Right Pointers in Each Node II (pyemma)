@@ -1,0 +1,47 @@
+public class PupulatingNextRightPointersinEachNodeII {
+	public void connect(TreeLinkNode root) {
+        TreeLinkNode parent = root;
+        if(root == null) return;
+        TreeLinkNode child = null;
+        if(root.left != null) child = root.left;
+        else child = root.right;
+        
+        while(child != null) {
+            TreeLinkNode temp1 = parent, temp2 = child;
+            while(temp1 != null) {
+                if(temp2 == temp1.left) {
+                    if(temp1.right != null) {
+                        temp2.next = temp1.right;
+                        temp1 = temp1.next;
+                        temp2 = temp2.next;
+                    }
+                    else temp1 = temp1.next;
+                }
+                else if(temp2 == temp1.right) {
+                    temp1 = temp1.next;
+                }
+                else {
+                    if(temp1.left != null) {
+                        temp2.next = temp1.left;
+                        temp2 = temp2.next;
+                    }
+                    else if(temp1.right != null) {
+                        temp2.next = temp1.right;
+                        temp1 = temp1.next;
+                        temp2 = temp2.next;
+                    }
+                    else temp1 = temp1.next;
+                }
+            }
+            temp2.next = null;
+            
+            parent = child;
+            child = null;
+            TreeLinkNode temp = parent; // find the rightmost child
+            while(temp != null && temp.left == null && temp.right == null) temp = temp.next;
+            if(temp != null && temp.left != null) child = temp.left;
+            else if(temp != null && temp.right != null) child = temp.right;
+            else child = null;
+        }
+    }
+}
