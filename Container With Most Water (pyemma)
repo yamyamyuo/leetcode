@@ -1,0 +1,14 @@
+public class ContainerWithMostWater {
+	public int maxArea(int[] height) {
+        int n = height.length;
+        if(n == 0 || n == 1) return 0; // corner case
+        int ma = Integer.MIN_VALUE;
+        int left = 0, right = n-1;
+        while(left < right) {
+            ma = Math.max(ma, Math.min(height[left], height[right])*(right - left));
+            if(height[left] <= height[right]) left++; // only move the smaller line could we have chance to get bigger container
+            else right--;
+        }
+        return ma;
+    }
+}
