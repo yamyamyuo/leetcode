@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class PathSumII {
+	ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+    ArrayList<Integer> arr = new ArrayList<Integer>();
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        if(root == null) return res;
+        dfs(root, sum, 0);
+        return res;
+    }
+    
+    private void dfs(TreeNode root, int sum, int cur) {
+        if(root.left == null && root.right == null) {
+            if(cur + root.val == sum) {
+                arr.add(root.val);
+                res.add(new ArrayList<Integer>(arr));
+                arr.remove(arr.size() - 1);
+            }
+        }
+        else if(root.left != null && root.right == null) {
+            arr.add(root.val);
+            dfs(root.left, sum, cur+root.val);
+            arr.remove(arr.size() - 1);
+        }
+        else if(root.left == null && root.right != null) {
+            arr.add(root.val);
+            dfs(root.right, sum, cur+root.val);
+            arr.remove(arr.size() - 1);
+        }
+        else {
+            arr.add(root.val);
+            dfs(root.left, sum, cur+root.val);
+            dfs(root.right, sum, cur+root.val);
+            arr.remove(arr.size() - 1);
+        }
+    }
+}
