@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int> > combine(int n, int k) {
+        vector<vector<int>>res;
+        if(n==0||k==0){
+            return res;
+        }
+        vector<int>temp;
+        helper(res,temp,0,n,k);
+        return res;
+    }
+    void helper(vector<vector<int>>&res,vector<int>&temp,int begin,int n, int k){
+        if(temp.size()==k){
+            res.push_back(temp);
+            return;
+        }
+        for(int i=begin;i<n;i++){
+            temp.push_back(i+1);
+            helper(res,temp,i+1,n,k);
+            temp.pop_back();         
+        }
+    }
+};
