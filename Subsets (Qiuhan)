@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<vector<int> > subsets(vector<int> &S) {
+        vector<vector<int>>res;
+        vector<int>subset;
+        sort(S.begin(),S.end());
+        helper(S,res,subset,0);
+        return res;
+    }
+    void helper(vector<int>&S,vector<vector<int>>&res,vector<int>&subset,int start){
+        res.push_back(subset);
+        for(int i=start;i<S.size();i++){
+            subset.push_back(S[i]);
+            helper(S,res,subset,i+1);
+            subset.pop_back();
+        }
+    }
+    
+};
