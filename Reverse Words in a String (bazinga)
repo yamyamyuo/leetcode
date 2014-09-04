@@ -1,0 +1,21 @@
+public class Solution {
+    public static String reverseWords(String s) {
+        if(s.equals("")) return "";
+        String reverse="";
+        int index=0;
+        String tmp="";
+        while(index<s.length() && s.charAt(index)==' ') index++;
+        for (int i = index; i < s.length(); i++) {
+			if(s.charAt(i)==' '){
+				if(tmp=="") continue;
+				else {
+					reverse=tmp+" "+reverse;
+					tmp="";
+				}
+			}else tmp+=s.charAt(i);
+		}
+        if(!tmp.equals("")) reverse=tmp+" "+reverse;
+		if(reverse.equals("")) return "";
+        return reverse.substring(0,reverse.length()-1);
+    }
+}
