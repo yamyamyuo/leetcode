@@ -1,0 +1,60 @@
+public class ReorderList {
+	public void reorderList(ListNode head) {
+        ListNode sent1 = new ListNode(0);
+        ListNode sent2 = new ListNode(0);
+        sent1.next = head;
+        int n = 0;
+        ListNode temp = head;
+        while(temp != null) {
+            n++;
+            temp = temp.next;
+        } // get the total number of nodes
+        
+        if(n < 3) return;
+        
+        int hal = n/2;
+        temp = sent1;
+        while(hal > 0) {
+            hal--;
+            temp = temp.next;
+        }
+        sent2.next = temp.next;// the second half
+        temp.next = null;
+        
+        ListNode temp1 = sent2.next, temp2 = temp1;
+        sent2.next = null;
+        while(temp1 != null) {
+            temp2 = temp1.next;
+            temp1.next = sent2.next;
+            sent2.next = temp1;
+            temp1 = temp2;
+        }// reverse the second half
+        
+        ListNode sent = new ListNode(0);
+        temp1 = sent1.next;
+        temp2 = sent2.next;
+        while(temp1 != null && temp2 != null) {
+            sent.next = temp1;
+            temp1 = temp1.next;
+            sent = sent.next;
+            sent.next = temp2;
+            temp2 = temp2.next;
+            sent = sent.next;
+        }
+        if(temp1 != null) {
+            while(temp1 != null) {
+                sent.next = temp1;
+                temp1 = temp1.next;
+                sent = sent.next;
+            }
+        }
+        else {
+            while(temp2 != null) {
+                sent.next = temp2;
+                temp2 = temp2.next;
+                sent = sent.next;
+            }
+        }
+        sent.next = null;
+    }
+}
