@@ -1,0 +1,65 @@
+public class Solution {
+	static List<List<String>> list=new ArrayList<List<String>>();
+    public static List<List<String>> findLadders(String start, String end, Set<String> dict) {
+        list.clear();
+    	if(start.equals("") || end.equals("") || start.equals(end) || start.length()!=end.length()) return list;
+    	Queue<String> queue=new LinkedList<String>();
+    	HashMap<String, Integer> map=new HashMap<String,Integer>();
+    	HashMap<String, ArrayList<String>> tree=new HashMap<String,ArrayList<String>>();
+    	queue.offer(start);
+    	map.put(start, 1);
+    	boolean foundpath=false;
+    	dict.add(end);
+    	dict.add(start);
+		Iterator<String> iterator=dict.iterator();
+		while(iterator.hasNext()){
+			ArrayList<String> arrayList=new ArrayList<String>();
+			tree.put(iterator.next(), arrayList);
+		}
+    	while(!queue.isEmpty()){
+    		String head=queue.poll();
+    		//System.out.println(head);
+    		int dist=map.get(head);
+    		for (int i = 0; i < head.length(); i++) {
+				for (char j = 'a'; j <= 'z'; j++) {
+				    if(head.charAt(i)==j) continue;
+					StringBuffer tmp=new StringBuffer(head);
+					tmp.setCharAt(i, j);
+					if(tmp.toString().equals(end)){
+						foundpath=true;
+					}
+					if(dict.contains(tmp.toString()) && (!map.containsKey(tmp.toString()) || map.get(tmp.toString())==dist+1)){
+    					if(!map.containsKey(tmp.toString())) {
+    						queue.add(tmp.toString());
+    						map.put(tmp.toString(), dist+1);
+    					}
+    					ArrayList<String> b=tree.get(tmp.toString());
+    					b.add(head);
+    					tree.put(tmp.toString(), b);
+    				}
+				}
+			}
+    		dict.remove(head);
+    	}
+    	List<String> onepath=new ArrayList<String>();
+    	if(foundpath) buildpath(onepath,tree,end);
+    	return list;
+    }
+    public static void buildpath(List<String> onepath,HashMap<String, ArrayList<String>> tree, String word){
+    	if(tree.get(word).size()==0){
+    		onepath.add(word);
+    		ArrayList<String> cArrayList=new ArrayList<String>();
+    		cArrayList.addAll(onepath);
+    		Collections.reverse(cArrayList);
+    		list.add(cArrayList);
+    		onepath.remove(onepath.size()-1);
+    		return;
+    	}
+    	ArrayList<String> a=tree.get(word);
+    	onepath.add(word);
+    	for (int i = 0; i < a.size(); i++) {
+			buildpath(onepath, tree, a.get(i));
+		}
+    	onepath.remove(onepath.size()-1);
+    }
+}
