@@ -1,0 +1,21 @@
+public class Solution {
+    public int jump(int[] A) {
+        int[] b = new int[A.length];
+        b[0] = 0;
+        for(int i = 1; i < b.length; i++) {
+            b[i] = Integer.MAX_VALUE;
+        }
+        for(int i = 1; i < A.length; i++) {
+            for(int j = 0; j < i; j++) {
+                if(j+A[j] >= i) {
+                    int temp = b[j]+1;
+                    if(temp < b[i]) {
+                        b[i] = temp;
+                        break;
+                    }
+                }
+            }
+        }
+        return b[b.length-1];
+    }
+}
