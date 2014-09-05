@@ -1,0 +1,29 @@
+public class Solution {
+	List<List<Integer>> res = new ArrayList<List<Integer>>();
+	
+	public void traversal(List<TreeNode> level) {
+		if (level.size() > 0) {
+			List<TreeNode> nextlevel = new ArrayList<TreeNode>();
+			for (Iterator<TreeNode> i = level.iterator(); i.hasNext(); ) {
+				TreeNode parent = i.next();
+				if (parent.left!=null) nextlevel.add(parent.left);
+				if (parent.right!=null) nextlevel.add(parent.right);
+			}
+			traversal(nextlevel);
+			List<Integer> val = new ArrayList<Integer>();
+			for(Iterator<TreeNode> i = level.iterator(); i.hasNext(); )
+				val.add(i.next().val);
+			
+			res.add(val);
+		}
+	}
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+    	res.clear();
+    	if (root == null)
+    		return res;
+    	List<TreeNode> level = new ArrayList<TreeNode>();
+    	level.add(root);
+    	traversal(level);
+        return res;
+    }
+}
