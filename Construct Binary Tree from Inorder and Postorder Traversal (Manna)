@@ -1,0 +1,26 @@
+public class Solution {
+	public TreeNode helper(int [] inorder, int inBeg, int inEnd, int[] postorder, int poBeg, int poEnd) {
+		if (inBeg > inEnd)
+			return null;
+		int root = postorder[poEnd];
+		int index = 0;
+		for (int i = inBeg; i <= inEnd; i++) {
+			if (inorder[i]==root) {
+				index = i;
+				break;
+			}
+		}
+		int len = index - inBeg;
+		
+		TreeNode parent = new TreeNode(root);
+		parent.left = helper(inorder,inBeg,index-1,postorder,poBeg,poBeg+len-1);
+		parent.right = helper(inorder, index+1, inEnd, postorder, poBeg+len, poEnd - 1);
+	
+		return parent;
+	}
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if (inorder.length == 0)
+        	return null;
+        return helper(inorder, 0, inorder.length-1 , postorder, 0, postorder.length-1);
+    }
+}
