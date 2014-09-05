@@ -1,0 +1,25 @@
+public class SumRoottoLeafNumbers {
+	int res;
+    public int sumNumbers(TreeNode root) {
+        res = 0;
+        if(root == null) return res;
+        dfs(root, 0);
+        return res;
+    }
+    
+    public void dfs(TreeNode root, int num) {
+        if(root.left == null && root.right == null) {
+            res = res + num*10 + root.val;
+        }
+        else if(root.left != null && root.right == null) {
+            dfs(root.left, num*10 + root.val);
+        }
+        else if(root.left == null && root.right != null) {
+            dfs(root.right, num*10 + root.val);
+        }
+        else {
+            dfs(root.left, num*10 + root.val);
+            dfs(root.right, num*10 + root.val);
+        }
+    }
+}
