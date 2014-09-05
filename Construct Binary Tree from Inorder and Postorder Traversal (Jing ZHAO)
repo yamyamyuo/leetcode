@@ -1,0 +1,35 @@
+class Solution {
+public:
+    TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) 
+     {
+		if(inorder.size()==0)
+			return NULL;
+
+		return buildTreeHelper(inorder,postorder,0,inorder.size()-1,0,postorder.size()-1);
+    }
+	
+	TreeNode *buildTreeHelper(vector<int> &inorder, vector<int> &postorder, int i_start, int i_end, int p_start,int p_end)
+	{
+		if(i_start>i_end)
+			return NULL;
+
+		TreeNode* parent = new TreeNode(postorder[p_end]);
+		//find the index for pivot in inorder
+		int pivot;
+		for(int i  = i_start ; i <= i_end;++i)
+		{
+			if(inorder[i] == postorder[p_end])
+			{
+				pivot = i;
+				break;
+			}
+		}
+
+		int first_len = pivot-i_start;
+		parent->left = buildTreeHelper(inorder,postorder,i_start,pivot-1,p_start,p_start+first_len-1);
+		parent->right = buildTreeHelper(inorder,postorder,pivot+1,i_end,p_start+first_len,p_end-1);
+
+		return parent;
+
+	}
+};
