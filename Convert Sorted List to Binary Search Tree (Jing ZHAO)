@@ -1,0 +1,28 @@
+class Solution {
+public:
+    TreeNode *sortedListToBST(ListNode *head) {
+		int len = 0;
+		ListNode* p = head;
+		while (p!=NULL)
+		{
+			p = p ->next;
+			len++;
+		}
+        return buildTree(head,0,len-1);
+    }
+
+	TreeNode* buildTree(ListNode* &list,int start, int end) {
+		if(start>end)
+			return NULL;
+		int mid = start + (end-start)/2;
+
+		TreeNode* left = buildTree(list,start,mid-1);
+		TreeNode* parent = new TreeNode(list->val);
+		parent->left = left;
+		list = list->next;
+		TreeNode* right = buildTree(list,mid+1,end);
+		parent->right = right;
+
+		return parent;
+	}
+};
