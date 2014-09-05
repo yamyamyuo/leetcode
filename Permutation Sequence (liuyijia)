@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string getPermutation(int n, int k) 
+	{
+		vector<int> numbers;
+		string result = "";
+		int times = 1;
+		for (int i = 1; i <= n; i++) 
+		{
+			numbers.push_back(i);
+			times *= i;
+		}
+		for (int i = n; i > 0; i--)
+		{
+			times /= i;
+			int temp = ((k - 1) / times) % i;
+			result += ('0' + numbers[temp]);
+			numbers.erase(numbers.begin() + temp);
+		}
+		return result;
+    }
+};
