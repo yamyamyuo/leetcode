@@ -1,0 +1,51 @@
+public class Solution {
+    public static void solve(char[][] board) {
+        if(board.length==0 || board.length==1) return;
+        if(board[0].length==0 || board[0].length==1) return;
+        int m=board.length;
+        int n=board[0].length;
+        boolean [][]A=new boolean[m][n];
+        for (int i = 0; i < A.length; i++) {
+        	for (int j = 0; j < A[0].length; j++) {
+				A[i][j]=false;
+			}	
+		}
+        for(int i=0;i<n;i++){
+			bfs(A, board, 0, i);
+			bfs(A, board, m-1, i);
+        }
+        for(int i=0;i<m;i++){
+        	bfs(A, board, i, 0);
+        	bfs(A, board, i, n-1);
+        }
+        scan(A, board);
+        return;
+    }
+    private static void bfs (boolean [][]A,char[][] board,int i,int j){
+    	Queue<Integer> x=new LinkedList<Integer>();
+    	Queue<Integer> y=new LinkedList<Integer>();
+    	x.offer(i);y.offer(j);
+    	while (!x.isEmpty()) {
+    		int m=x.poll();
+    		int n=y.poll();
+    		if(m>=board.length || m<0) continue;
+    	    if(n>=board[0].length || n<0) continue;
+        	if(A[m][n]) continue;
+        	if(board[m][n]=='X') continue;
+    		if(board[m][n]=='O'){
+    			A[m][n]=true;
+    			x.offer(m+1);y.offer(n);
+    			x.offer(m);y.offer(n+1);
+    			x.offer(m-1);y.offer(n);
+    			x.offer(m);y.offer(n-1);
+    		}
+		}
+    }
+    private static void scan (boolean [][]A,char[][]board){
+    	for (int i = 0; i < A.length; i++) {
+    		for (int j = 0; j < A[0].length; j++) {
+				if(board[i][j]=='O' && !A[i][j]) board[i][j]='X';
+			}
+		}
+    }
+}
