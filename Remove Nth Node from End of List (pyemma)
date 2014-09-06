@@ -1,0 +1,15 @@
+public class RemoveNthNodefromEndofList {
+	public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(n == 0) return head; // corner case
+        ListNode sent = new ListNode(0); sent.next = head;
+        ListNode temp = sent, temp1 = head, temp2 = head;
+        while(n > 1) { temp2 = temp2.next; n--;}
+        while(temp2.next != null) {
+            temp2 = temp2.next;
+            temp1 = temp1.next;
+            temp = temp.next;
+        }
+        temp.next = temp1.next;
+        return sent.next;
+    }
+}
