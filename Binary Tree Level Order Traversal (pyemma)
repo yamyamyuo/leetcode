@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class BinaryTreeLevelOrderTraversal {
+	public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        ArrayList<TreeNode> stack1 = new ArrayList<TreeNode>();
+        ArrayList<TreeNode> stack2 = new ArrayList<TreeNode>();
+        Stack<List<Integer>> stack = new Stack<List<Integer>>();
+        if(root == null) return new ArrayList<List<Integer>>();
+        stack1.add(root); 
+        while(stack1.size() != 0) {
+            stack2.clear();
+            ArrayList<Integer> row = new ArrayList<Integer>();
+            for(int i = 0; i < stack1.size(); i++) {
+                TreeNode node = stack1.get(i);
+                if(node.left != null) stack2.add(node.left);
+                if(node.right != null) stack2.add(node.right);
+                row.add(stack1.get(i).val);
+            }
+            stack.add(row);
+            stack1 = new ArrayList<TreeNode>(stack2);
+        }
+        
+        ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+        while(stack.isEmpty() == false) {
+            res.add(stack.pop());
+        }
+        return res;
+    }
+}
