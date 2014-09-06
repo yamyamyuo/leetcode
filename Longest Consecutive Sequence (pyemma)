@@ -1,0 +1,53 @@
+import java.util.*;
+
+public class LongestConsecutiveSequence {
+	public int longestConsecutive(int[] num) {
+        int n = num.length;
+        if(n == 0) return 0;
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        Stack<Integer> stack = new Stack<Integer>();
+        for(int i = 0; i < n; i++) map.put(num[i], 0); // initialize 
+        
+        int ind;
+        for(int i = 0; i < n; i++) {
+            if(map.get(num[i]) == 0) {
+                stack.push(num[i]);
+                ind = num[i];
+                while(map.containsKey(ind+1) == true) {
+                    if(map.get(ind+1) == 0) {
+                        stack.push(ind+1);
+                        ind++;
+                    }
+                    else {
+                        int k = map.get(ind+1);
+                        while(stack.size() != 0) {
+                            ind = stack.pop();
+                            map.put(ind, k+1);
+                            k++;
+                        }
+                        break;
+                    }
+                }
+                int k = 0;
+                while(stack.size() != 0) {
+                    ind = stack.pop();
+                    map.put(ind, k+1);
+                    k++;
+                }
+            }
+        }
+        int ma = Integer.MIN_VALUE;
+        for(int i = 0; i < n; i++) {
+            if(ma < map.get(num[i]))
+                ma = map.get(num[i]);
+        }
+        return ma;
+    }
+
+    public static void main(String[] args) {
+    	int[] A = {-1, 1, 0};
+    	LongestConsecutiveSequence lc = new LongestConsecutiveSequence();
+    	System.out.println(lc.longestConsecutive(A));
+    }
+
+}
