@@ -1,0 +1,26 @@
+public class PartitionList {
+	public ListNode partition(ListNode head, int x) {
+        if(head == null || head.next == null) return head; // corner case
+        ListNode sent1 = new ListNode(0);
+        ListNode sent2 = new ListNode(0);
+        ListNode temp = head, temp1 = sent1, temp2 = sent2;
+        
+        while(temp != null) {
+            if(temp.val < x) {
+                temp1.next = temp;
+                temp = temp.next;
+                temp1 = temp1.next;
+                temp1.next = null;
+            }
+            else {
+                temp2.next = temp;
+                temp = temp.next;
+                temp2 = temp2.next;
+                temp2.next = null;
+            }
+        }
+        temp1.next = sent2.next;
+        
+        return sent1.next;
+    }
+}
