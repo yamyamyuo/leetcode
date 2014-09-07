@@ -1,0 +1,51 @@
+import java.util.*;
+
+public class PalindromePartition {
+	ArrayList<List<String>> res;
+    ArrayList<String> arr;
+    public List<List<String>> partition(String s) {
+        res = new ArrayList<List<String>>();
+        arr = new ArrayList<String>();
+        int n = s.length();
+        if(n == 0) return res; // corner case;
+        boolean[][] dp = new boolean[n][n];
+        
+        for(int i = n-1; i >= 0; i--) {
+            for(int j = i; j < n; j++) {
+                if(i == j) 
+                    dp[i][j] = true;
+                else if(j == i+1) {
+                    if(s.charAt(j) == s.charAt(i))
+                        dp[i][j] = true;
+                    else
+                        dp[i][j] = false;
+                }
+                else {
+                    if(dp[i+1][j-1] == true && s.charAt(i) == s.charAt(j))
+                        dp[i][j] = true;
+                    else
+                        dp[i][j] = false;
+                }
+            }
+        }
+        
+        dfs(dp, 0, n, s);
+        
+        return res;
+    }
+    
+    private void dfs(boolean[][] dp, int ind, int n, String s) {
+        if(ind == n) {
+            res.add(new ArrayList<String>(arr));
+        }
+        else {
+            for(int i = ind; i < n; i++) {
+                if(dp[ind][i] == true) {
+                    arr.add(s.substring(ind, i+1));
+                    dfs(dp, i+1, n, s);
+                    arr.remove(arr.size() - 1);
+                }
+            }
+        }
+    }
+}
