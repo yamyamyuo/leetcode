@@ -1,0 +1,44 @@
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<String>();
+        String[] letters = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        StringBuilder sb = new StringBuilder();
+        dfs(digits,letters,sb,0,res);
+        return res;
+     }
+     public void dfs(String digits, String[] letters, StringBuilder sb, int len, List<String> res){
+         if(len==digits.length()){
+             String str = "";
+             int i = 0;
+             while(i<sb.length()){
+                 str = str + sb.charAt(i);
+                 i++;
+             }
+             res.add(str);
+             if(len>0){
+                len--;
+             }
+             if(sb.length()>0){
+                sb.setLength(sb.length()-1);
+             }
+             return;
+         }
+         if(digits.charAt(len)=='0'||digits.charAt(len)=='1'){
+             dfs(digits,letters, sb,len+1,res);
+         }
+         else{
+             int i = 0;
+             while(i<letters[digits.charAt(len)-'0'].length()){
+                 sb.append(letters[digits.charAt(len)-'0'].charAt(i));
+                 dfs(digits,letters,sb,len+1,res);
+                 i++;
+             }
+         }
+         if(len>0){
+             len--;
+         }
+         if(sb.length()>0){
+             sb.setLength(sb.length()-1);
+         }
+     }
+}
