@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isNumber(const char *s) 
+	{
+		if (s == NULL) return false;
+		while (*s == ' ') s++;
+		if (*s == '+' || *s == '-') s++;
+		bool dot = false;
+		bool e = false;
+		bool first = false;
+		bool second = false;
+		bool space = false;
+		while (*s != NULL)
+		{
+			if (*s == '.')
+			{
+				if (dot || e || space) return false;
+				else dot = true;
+			}
+			else if (*s == 'e' || *s == 'E')
+			{
+				if (e || !first || space) return false;
+				else e = true;
+			}
+			else if (*s >= '0' && *s <= '9')
+			{
+				if (space) return false;
+				if (!e) first = true;
+				else second = true;
+			}
+			else if (*s == '+' || *s == '-')
+			{
+				if (space) return false;
+				if (!e || (*(s - 1) != 'e' && *(s - 1) != 'E')) return false;
+			}
+			else if (*s == ' ') space = true;
+			else return false;
+			s++;
+		}
+
+		if (!first) return false;
+		else if (e && !second) return false;
+		else return true;
+	}
+};
