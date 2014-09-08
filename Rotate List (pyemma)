@@ -1,0 +1,31 @@
+public class RotateList {
+	public ListNode rotateRight(ListNode head, int n) {
+        if(head == null || n == 0) return head; // corner case
+        ListNode sent = new ListNode(0); sent.next = head;
+        int cnt = 0;
+        ListNode temp = head;
+        
+        while(temp != null) {
+            cnt++;
+            temp = temp.next;
+        }
+        n = n % cnt;
+        if(n == 0) return head;
+        temp = sent;
+        ListNode temp1 = head, temp2 = head;
+        while(n > 1) {
+            temp2 = temp2.next;
+            n--;
+        }
+        while(temp2.next != null) {
+            temp2 = temp2.next;
+            temp1 = temp1.next;
+            temp = temp.next;
+        }
+        sent.next = temp.next;
+        temp.next = null;
+        temp2.next = head;
+        
+        return sent.next;
+    }
+}
