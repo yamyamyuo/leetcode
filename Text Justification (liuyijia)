@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string> &words, int L) 
+	{
+		int size = words.size(), index = 0;
+		vector<string> result;
+		while (index < size)
+		{
+			int temp = 0, end = index;
+			bool over = false;
+			for (end; end < size; end++)
+			{
+				temp += words[end].length();
+				if (temp + end - index > L)
+				{
+					over = true;
+					break;
+				}
+			}
+			if (over) temp -= words[end].length();
+			string current = "";
+			current += words[index];
+			if (end == index + 1)
+			{
+				for (int i = 0; i < L - temp; i++) current += " ";
+				result.push_back(current);
+				index = end;
+				continue;
+			}
+			if (end == size)
+			{
+				for (int i = index + 1; i < end; i++) current += " " + words[i];
+				for (int j = 0; j < L - temp - (end - index - 1); j++) current += " ";
+				result.push_back(current);
+				break;
+			}
+			int space = (L - temp) / (end - index - 1);
+			int extraspace = (L - temp) % (end - index - 1);
+			for (int i = index + 1; i < end; i++, extraspace--)
+			{
+				if (extraspace > 0) current += " ";
+				for (int j = 0; j < space; j++) current += " ";
+				current += words[i];
+			}
+			result.push_back(current);
+			index = end;
+		}
+		return result;
+	}
+};
