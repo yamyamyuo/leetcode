@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isNumber(const char *s) {
+        int n=strlen(s);
+        if(n==0){
+            return false;
+        }
+        bool is_dot=false;
+        bool is_exp=false;
+        bool is_num=false;
+        int i=0;
+        while(s[i]==' '){
+            i++;
+            if(i==n){
+                return false;
+            }
+        }
+        int end=n-1;
+        while(s[end]==' '){
+            end--;
+        }
+        if(s[i]=='-'||s[i]=='+'){
+            i++;
+        }
+        while(i<=end){
+            if(s[i]>='0'&&s[i]<='9'){
+                is_num=true;
+            }
+            else if(s[i]=='.'){
+                if(is_dot||is_exp)
+                    return false;
+                is_dot=true;
+            }
+            else if(s[i]=='e'){
+                if(is_exp||!is_num)
+                    return false;
+                is_exp=true;
+                is_num=false;
+            }
+            else if(s[i]=='+'||s[i]=='-'){
+                if(s[i-1]!='e')
+                    return false;
+            }
+            else
+                return false;
+            i++;
+            
+        }
+        return is_num;
+    }
+};
