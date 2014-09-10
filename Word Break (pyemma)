@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class WordBreak {
+	public boolean wordBreak(String s, Set<String> dict) {
+        int n = s.length();
+        boolean[] dp = new boolean[n];
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j <= i; j++) {
+                if(j == 0) {
+                    if(dict.contains(s.substring(0, i+1)) == true) {
+                        dp[i] = true;
+                        break;
+                    }
+                }
+                else {
+                    if(dp[j-1] == true && dict.contains(s.substring(j, i+1)) == true) {
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return dp[n-1];
+    }
+}
