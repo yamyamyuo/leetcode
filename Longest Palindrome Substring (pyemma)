@@ -1,0 +1,41 @@
+public class LongestPalindromeSubstring {
+	public String longestPalindrome(String s) {
+        if(s.length() == 0) return "";
+        String nstr = process(s);
+        int n = nstr.length();
+        int[] P = new int[n];
+        int C = 0, R = 0;
+        
+        for(int i = 1; i < n; i++) {
+            int mirror = 2*C - i;
+            P[i] = R > i ? Math.min(R-i, P[mirror]) : 0;
+            while(i+P[i]+1 < n && i-P[i]-1 >= 0 && nstr.charAt(i+P[i]+1) == nstr.charAt(i-P[i]-1))
+                P[i]++;
+            if(i+P[i] > R) {
+                C = i;
+                R = i+P[i];
+            }
+        }
+        
+        int maxC = 0, maxL = 0;
+        for(int i = 0; i < n; i++) {
+            if(maxL < P[i]) {
+                maxC = i;
+                maxL = P[i];
+            }
+        }
+        
+        return s.substring((maxC-maxL)/2, (maxC+maxL)/2);
+    }
+    
+    private String process(String s) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("#");
+        for(int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            sb.append("#");
+        }
+        
+        return sb.toString();
+    }
+}
