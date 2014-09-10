@@ -1,0 +1,41 @@
+import java.util.*;
+
+public class FourSum {
+	public List<List<Integer>> fourSum(int[] num, int target) {
+        int n = num.length;
+        ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(n < 4) return res; // corner case
+        
+        Arrays.sort(num);
+        for(int i = 0; i < n-2; i++) {
+            if(i > 0 && num[i] == num[i-1]) continue;
+            for(int j = i+1; j < n-1; j++) {
+                if(j > i+1 && num[j] == num[j-1]) continue;
+                int left = j+1, right = n-1;
+                while(left < right) {
+                    int sum = num[i] + num[j] + num[left] + num[right];
+                    if(sum == target) {
+                        ArrayList<Integer> arr = new ArrayList<Integer>();
+                        arr.add(num[i]);
+                        arr.add(num[j]);
+                        arr.add(num[left]);
+                        arr.add(num[right]);
+                        res.add(arr);
+                        left++;
+                        while(left < right && num[left] == num[left-1]) left++; // skip all same values
+                    }
+                    else if(sum > target) {
+                        right--;
+                        while(left < right && num[right] == num[right+1]) right--;
+                    }
+                    else {
+                        left++;
+                        while(left < right && num[left] == num[left-1]) left++;
+                    }
+                }
+            }
+        }
+        
+        return res;
+    }
+}
