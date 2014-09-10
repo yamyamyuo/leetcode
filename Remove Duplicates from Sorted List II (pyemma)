@@ -1,0 +1,25 @@
+public class RemoveDuplicatesfromSortedListII {
+	public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null) return head; // corner case
+        ListNode sent = new ListNode(0); sent.next = head;
+        ListNode temp = sent, temp1 = head, temp2;
+        
+        while(temp1 != null) {
+            temp2 = temp1.next;
+            if(temp2 != null && temp1.val == temp2.val) {
+                while(temp2 != null && temp1.val == temp2.val)
+                    temp2 = temp2.next;
+                temp.next = temp2;
+                temp1 = temp2;
+            }
+            else if(temp2 == null || (temp2 != null && temp1.val != temp2.val)) {
+                temp.next = temp1;
+                temp = temp.next;
+                temp1 = temp2;
+            }
+            
+        }
+        
+        return sent.next;
+    }
+}
