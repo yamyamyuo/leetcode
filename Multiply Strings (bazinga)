@@ -1,0 +1,59 @@
+class Solution {
+    public static String multiply(String num1, String num2) {
+    	String ans=new String("");
+    	String bit=new String("");
+    	StringBuffer sbBuffer=new StringBuffer(num2);
+    	num2=sbBuffer.reverse().toString();
+        for (int i = 0; i < num2.length(); i++) {
+			String tmp=multiply1(num1,num2.charAt(i));
+			if(!tmp.equals("0")) tmp+=bit;
+			//System.out.println(tmp);
+			ans=add(tmp, ans);
+        	bit+="0";
+		}
+        return ans;
+    }
+    private static String multiply1(String num1,char num2){
+    	String ans=new String("");
+    	if(num2=='0') return String.valueOf(0);
+    	StringBuffer sb=new StringBuffer(num1);
+    	num1=sb.reverse().toString();
+    	int carry=0;
+    	int multi=num2-'0';
+    	for (int i = 0; i < num1.length(); i++) {
+			int tmp=(num1.charAt(i)-'0')*multi+carry;
+			carry=tmp/10;
+			ans=String.valueOf(tmp%10)+ans;
+		}
+    	if(carry!=0) ans=String.valueOf(carry)+ans;
+    	return ans;
+    }
+    private static String add(String num1,String num2){
+    	if(num1.length()<num2.length()) return add(num2, num1);//num1.length() >= num2.length()
+    	if(num2.equals("")) return num1;
+    	String ans=new String("");
+    	StringBuffer a =new StringBuffer(num1);
+    	StringBuffer b =new StringBuffer(num2);
+    	num1=a.reverse().toString();
+    	num2=b.reverse().toString();
+    	int carry=0;
+    	int index=0;
+    	for (int i = 0; i < num2.length(); i++) {
+			index=i;
+			int tmp=(num1.charAt(i)-'0')+(num2.charAt(i)-'0')+carry;
+			if(tmp>=10) {carry=1;tmp-=10;}
+			else {
+				carry=0;
+			}
+			ans=String.valueOf(tmp)+ans;
+		}
+    	for (int i = index+1; i < num1.length(); i++) {
+    		int tmp=(num1.charAt(i)-'0')+carry;
+			if(tmp>=10) {carry=1;tmp-=10;}
+			else carry=0;
+			ans=String.valueOf(tmp)+ans;
+		}
+    	if(carry==1) ans=String.valueOf(1)+ans;
+    	return ans;
+    }
+}
