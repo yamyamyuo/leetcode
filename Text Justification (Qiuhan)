@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string> &words, int L) {
+        vector<string>res;
+        int n=words.size();
+        if(n==0){
+            return res;
+        }
+        if(L==1){
+            return words;
+        }
+        int cur=0;
+        int begin=0;
+        for(int i=0;i<n;i++){
+            if(cur+words[i].length()+i-begin>L){
+                string tmp="";
+                int l=i-begin-1;
+				int resl=L-cur;
+				if(l>0){
+					int front=resl-int(resl/l)*int(l);
+					for(int j=begin;j<begin+l;j++){
+						tmp+=(words[j]);
+						if(j<begin+front){
+							tmp.append(resl/l+1,' ');
+						}
+						else{
+							tmp.append(resl/l,' ');
+						}
+					}
+				}
+				tmp+=words[begin+l];
+				cur=0;
+				begin=i;
+				if(tmp.length()<L){
+					tmp.append(L-tmp.length(),' ');
+				}
+				res.push_back(tmp);
+            }
+            cur+=words[i].length();
+        }
+		string tmp="";
+		for(int j=begin;j<n-1;j++){
+			tmp+=(words[j]+" ");
+			
+		}
+		tmp+=words[n-1];
+		tmp.append(L-tmp.length(),' ');
+		res.push_back(tmp);
+		return res;
+        
+    }
+};
