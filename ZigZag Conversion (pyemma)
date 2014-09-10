@@ -1,0 +1,29 @@
+public class ZigZagConversion {
+	public String convert(String s, int nRows) {
+        if(nRows == 0) return ""; // invalid case
+        else if(nRows == 1) return s; // corner case;
+        StringBuffer sb = new StringBuffer();
+        
+        for(int i = 0; i < nRows; i++) {
+            if(i == 0 || i == nRows - 1) {
+                int ind = i;
+                while(ind < s.length()) {
+                    sb.append(s.charAt(ind));
+                    ind = ind + 2*nRows - 2;
+                }
+            }
+            else {
+                int ind = i;
+                while(ind < s.length()) {
+                    sb.append(s.charAt(ind));
+                    ind = ind + 2*nRows - 2 - 2*i;
+                    if(ind >= s.length()) break;
+                    sb.append(s.charAt(ind));
+                    ind = ind + 2*i;
+                }
+            }
+        }
+        
+        return sb.toString();
+    }
+}
