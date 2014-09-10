@@ -1,0 +1,39 @@
+public class ImplementstrStr {
+	public String strStr(String haystack, String needle) {
+        if(needle.length() == 0) return haystack;
+        int n = needle.length();
+        int m = haystack.length();
+        int[] next = new int[n];
+        
+        next[0] = 0;
+        int j = 0;
+        for(int i = 1; i < n; i++) {
+            if(needle.charAt(j) == needle.charAt(i)) {
+                j++; next[i] = j;
+            }
+            else {
+                while(j > 0 && needle.charAt(j) != needle.charAt(i)) {
+                    j = next[j-1];
+                }
+                if(needle.charAt(j) == needle.charAt(i)) {
+                    j++;
+                }
+                next[i] = j;
+            }
+        }
+        
+        int i = 0; j = 0;
+        while(i < m && j < n) {
+            if(haystack.charAt(i) == needle.charAt(j)) {
+                i++; j++;
+            }
+            else {
+                if(j == 0) i++;
+                else j = next[j-1];
+            }
+        }
+        
+        if(j != n) return null;
+        return haystack.substring(i-j, m);
+    }
+}
