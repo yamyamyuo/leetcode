@@ -1,0 +1,26 @@
+public class ReverseLinkedListII {
+	public ListNode reverseBetween(ListNode head, int m, int n) {
+        if(head == null || m == n) return head; // corner case;
+        ListNode sent = new ListNode(0);
+        sent.next = head;
+        ListNode temp = sent, temp1 = head;
+        
+        while(n > 0) {
+            temp1 = temp1.next;
+            n--;
+        }
+        while(m > 1) {
+            temp = temp.next;
+            m--;
+        }
+        ListNode temp2 = temp.next, t = temp2;
+        temp.next = temp1;
+        while(temp2 != temp1) {
+            t = temp2.next;
+            temp2.next = temp.next;
+            temp.next = temp2;
+            temp2 = t;
+        }
+        return sent.next;
+    }
+}
