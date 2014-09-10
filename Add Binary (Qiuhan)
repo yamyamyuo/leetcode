@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        if(a.length()==0){
+            return b;
+        }
+        if(b.length()==0){
+            return a;
+        }
+        int c=0;
+        int a_loc=a.length()-1;
+        int b_loc=b.length()-1;
+        int cur=max(a_loc,b_loc);
+        string res=(a_loc>b_loc)?a:b;
+        while(a_loc>=0&&b_loc>=0){
+            int ta=a[a_loc]-'0';
+            int tb=b[b_loc]-'0';
+            res[cur--]=(ta+tb+c)%2+'0';
+            c=(ta+tb+c)/2;
+            a_loc--;
+            b_loc--;
+        }
+        if(c==1){
+            while(cur>=0){
+                if(res[cur]=='1')
+                    res[cur--]='0';
+                else{
+                    res[cur--]='1';
+                    return res;
+                }
+            }
+            res="1"+res;
+        }
+        return res;
+    }
+};
