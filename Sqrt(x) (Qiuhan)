@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int sqrt(int x) {
+        if(x<2){
+            return x;
+        }
+        int begin=1;
+        int end=x/2;
+        int ans;
+        while(begin<=end){
+            int mid=(begin+end)/2;
+            if(x/mid>mid){
+                begin=mid+1;
+                ans=mid;
+            }
+            else if(x/mid<mid){
+                end=mid-1;
+            }
+            else{
+                return mid;
+            }
+        }
+        return ans;
+    }
+};
