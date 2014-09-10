@@ -1,0 +1,43 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+        int n=path.length();
+        if(n==0){
+            return "";
+        }
+        string ans="";
+        vector<string>q;
+        int pos=path.find('/');
+        int pos1=path.find('/',pos+1);
+        while(pos!=-1){
+			string temp;
+			if(pos1==-1){
+				temp=path.substr(pos+1,path.size()-pos-1);
+				pos=pos1;
+			}
+			else{
+				temp=path.substr(pos+1,pos1-pos-1);
+				pos=pos1;
+				pos1=path.find('/',pos+1);
+			}
+            if(temp==".."){
+                if(!q.empty()){
+                    q.pop_back();
+                }
+            }
+            else if(temp=="."||temp==""){
+                continue;
+            }
+            else{
+                q.push_back(temp);
+            }
+        }
+		if(q.empty()){
+            return "/";
+        }
+        for(int i=0;i<q.size();i++){
+            ans+=("/"+q[i]);
+        }
+        return ans;
+    }
+};
