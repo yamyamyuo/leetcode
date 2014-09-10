@@ -1,0 +1,22 @@
+public class LongestCommonPrefix {
+	public String longestCommonPrefix(String[] strs) {
+        int n = strs.length;
+        if(n == 0) return ""; // corner case
+        if(n == 1) return strs[0]; // corner case
+        
+        int ma = strs[0].length();
+        
+        for(int i = 1; i < n; i++) {
+            int j = 0;
+            while(j < strs[i].length() && j < strs[i-1].length()) {
+                if(strs[i].charAt(j) == strs[i-1].charAt(j))
+                    j++;
+                else
+                    break;
+            }
+            ma = Math.min(ma, j);
+        }
+        
+        return strs[0].substring(0, ma);
+    }
+}
