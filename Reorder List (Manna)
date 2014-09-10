@@ -1,0 +1,26 @@
+public void reorderList(ListNode head) {
+	        ListNode slow = head;
+	        ListNode fast = head;
+	        if (head != null && head.next !=null) {
+	        while (fast != null && fast.next != null) {
+	        	slow = slow.next;
+	        	fast = fast.next.next;
+	        }
+	        ListNode start = slow.next;
+	        
+	        slow.next = null;
+	        
+	        Stack<ListNode> stk = new Stack<ListNode>();
+	        while (start!=null) {
+	        	stk.add(start);
+	        	start = start.next;
+	        }
+	        
+	        ListNode p = head;
+	        while (p.next != null&&!stk.isEmpty()) {
+	        	stk.peek().next = p.next;
+	        	p.next = stk.pop();
+	        	p = p.next.next;
+	        }
+	    }
+	}
