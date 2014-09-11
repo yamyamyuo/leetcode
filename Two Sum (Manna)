@@ -1,0 +1,20 @@
+public class Solution {
+    public static int[] twoSum(int[] numbers, int target) {
+    	HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+        int len = numbers.length;
+        int [] res = new int [2];
+        for (int i = 0; i < len; i++) {
+        	if (map.get(target - numbers[i])!=null) {
+        		res[0] = i+1;
+        		res[1] = map.get(target - numbers[i]) + 1;
+        		Arrays.sort(res);
+        		return res;
+        	} else {
+        		map.put(numbers[i], i);
+        	}
+        	
+        }
+        
+        return res;
+    }
+}
